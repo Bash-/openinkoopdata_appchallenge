@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@chakra-ui/icons": "^2.1.0",
+    "@chakra-ui/next-js": "^2.1.5",
+    "@chakra-ui/react": "^2.8.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "framer-motion": "^10.16.0",
+    "ky": "^0.33.3",
+    "next-auth": "^4.24.5",
+    "react-select": "^5.7.4",
+    "react-textarea-autosize": "^8.5.3",
+    "swr": "^2.2.1",
+    "uuid": "^9.0.0",
+    "yaml": "^2.3.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
