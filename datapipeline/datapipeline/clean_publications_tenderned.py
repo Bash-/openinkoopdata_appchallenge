@@ -3,7 +3,7 @@ import datetime
 import os
 
 # Get today's date
-today = datetime.date.today().strftime("%Y-%m-%d")
+today = (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
 
 # Path to the JSON file
 json_file = f"data_local/raw/{today}/publications.json"
@@ -12,12 +12,10 @@ json_file = f"data_local/raw/{today}/publications.json"
 schema: dict = {
     "publicatieId": pl.Utf8,
     "publicatieDatum": pl.Date,
-    "typePublicatie": pl.Struct(
-        {
+    "typePublicatie": pl.Struct({
         "code": pl.Utf8,
-        "omschrijving": pl.Utf8
-        }
-    ),
+        "omschrijving": pl.Utf8       
+    }),
     "aanbestedingNaam": pl.Utf8,
     "aanbestedendeDienstNaam": pl.Utf8,
     "opdrachtgeverNaam": pl.Utf8,
@@ -50,30 +48,38 @@ schema: dict = {
 
 df = pl.read_ndjson(json_file, schema=schema)
 
-# Path to the Delta table folder
-delta_folder = "data_local/clean/publications/"
+# df = df.select("typePublicatie").select("code")
+print(df)
 
-# Create folder if it does not exist
-if not os.path.exists(delta_folder):
-    os.makedirs(delta_folder)
+# # For each struct column in the schema, unnest the struct column
+# for column in schema.keys():
+#     print(column)
+#     if isinstance(df[column].dtype, pl.Struct):
+#         df = df.unnest(column)
 
-# Create delta table if it does not exist
-if not os.path.exists(delta_folder + "_delta_log"):
-    df = df.select(["publicatieId", "publicatieDatum"]) # It's a bit weird, but this is to avoid an error/bug with the Delta upsert, spent a lot of time on this already
-    df.write_delta(delta_folder)
+# # Path to the Delta table folder
+# delta_folder = "data_local/clean/publications/"
 
-# Upsert into the Delta table based on the publicatieId field
-(
-    df.write_delta(
-        delta_folder,
-        mode="merge",
-        delta_merge_options={
-                "predicate": "s.publicatieId = t.publicatieId",
-                "source_alias": "s",
-                "target_alias": "t",
-        },
-    )
-    .when_matched_update_all()
-    .when_not_matched_insert_all()
-    .execute()
-)
+# # Create folder if it does not exist
+# if not os.path.exists(delta_folder):
+#     os.makedirs(delta_folder)
+
+# # Create delta table if it does not exist
+# if not os.path.exists(delta_folder + "_delta_log"):
+#     df.write_delta(delta_folder)
+
+# # Upsert into the Delta table based on the publicatieId field
+# (
+#     df.write_delta(
+#         delta_folder,
+#         mode="merge",
+#         delta_merge_options={
+#                 "predicate": "s.publicatieId = t.publicatieId",
+#                 "source_alias": "s",
+#                 "target_alias": "t",
+#         },
+#     )
+#     .when_matched_update_all()
+#     .when_not_matched_insert_all()
+#     .execute()
+# )
