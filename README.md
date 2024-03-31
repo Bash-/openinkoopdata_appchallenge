@@ -1,1 +1,0 @@
-# openinkoopdata_appchallenge
