@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "openinkoopdata_appchallenge"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+jupyter = "^1.0.0"
+langchain-community = "^0.0.31"
+langchain = "^0.1.14"
+pypdf = "^4.1.0"
+python-dotenv = "^1.0.1"
+openai = "^1.14.3"
+chromadb = "^0.4.24"
+tiktoken = "^0.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
