@@ -1,4 +1,5 @@
 import polars as pl
+import pyarrow as pa
 import datetime
 import os
 
@@ -48,38 +49,44 @@ schema: dict = {
 
 df = pl.read_ndjson(json_file, schema=schema)
 
-# df = df.select("typePublicatie").select("code")
-print(df)
+# Unnest the struct field columns and give alias (Delta merge does not support struct fields it seems)
+for column in schema.keys():
+    if isinstance(df[column].dtype, pl.Struct):
+        df = (
+            df.with_columns(
+                df.select(
+                    pl.col(column)
+                    .struct
+                    .rename_fields([f'{column}_{x.name}' for x in df[column].dtype.fields]))
+                    .unnest(column)
+            )
+        )
+        df = df.drop(column)
+   
 
-# # For each struct column in the schema, unnest the struct column
-# for column in schema.keys():
-#     print(column)
-#     if isinstance(df[column].dtype, pl.Struct):
-#         df = df.unnest(column)
+# Path to the Delta table folder
+delta_folder = "data_local/clean/publications/"
 
-# # Path to the Delta table folder
-# delta_folder = "data_local/clean/publications/"
+# Create folder if it does not exist
+if not os.path.exists(delta_folder):
+    os.makedirs(delta_folder)
 
-# # Create folder if it does not exist
-# if not os.path.exists(delta_folder):
-#     os.makedirs(delta_folder)
+# Create delta table if it does not exist
+if not os.path.exists(delta_folder + "_delta_log"):
+    df.write_delta(delta_folder)
 
-# # Create delta table if it does not exist
-# if not os.path.exists(delta_folder + "_delta_log"):
-#     df.write_delta(delta_folder)
-
-# # Upsert into the Delta table based on the publicatieId field
-# (
-#     df.write_delta(
-#         delta_folder,
-#         mode="merge",
-#         delta_merge_options={
-#                 "predicate": "s.publicatieId = t.publicatieId",
-#                 "source_alias": "s",
-#                 "target_alias": "t",
-#         },
-#     )
-#     .when_matched_update_all()
-#     .when_not_matched_insert_all()
-#     .execute()
-# )
+# Upsert into the Delta table based on the publicatieId field
+(
+    df.write_delta(
+        delta_folder,
+        mode="merge",
+        delta_merge_options={
+                "predicate": "s.publicatieId = t.publicatieId",
+                "source_alias": "s",
+                "target_alias": "t"
+        },
+    )
+    .when_matched_update_all()
+    .when_not_matched_insert_all()
+    .execute()
+)
