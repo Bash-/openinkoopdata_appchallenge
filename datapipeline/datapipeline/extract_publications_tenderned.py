@@ -8,7 +8,7 @@ def extract_data(api_url):
     end_of_new_records = False
     if response.status_code == 200:
         publications = []
-        today = datetime.date.today()
+        today = datetime.date.today() - datetime.timedelta(days=1)
         data = response.json()
         total_pages = data['totalPages']
         # total_pages
