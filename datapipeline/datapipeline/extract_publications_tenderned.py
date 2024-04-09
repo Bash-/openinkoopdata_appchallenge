@@ -36,7 +36,7 @@ def extract_data(api_url):
                 break
 
         # Create directory based on today's date
-        directory = os.path.join('data_local', "raw", str(today))
+        directory = os.path.join('data_local', "raw", "publications", str(today))
         os.makedirs(directory, exist_ok=True)
         
         # Write the extracted data to a JSON file

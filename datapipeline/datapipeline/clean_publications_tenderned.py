@@ -7,7 +7,7 @@ import os
 today = (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
 
 # Path to the JSON file
-json_file = f"data_local/raw/{today}/publications.json"
+json_file = f"data_local/raw/publications/{today}/publications.json"
 
 # Read the JSON file into a DataFrame with the specified schema
 schema: dict = {
