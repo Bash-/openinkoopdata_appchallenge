@@ -285,17 +285,17 @@ files = [
 
 [[package]]
 name = "deltalake"
-version = "0.16.3"
+version = "0.16.4"
 description = "Native Delta Lake Python binding based on delta-rs with Pandas integration"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "deltalake-0.16.3-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:0de0cfe64aff4b41f8cc7a2b4acc59a1bfa7149afd2bdca5d48cac457e72622f"},
-    {file = "deltalake-0.16.3-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:c9f7b039f9cd457480442f3e3de06e383f09e68306a20ae8acaf28b0d25f8529"},
-    {file = "deltalake-0.16.3-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:cc00c0d208c5c6c5a89889712f1c8e74901b43b41ef1384e7bd186f9f9407a82"},
-    {file = "deltalake-0.16.3-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5112fb67ac7a630d47907a98f16eab1957e97a55b4fb593ffdfbbb96705aa202"},
-    {file = "deltalake-0.16.3-cp38-abi3-win_amd64.whl", hash = "sha256:a5861233d052960517cbfe57ab2d77fb79d8d87b1bf4a51f2c7ad11810c5d163"},
-    {file = "deltalake-0.16.3.tar.gz", hash = "sha256:aa972900c8f956d64edb4a93b548b18ae40d31fca602186b83b4a5370d6ebd24"},
+    {file = "deltalake-0.16.4-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:b5957258358083e63cccad5bca6e52527b8b2733e92c69600d4cad9fd85b7fa0"},
+    {file = "deltalake-0.16.4-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:40b2dc128c4b30620fd4bfc5ef2aec9694070fc5a82cca8552e7a5c7c2c98633"},
+    {file = "deltalake-0.16.4-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b59360556c921fdf29307aa2ecff2c0bccff49aaeb9f0168842f4e45e3aca051"},
+    {file = "deltalake-0.16.4-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8bccdf198481ab7f115702e25349d6c7f5a43aee60d8cfdfa7f0de1c59abdd12"},
+    {file = "deltalake-0.16.4-cp38-abi3-win_amd64.whl", hash = "sha256:93d494d608cb95093a49ab2ef5ea177c00950b345fe2c1d960592a37187eabd8"},
+    {file = "deltalake-0.16.4.tar.gz", hash = "sha256:3cbfe1c894df1f62097ec64278292212793127f676a9d3014762b37b59ca55ee"},
 ]
 
 [package.dependencies]
@@ -323,13 +323,13 @@ tests = ["asttokens (>=2.1.0)", "coverage", "coverage-enable-subprocess", "ipyth
 
 [[package]]
 name = "idna"
-version = "3.6"
+version = "3.7"
 description = "Internationalized Domain Names in Applications (IDNA)"
 optional = false
 python-versions = ">=3.5"
 files = [
-    {file = "idna-3.6-py3-none-any.whl", hash = "sha256:c05567e9c24a6b9faaa835c4821bad0590fbb9d5779e7caa6e1cc4978e7eb24f"},
-    {file = "idna-3.6.tar.gz", hash = "sha256:9ecdbbd083b06798ae1e86adcbfe8ab1479cf864e4ee30fe4e46a003d12491ca"},
+    {file = "idna-3.7-py3-none-any.whl", hash = "sha256:82fee1fc78add43492d3a1898bfa6d8a904cc97d8427f683ed8e798d07761aa0"},
+    {file = "idna-3.7.tar.gz", hash = "sha256:028ff3aadf0609c1fd278d8ea3089299412a7a8b9bd005dd08b9f8285bcb5cfc"},
 ]
 
 [[package]]
@@ -546,18 +546,18 @@ files = [
 
 [[package]]
 name = "parso"
-version = "0.8.3"
+version = "0.8.4"
 description = "A Python Parser"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "parso-0.8.3-py2.py3-none-any.whl", hash = "sha256:c001d4636cd3aecdaf33cbb40aebb59b094be2a74c556778ef5576c175e19e75"},
-    {file = "parso-0.8.3.tar.gz", hash = "sha256:8c07be290bb59f03588915921e29e8a50002acaf2cdc5fa0e0114f91709fafa0"},
+    {file = "parso-0.8.4-py2.py3-none-any.whl", hash = "sha256:a418670a20291dacd2dddc80c377c5c3791378ee1e8d12bffc35420643d43f18"},
+    {file = "parso-0.8.4.tar.gz", hash = "sha256:eb3a7b58240fb99099a345571deecc0f9540ea5f4dd2fe14c2a99d6b281ab92d"},
 ]
 
 [package.extras]
-qa = ["flake8 (==3.8.3)", "mypy (==0.782)"]
-testing = ["docopt", "pytest (<6.0.0)"]
+qa = ["flake8 (==5.0.4)", "mypy (==0.971)", "types-setuptools (==67.2.0.1)"]
+testing = ["docopt", "pytest"]
 
 [[package]]
 name = "pexpect"
@@ -590,17 +590,17 @@ test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4.3)", "pytest-
 
 [[package]]
 name = "polars"
-version = "0.20.17"
+version = "0.20.19"
 description = "Blazingly fast DataFrame library"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "polars-0.20.17-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:931e22000806209466568c9aadd011087507a841e36543ee593e0eb6aead1198"},
-    {file = "polars-0.20.17-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:097101954dc4a02401cb323379816c37641908f7e15c01682c0477ff87de3b52"},
-    {file = "polars-0.20.17-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7034594f05c29504410eb4f3da004668813911824217d4ddea8f95798b66f31b"},
-    {file = "polars-0.20.17-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:a9dd52800b1379393ad179ffd9407b02d418bac3f26727ba59c9f20977a3726a"},
-    {file = "polars-0.20.17-cp38-abi3-win_amd64.whl", hash = "sha256:22d21d57b235d6a2dc117776e50a9decaac93f01785e767ccbce49141bf889b8"},
-    {file = "polars-0.20.17.tar.gz", hash = "sha256:ad9050c4dd594e66312f4e240479c6fa2893ea970ce09eb9d47043d48330138f"},
+    {file = "polars-0.20.19-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:1d5a63001c8e47376f35b6e389e7f88e6984c721bd9468b01998807bad3c0f2f"},
+    {file = "polars-0.20.19-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:6790e9e8ce0bb8dcefa4e494b5e4ee5eca01df0c7d7151dcc45a7b24aa58939b"},
+    {file = "polars-0.20.19-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b9243752dd2f0c9077b2caa285e4b05d3f80558ad4b8ae448dc41a0b9d5f10a5"},
+    {file = "polars-0.20.19-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:a0d57955cdc3610ec644ffd249c94c3102ce32df31661b759ab33a6bb4fae65c"},
+    {file = "polars-0.20.19-cp38-abi3-win_amd64.whl", hash = "sha256:20ff4990cbdc05fc5a526902561a16c66ead4d740ff8e7b3bf52d4f3f7def60a"},
+    {file = "polars-0.20.19.tar.gz", hash = "sha256:58f9c3766c6fa3d7193364cfcf93c6c640e6c8e6a49ad8c6fd48b326ad8060f2"},
 ]
 
 [package.extras]
@@ -1009,13 +1009,13 @@ test = ["argcomplete (>=3.0.3)", "mypy (>=1.7.0)", "pre-commit", "pytest (>=7.0,
 
 [[package]]
 name = "typing-extensions"
-version = "4.10.0"
+version = "4.11.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "typing_extensions-4.10.0-py3-none-any.whl", hash = "sha256:69b1a937c3a517342112fb4c6df7e72fc39a38e7891a5730ed4985b5214b5475"},
-    {file = "typing_extensions-4.10.0.tar.gz", hash = "sha256:b0abd7c89e8fb96f98db18d86106ff1d90ab692004eb746cf6eda2682f91b3cb"},
+    {file = "typing_extensions-4.11.0-py3-none-any.whl", hash = "sha256:c1f94d72897edaf4ce775bb7558d5b79d8126906a14ea5ed1635921406c0387a"},
+    {file = "typing_extensions-4.11.0.tar.gz", hash = "sha256:83f085bd5ca59c80295fc2a82ab5dac679cbe02b9f33f7d83af68e241bea51b0"},
 ]
 
 [[package]]
