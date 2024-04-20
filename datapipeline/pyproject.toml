@@ -11,6 +11,7 @@ requests = "^2.31.0"
 delta = "^0.4.2"
 polars = "^0.20.17"
 deltalake = "^0.16.3"
+ipykernel = "^6.29.4"
 
 
 [build-system]

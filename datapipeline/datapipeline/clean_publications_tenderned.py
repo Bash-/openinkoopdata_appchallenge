@@ -1,23 +1,22 @@
 import polars as pl
+import pyarrow as pa
 import datetime
 import os
 
 # Get today's date
-today = datetime.date.today().strftime("%Y-%m-%d")
+today = (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
 
 # Path to the JSON file
-json_file = f"data_local/raw/{today}/publications.json"
+json_file = f"data_local/raw/publications/{today}/publications.json"
 
 # Read the JSON file into a DataFrame with the specified schema
 schema: dict = {
     "publicatieId": pl.Utf8,
     "publicatieDatum": pl.Date,
-    "typePublicatie": pl.Struct(
-        {
+    "typePublicatie": pl.Struct({
         "code": pl.Utf8,
-        "omschrijving": pl.Utf8
-        }
-    ),
+        "omschrijving": pl.Utf8       
+    }),
     "aanbestedingNaam": pl.Utf8,
     "aanbestedendeDienstNaam": pl.Utf8,
     "opdrachtgeverNaam": pl.Utf8,
@@ -50,6 +49,21 @@ schema: dict = {
 
 df = pl.read_ndjson(json_file, schema=schema)
 
+# Unnest the struct field columns and give alias (Delta merge does not support struct fields it seems)
+for column in schema.keys():
+    if isinstance(df[column].dtype, pl.Struct):
+        df = (
+            df.with_columns(
+                df.select(
+                    pl.col(column)
+                    .struct
+                    .rename_fields([f'{column}_{x.name}' for x in df[column].dtype.fields]))
+                    .unnest(column)
+            )
+        )
+        df = df.drop(column)
+   
+
 # Path to the Delta table folder
 delta_folder = "data_local/clean/publications/"
 
@@ -59,7 +73,6 @@ if not os.path.exists(delta_folder):
 
 # Create delta table if it does not exist
 if not os.path.exists(delta_folder + "_delta_log"):
-    df = df.select(["publicatieId", "publicatieDatum"]) # It's a bit weird, but this is to avoid an error/bug with the Delta upsert, spent a lot of time on this already
     df.write_delta(delta_folder)
 
 # Upsert into the Delta table based on the publicatieId field
@@ -70,7 +83,7 @@ if not os.path.exists(delta_folder + "_delta_log"):
         delta_merge_options={
                 "predicate": "s.publicatieId = t.publicatieId",
                 "source_alias": "s",
-                "target_alias": "t",
+                "target_alias": "t"
         },
     )
     .when_matched_update_all()

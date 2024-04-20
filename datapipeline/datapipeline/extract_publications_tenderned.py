@@ -8,7 +8,7 @@ def extract_data(api_url):
     end_of_new_records = False
     if response.status_code == 200:
         publications = []
-        today = datetime.date.today()
+        today = datetime.date.today() - datetime.timedelta(days=1)
         data = response.json()
         total_pages = data['totalPages']
         # total_pages
@@ -36,7 +36,7 @@ def extract_data(api_url):
                 break
 
         # Create directory based on today's date
-        directory = os.path.join('data_local', "raw", str(today))
+        directory = os.path.join('data_local', "raw", "publications", str(today))
         os.makedirs(directory, exist_ok=True)
         
         # Write the extracted data to a JSON file
