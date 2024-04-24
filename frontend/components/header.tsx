@@ -5,8 +5,12 @@ import { cn } from '@/lib/utils'
 import { auth } from '@/auth'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
+  IconArrowElbow,
+  IconCheck,
   IconGitHub,
+  IconMessage,
   IconNextChat,
+  IconOpenAI,
   IconSeparator,
   IconVercel
 } from '@/components/ui/icons'
@@ -15,6 +19,8 @@ import { SidebarMobile } from './sidebar-mobile'
 import { SidebarToggle } from './sidebar-toggle'
 import { ChatHistory } from './chat-history'
 import { Session } from '@/lib/types'
+import { IconJarLogoIcon } from '@radix-ui/react-icons'
+import { Icon } from '@radix-ui/react-select'
 
 async function UserOrLogin() {
   const session = (await auth()) as Session
@@ -56,7 +62,7 @@ export function Header() {
         </React.Suspense>
       </div>
       <div className="flex items-center justify-end space-x-2">
-        <a
+        {/* <a
           target="_blank"
           href="https://github.com/vercel/nextjs-ai-chatbot/"
           rel="noopener noreferrer"
@@ -73,7 +79,14 @@ export function Header() {
           <IconVercel className="mr-2" />
           <span className="hidden sm:block">Deploy to Vercel</span>
           <span className="sm:hidden">Deploy</span>
-        </a>
+        </a> */}
+        <Link
+          href="/about"
+          className={cn(buttonVariants({ variant: 'outline' }))}
+        >
+          <IconMessage />
+          <span className="hidden ml-2 md:flex">Over deze app</span>
+        </Link>
       </div>
     </header>
   )
