@@ -21,6 +21,7 @@ import { ChatHistory } from './chat-history'
 import { Session } from '@/lib/types'
 import { IconJarLogoIcon } from '@radix-ui/react-icons'
 import { Icon } from '@radix-ui/react-select'
+import { MainMenu } from './main-menu'
 
 async function UserOrLogin() {
   const session = (await auth()) as Session
@@ -29,6 +30,7 @@ async function UserOrLogin() {
       {session?.user ? (
         <>
           <SidebarMobile>
+            <MainMenu />
             <ChatHistory userId={session.user.id} />
           </SidebarMobile>
           <SidebarToggle />

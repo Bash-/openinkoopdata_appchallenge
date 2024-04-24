@@ -81,10 +81,10 @@ export function SidebarActions({
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle>Weet je het zeker?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete your chat message and remove your
-              data from our servers.
+              Dit zal je chatgeschiedenis permanent verwijderen en je gegevens
+              van onze servers verwijderen.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
