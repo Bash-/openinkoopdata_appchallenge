@@ -1,0 +1,8 @@
+[
+    {
+      "origin": ["http://localhost:3000", "https://openinkoopdata-appchallenge.vercel.app/"],
+      "method": ["POST"],
+      "responseHeader": ["Content-Type"],
+      "maxAgeSeconds": 3600
+    }
+]
