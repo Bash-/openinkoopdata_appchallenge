@@ -1,15 +1,12 @@
-import { MagnifyingGlassIcon, UploadIcon } from '@radix-ui/react-icons'
-import * as React from 'react'
-import { Button } from '@/components/ui/button'
-import { UploadDialog } from '@/components/upload-dialog'
+'use client'
+
 import { UploadForm } from '@/components/upload-form'
+import { UploadedDocsList } from '@/components/uploaded-docs-list'
+import * as React from 'react'
 
+export default function IndexPage() {
+  const [uploadCount, setUploadCount] = React.useState(0);
 
-export const metadata = {
-  title: 'Profiel'
-}
-
-export default async function IndexPage() {
   return (
     <div className="relative mx-auto max-w-2xl px-4">
       <h1 className="text-lg font-semibold"> Uw documenten </h1>
@@ -25,8 +22,14 @@ export default async function IndexPage() {
       <br></br>
 
       <h2 className="text-md font-semibold mb-4">Upload uw documenten</h2>
-      
-      <UploadForm />
+
+      <div className="mb-4">
+        <UploadForm uploadCount={uploadCount} setUploadCount={setUploadCount} />
+      </div>
+
+      <h2 className="text-md font-semibold mb-4">Uw documenten</h2>
+
+      <UploadedDocsList uploadCount={uploadCount} />
 
     </div>
   )

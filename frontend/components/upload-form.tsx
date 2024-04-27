@@ -1,4 +1,5 @@
 'use client'
+
 import { type DialogProps } from '@radix-ui/react-dialog';
 import * as React from 'react';
 import { useDropzone } from 'react-dropzone';
@@ -6,16 +7,19 @@ import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { IconSpinner } from '@/components/ui/icons';
-import { uploadFiles } from '@/lib/hooks/upload-documents';
+import { uploadFiles } from '@/lib/serverfunctions/storage-actions';
 import { Input } from './ui/input';
 
-interface UploadDialogProps extends DialogProps {
-
+interface UploadFormProps extends DialogProps {
+    uploadCount: number;
+    setUploadCount: (count: number) => void;
 }
 
 export function UploadForm({
+    uploadCount,
+    setUploadCount,
     ...props
-}: UploadDialogProps) {
+}: UploadFormProps) {
     const [isSharePending, startShareTransition] = React.useTransition()
     const [fileNames, setFileNames] = React.useState<string[]>([])
     const [files, setFiles] = React.useState<File[]>([])
@@ -26,7 +30,8 @@ export function UploadForm({
     };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop, accept: { "text/txt": [".txt"] }
+        onDrop, 
+        accept: { "text/txt": [".txt", ".pdf"] }
     });
 
     return (
@@ -81,6 +86,7 @@ export function UploadForm({
                         });
 
                         uploadFiles(formData).then(x => {
+                            setUploadCount(uploadCount + 1);
                             toast.success('Uploaden van bestand(en) gelukt')
                         })
                     })

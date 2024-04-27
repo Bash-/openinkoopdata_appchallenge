@@ -1,7 +1,7 @@
 'use client'
-import { useDropzone } from 'react-dropzone';
 import { type DialogProps } from '@radix-ui/react-dialog';
 import * as React from 'react';
+import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -19,8 +19,8 @@ import {
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip';
+import { uploadFiles } from '@/lib/serverfunctions/storage-actions';
 import { Input } from './ui/input';
-import { uploadFiles } from '@/lib/hooks/upload-documents';
 
 interface UploadDialogProps extends DialogProps {
 
