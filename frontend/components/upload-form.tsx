@@ -87,6 +87,8 @@ export function UploadForm({
 
                         uploadFiles(formData).then(x => {
                             setUploadCount(uploadCount + 1);
+                            setFileNames([]);
+                            setFiles([]);
                             toast.success('Uploaden van bestand(en) gelukt')
                         })
                     })
