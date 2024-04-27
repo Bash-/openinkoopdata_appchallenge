@@ -1,11 +1,13 @@
-'use client'
+import { CompanyDocumentComponent } from '@/components/company-document-component'
+import { auth } from '@/auth'
+import { redirect } from 'next/navigation'
 
-import { UploadForm } from '@/components/upload-form'
-import { UploadedDocsList } from '@/components/uploaded-docs-list'
-import * as React from 'react'
+export default async function IndexPage() {
+  const session = await auth()
 
-export default function IndexPage() {
-  const [uploadCount, setUploadCount] = React.useState(0);
+  if (!session) {
+    redirect('/login')
+  }
 
   return (
     <div className="relative mx-auto max-w-2xl px-4">
@@ -21,15 +23,7 @@ export default function IndexPage() {
       </p>
       <br></br>
 
-      <h2 className="text-md font-semibold mb-4">Upload uw documenten</h2>
-
-      <div className="mb-4">
-        <UploadForm uploadCount={uploadCount} setUploadCount={setUploadCount} />
-      </div>
-
-      <h2 className="text-md font-semibold mb-4">Uw documenten</h2>
-
-      <UploadedDocsList uploadCount={uploadCount} />
+      <CompanyDocumentComponent />
 
     </div>
   )
