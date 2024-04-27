@@ -37,15 +37,15 @@ export function ClearHistory({
       <AlertDialogTrigger asChild>
         <Button variant="ghost" disabled={!isEnabled || isPending}>
           {isPending && <IconSpinner className="mr-2" />}
-          Clear history
+          Verwijder Geschiedenis
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Weet je het zeker?</AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete your chat history and remove your data
-            from our servers.
+            Dit zal je chatgeschiedenis permanent verwijderen en je gegevens
+            van onze servers verwijderen.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
