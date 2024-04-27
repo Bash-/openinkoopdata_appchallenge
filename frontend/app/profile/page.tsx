@@ -2,6 +2,7 @@ import { MagnifyingGlassIcon, UploadIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { UploadDialog } from '@/components/upload-dialog'
+import { UploadForm } from '@/components/upload-form'
 
 
 export const metadata = {
@@ -23,9 +24,9 @@ export default async function IndexPage() {
       </p>
       <br></br>
 
-      <h2 className="text-md font-semibold">Upload uw documenten</h2>
+      <h2 className="text-md font-semibold mb-4">Upload uw documenten</h2>
       
-      <UploadDialog />
+      <UploadForm />
 
     </div>
   )
