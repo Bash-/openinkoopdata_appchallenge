@@ -16,6 +16,11 @@ openai = "^1.14.3"
 chromadb = "^0.4.24"
 tiktoken = "^0.6.0"
 langchain-openai = "^0.1.1"
+polars = "^0.20.21"
+deltalake = "^0.16.4"
+fitz = "^0.0.1.dev2"
+frontend = "^0.0.3"
+pymupdf = "^1.24.2"
 
 
 [build-system]

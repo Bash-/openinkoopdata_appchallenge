@@ -13,7 +13,7 @@ import chromadb
 _ = load_dotenv()
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-DB_DIR = os.getenv('DB_DIR')
+
 
 def load_chunk_persist_pdf(pdf_folder_path) -> Chroma:
     """
@@ -25,14 +25,11 @@ def load_chunk_persist_pdf(pdf_folder_path) -> Chroma:
         Chroma client
     """
     documents = []
-    for dirName, subdirList, fileList in os.walk(pdf_folder_path):
-        print(f"Found directory: {dirName}")
-        for fname in fileList:
-            if fname.endswith('.pdf'):
-                print(f" \t Save {fname} with embedding to vectorstore")
-                pdf_path = os.path.join(pdf_folder_path, fname)
-                loader = PyPDFLoader(pdf_path)
-                documents.extend(loader.load())
+    for file in os.listdir(pdf_folder_path):
+        if file.endswith('.pdf'):
+            pdf_path = os.path.join(pdf_folder_path, file)
+            loader = PyPDFLoader(pdf_path)
+            documents.extend(loader.load())
     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=10)
     chunked_documents = text_splitter.split_documents(documents)
     client = chromadb.Client()
@@ -44,6 +41,37 @@ def load_chunk_persist_pdf(pdf_folder_path) -> Chroma:
         persist_directory="./rag/data_local/chroma/"
     )
     vectordb.persist()
-    return None
+    return vectordb
 
-load_chunk_persist_pdf("./datapipeline/data_local/raw/documents/332427/")
+def create_agent_chain(model_name: str = "gpt-3.5-turbo"):
+    """
+    Create a chain of agents
+    :return:
+        Chain of agents
+    """
+    llm = ChatOpenAI(model_name=model_name)
+    chain = load_qa_chain(llm, chain_type="stuff")
+    return chain
+
+
+def get_llm_response(query):
+    """
+    Get a response from the LLM by querying the vectorstore
+    :param
+    query: str
+        Query to the LLM
+
+    :return:
+    answer: str
+        Answer from the LLM
+    """
+    vectordb = Chroma(persist_directory=os.environ.get("DB_DIR"), embedding_function=OpenAIEmbeddings())
+    chain = create_agent_chain()
+    matching_docs = vectordb.similarity_search(query)
+    print([doc.metadata for doc in matching_docs])
+
+    answer = chain.run(input_documents=matching_docs, question=query)
+    return answer
+
+
+print(get_llm_response("Zijn er tenders waar ik leermiddelen kan leveren?"))
