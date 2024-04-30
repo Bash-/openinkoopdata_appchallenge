@@ -70,14 +70,6 @@ export async function uploadFiles(formData: FormData) {
   const session = (await auth()) as Session
   const userId = session.user.id as string
 
-  const storage = new Storage({
-    projectId: process.env.PROJECT_ID,
-    credentials: {
-      client_email: process.env.CLIENT_EMAIL,
-      private_key: process.env.PRIVATE_KEY?.replace(/\\n/g, '\n'),
-    },
-  });
-
   for (const x of formData.getAll('file')) {
 
     const file = x as File;
@@ -87,15 +79,16 @@ export async function uploadFiles(formData: FormData) {
     stream.push(Buffer.from(buffer))
     stream.push(null)
 
-    const fileUpload = storage.bucket('company_docs').file(`${userId}/${file.name}`)
+    const filePath = `${userId}/${file.name}`;
+    const fileUpload = storage.bucket(bucketName).file(filePath)
     const fileStream = fileUpload.createWriteStream({
       metadata: {
         contentType: file.type,
       },
     })
 
-    await new Promise((resolve, reject) => {
-      stream
+    return await new Promise((resolve, reject) => {
+      return stream
         .pipe(fileStream)
         .on('error', reject)
         .on('finish', resolve)

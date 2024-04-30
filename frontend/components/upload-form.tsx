@@ -90,7 +90,10 @@ export function UploadForm({
                             setFileNames([]);
                             setFiles([]);
                             toast.success('Uploaden van bestand(en) gelukt')
-                        })
+                        }).catch(err => {
+                            toast.error('Fout bij uploaden van bestand(en)')
+                            console.error(err);
+                        });
                     })
                 }}
             >
