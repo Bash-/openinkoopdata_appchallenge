@@ -9,5 +9,8 @@ module.exports = {
         pathname: '**'
       }
     ]
-  }
+  },
+  experimental: {
+    serverComponentsExternalPackages: ['@google-cloud/storage'],
+  },
 }
