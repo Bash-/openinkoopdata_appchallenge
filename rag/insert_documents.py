@@ -35,6 +35,8 @@ def load_chunk_persist_pdf(pdf_folder_path) -> Chroma:
                 documents.extend(loader.load())
     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=10)
     chunked_documents = text_splitter.split_documents(documents)
+
+    # Create collection of not existing.
     client = chromadb.Client()
     if client.list_collections():
         consent_collection = client.create_collection("consent_collection")
