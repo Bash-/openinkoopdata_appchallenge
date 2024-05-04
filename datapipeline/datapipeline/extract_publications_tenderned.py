@@ -2,6 +2,7 @@ import requests
 import json
 import os
 import datetime
+from utils.gcp_helpers import upload_file_to_gcp
 
 def extract_data(api_url):
     response = requests.get(api_url)
@@ -36,18 +37,22 @@ def extract_data(api_url):
                 break
 
         # Create directory based on today's date
-        directory = os.path.join('data_local', "raw", "publications", str(today))
-        os.makedirs(directory, exist_ok=True)
+        directory = os.path.join("raw", "publications", str(today))
+        local_directory = os.path.join('data_local', directory)
+        os.makedirs(local_directory, exist_ok=True)
+        local_filename = os.path.join(local_directory, 'publications.json')
         
         # Write the extracted data to a JSON file
-        with open(os.path.join(directory, f'publications.json'), 'w') as f:
+        with open(local_filename, 'w') as f:
             for item in publications:
                 f.write(json.dumps(item) + "\n")
+        
+        upload_file_to_gcp(local_filename, 'aitenderportaal-storage', os.path.join(directory, 'publications.json'))
 
         print("Data extraction complete")
     else:
         print("Failed to retrieve data from the API")
-
+        
 # API endpoint URL
 api_url = "https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties?size=100"
 
