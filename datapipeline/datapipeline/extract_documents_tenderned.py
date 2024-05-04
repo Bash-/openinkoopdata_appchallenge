@@ -15,7 +15,7 @@ print(today)
 
 gcp_path = "gs://aitenderportaal-storage/clean/publications/"
 
-df = pl.read_delta(gcp_path, storage_options={"service_account": os.getenv("GOOGLE_APPLICATION_CREDENTIALS")})
+df = pl.read_delta(gcp_path, storage_options={"service_account": "gcp_serviceaccount.json"})
 df = df.filter(pl.col("publicatieDatum") == today)
 
 # TODO TEMPORARY: limit the number of publications to 5
