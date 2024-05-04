@@ -16,11 +16,7 @@ today = (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d"
 storage_client = storage.Client.from_service_account_json(os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
 bucket = storage_client.bucket("aitenderportaal-storage")
 blob = bucket.blob(f"raw/publications/{today}/publications.json")
-blob.download_to_filename("publications.json")
-
-
-# Path to the JSON file
-# json_file = f"data_local/raw/publications/{today}/publications.json"
+blob.download_to_filename(f"data_local/raw/publications/{today}/publications.json")
 
 
 # Read the JSON file into a DataFrame with the specified schema
@@ -61,7 +57,7 @@ schema: dict = {
     })
 }
 
-df = pl.read_ndjson("publications.json", schema=schema)
+df = pl.read_ndjson(f"data_local/raw/publications/{today}/publications.json", schema=schema)
 
 # Unnest the struct field columns and give alias (Delta merge does not support struct fields it seems)
 for column in schema.keys():
@@ -77,19 +73,8 @@ for column in schema.keys():
         )
         df = df.drop(column)
    
-
 # Path to the Delta table folder
-# delta_folder = "data_local/clean/publications/"
 gcp_path = "gs://aitenderportaal-storage/clean/publications/"
-
-
-# # Create folder if it does not exist
-# if not os.path.exists(delta_folder):
-#     os.makedirs(delta_folder)
-
-# # Create delta table if it does not exist
-# if not os.path.exists(delta_folder + "_delta_log"):
-#     df.write_delta(delta_folder)
 
 # TODO TEMPORARY: limit the number of publications to 5
 df = df.head(5)

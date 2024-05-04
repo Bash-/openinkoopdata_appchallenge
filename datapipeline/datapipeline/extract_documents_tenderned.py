@@ -13,8 +13,6 @@ document_base_url = "https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicati
 today = datetime.date.today() - datetime.timedelta(days=1)
 print(today)
 
-# delta_folder = f"data_local/clean/publications/"
-
 gcp_path = "gs://aitenderportaal-storage/clean/publications/"
 
 df = pl.read_delta(gcp_path, storage_options={"service_account": os.getenv("GOOGLE_APPLICATION_CREDENTIALS")})
