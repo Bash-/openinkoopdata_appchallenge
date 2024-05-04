@@ -1,2 +1,6 @@
 data_local
 *.ipynb
+.env
+gcp_serviceaccount.json
+__pycache__
+publications.json

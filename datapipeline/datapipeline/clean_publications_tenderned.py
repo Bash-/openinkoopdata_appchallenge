@@ -2,12 +2,26 @@ import polars as pl
 import pyarrow as pa
 import datetime
 import os
+from dotenv import load_dotenv
+from io import StringIO
+from google.cloud import storage
+
+
+load_dotenv()
 
 # Get today's date
 today = (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
 
+# Download the JSON file from Google Cloud Storage to the local environment
+storage_client = storage.Client.from_service_account_json(os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
+bucket = storage_client.bucket("aitenderportaal-storage")
+blob = bucket.blob(f"raw/publications/{today}/publications.json")
+blob.download_to_filename("publications.json")
+
+
 # Path to the JSON file
-json_file = f"data_local/raw/publications/{today}/publications.json"
+# json_file = f"data_local/raw/publications/{today}/publications.json"
+
 
 # Read the JSON file into a DataFrame with the specified schema
 schema: dict = {
@@ -47,7 +61,7 @@ schema: dict = {
     })
 }
 
-df = pl.read_ndjson(json_file, schema=schema)
+df = pl.read_ndjson("publications.json", schema=schema)
 
 # Unnest the struct field columns and give alias (Delta merge does not support struct fields it seems)
 for column in schema.keys():
@@ -65,26 +79,40 @@ for column in schema.keys():
    
 
 # Path to the Delta table folder
-delta_folder = "data_local/clean/publications/"
+# delta_folder = "data_local/clean/publications/"
+gcp_path = "gs://aitenderportaal-storage/clean/publications/"
 
-# Create folder if it does not exist
-if not os.path.exists(delta_folder):
-    os.makedirs(delta_folder)
 
-# Create delta table if it does not exist
-if not os.path.exists(delta_folder + "_delta_log"):
-    df.write_delta(delta_folder)
+# # Create folder if it does not exist
+# if not os.path.exists(delta_folder):
+#     os.makedirs(delta_folder)
+
+# # Create delta table if it does not exist
+# if not os.path.exists(delta_folder + "_delta_log"):
+#     df.write_delta(delta_folder)
+
+# TODO TEMPORARY: limit the number of publications to 5
+df = df.head(5)
+
+# Create delta table if it does not exist on GCP
+if not os.path.exists(gcp_path + "_delta_log"):
+    df.write_delta(
+        gcp_path,
+        mode="overwrite",
+        storage_options={"service_account": os.getenv("GOOGLE_APPLICATION_CREDENTIALS")}
+    )
 
 # Upsert into the Delta table based on the publicatieId field
 (
     df.write_delta(
-        delta_folder,
+        gcp_path,
         mode="merge",
         delta_merge_options={
                 "predicate": "s.publicatieId = t.publicatieId",
                 "source_alias": "s",
                 "target_alias": "t"
         },
+        storage_options={"service_account": os.getenv("GOOGLE_APPLICATION_CREDENTIALS")}
     )
     .when_matched_update_all()
     .when_not_matched_insert_all()
