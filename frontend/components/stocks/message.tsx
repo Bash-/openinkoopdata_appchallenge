@@ -1,15 +1,14 @@
 'use client'
 
 import { IconOpenAI, IconUser } from '@/components/ui/icons'
+import { useStreamableText } from '@/lib/hooks/use-streamable-text'
 import { cn } from '@/lib/utils'
-import { spinner } from './spinner'
-import { CodeBlock } from '../ui/codeblock'
-import { MemoizedReactMarkdown } from '../markdown'
+import { StreamableValue } from 'ai/rsc'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
-import { StreamableValue } from 'ai/rsc'
-import { useStreamableText } from '@/lib/hooks/use-streamable-text'
-
+import { MemoizedReactMarkdown } from '../markdown'
+import { CodeBlock } from '../ui/codeblock'
+import { spinner } from './spinner'
 // Different types of message bubbles.
 
 export function UserMessage({ children }: { children: React.ReactNode }) {
@@ -27,12 +26,13 @@ export function UserMessage({ children }: { children: React.ReactNode }) {
 
 export function BotMessage({
   content,
-  className
+  className,
 }: {
   content: string | StreamableValue<string>
-  className?: string
+  className?: string,
 }) {
   const text = useStreamableText(content)
+
 
   return (
     <div className={cn('group relative flex items-start md:-ml-12', className)}>
@@ -86,6 +86,7 @@ export function BotMessage({
   )
 }
 
+
 export function BotCard({
   children,
   showAvatar = true
@@ -106,6 +107,19 @@ export function BotCard({
       <div className="ml-4 flex-1 pl-2">{children}</div>
     </div>
   )
+}
+
+export function SourcesMessage({
+  content,
+  className
+}) {
+  if (!content) {
+    return <></>
+  }
+  
+  const docs = JSON.parse(content)
+  console.log(docs)
+  return <p>{docs[0].title}</p>
 }
 
 export function SystemMessage({ children }: { children: React.ReactNode }) {

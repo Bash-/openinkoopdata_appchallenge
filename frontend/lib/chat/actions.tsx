@@ -1,40 +1,37 @@
-import 'server-only'
+import 'server-only';
 
+import {
+  BotCard,
+  BotMessage,
+  Purchase,
+  Stock,
+  SystemMessage,
+  spinner
+} from '@/components/stocks';
+import { Document } from "@langchain/core/documents";
 import {
   createAI,
   createStreamableUI,
-  getMutableAIState,
+  createStreamableValue,
   getAIState,
-  render,
-  createStreamableValue
-} from 'ai/rsc'
-import OpenAI from 'openai'
+  getMutableAIState
+} from 'ai/rsc';
+import OpenAI from 'openai';
 
-import {
-  spinner,
-  BotCard,
-  BotMessage,
-  SystemMessage,
-  Stock,
-  Purchase
-} from '@/components/stocks'
-
-import { z } from 'zod'
-import { EventsSkeleton } from '@/components/stocks/events-skeleton'
-import { Events } from '@/components/stocks/events'
-import { StocksSkeleton } from '@/components/stocks/stocks-skeleton'
-import { Stocks } from '@/components/stocks/stocks'
-import { StockSkeleton } from '@/components/stocks/stock-skeleton'
+import { saveChat } from '@/app/actions';
+import { auth } from '@/auth';
+import { Events } from '@/components/stocks/events';
+import { SourcesMessage, UserMessage } from '@/components/stocks/message';
+import { Stocks } from '@/components/stocks/stocks';
+import { Chat } from '@/lib/types';
 import {
   formatNumber,
+  nanoid,
   runAsyncFnWithoutBlocking,
-  sleep,
-  nanoid
-} from '@/lib/utils'
-import { saveChat } from '@/app/actions'
-import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
-import { Chat } from '@/lib/types'
-import { auth } from '@/auth'
+  sleep
+} from '@/lib/utils';
+import React from 'react';
+import { rag } from '../chains/rag';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || ''
@@ -104,9 +101,8 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
         {
           id: nanoid(),
           role: 'system',
-          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${
-            amount * price
-          }]`
+          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${amount * price
+            }]`
         }
       ]
     })
@@ -140,251 +136,77 @@ async function submitUserMessage(content: string) {
 
   let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
   let textNode: undefined | React.ReactNode
+  let docsNode: undefined | React.Re
 
-  const ui = render({
-    model: 'gpt-3.5-turbo',
-    provider: openai,
-    initial: <SpinnerMessage />,
-    messages: [
-      {
-        role: 'system',
-        content: `\
-Je bent een gespreksbot gespecialiseerd in het beantwoorden van vragen over Nederlandse aanbestedingen. Je kunt gebruikers helpen met het vinden van tenders, het bekijken van de eisen van een tender, en het relateren van tenders aan andere documenten.`
-      },
-      ...aiState.get().messages.map((message: any) => ({
-        role: message.role,
-        content: message.content,
-        name: message.name
-      }))
-    ],
-    text: ({ content, done, delta }) => {
-      if (!textStream) {
-        textStream = createStreamableValue('')
-        textNode = <BotMessage content={textStream.value} />
-      }
+  runAsyncFnWithoutBlocking(async () => {
 
-      if (done) {
-        textStream.done()
-        aiState.done({
-          ...aiState.get(),
-          messages: [
-            ...aiState.get().messages,
-            {
-              id: nanoid(),
-              role: 'assistant',
-              content
-            }
-          ]
+    if (!textStream) {
+      textStream = createStreamableValue('')
+      textNode = <BotMessage content={textStream.value} />
+    }
+
+    const chain = await rag()
+
+    const response = chain.streamEvents(content, { version: "v1" })
+
+    for await (const event of response) {
+      const eventType = event.event;
+
+      const parseAsJson = (chunk: string, docs: Document[] = []) => {
+        return JSON.stringify({
+          answer: `${chunk}`,
+          docs
         })
-      } else {
-        textStream.update(delta)
       }
 
-      return textNode
-    },
-    // functions: {
-    //   listStocks: {
-    //     description: 'List three imaginary stocks that are trending.',
-    //     parameters: z.object({
-    //       stocks: z.array(
-    //         z.object({
-    //           symbol: z.string().describe('The symbol of the stock'),
-    //           price: z.number().describe('The price of the stock'),
-    //           delta: z.number().describe('The change in price of the stock')
-    //         })
-    //       )
-    //     }),
-    //     render: async function* ({ stocks }) {
-    //       yield (
-    //         <BotCard>
-    //           <StocksSkeleton />
-    //         </BotCard>
-    //       )
+      if (eventType === "on_llm_stream") {
+        textStream.update(event.data.chunk.text);
 
-    //       await sleep(1000)
+      } else if (eventType === "on_chain_end") {
+        // only on final call
+        if (event.name == 'RunnableSequence' && event?.tags?.length == 0) {
+          const message = event.data.output.answer;
+          const docs = event.data.output.docs
 
-    //       aiState.done({
-    //         ...aiState.get(),
-    //         messages: [
-    //           ...aiState.get().messages,
-    //           {
-    //             id: nanoid(),
-    //             role: 'function',
-    //             name: 'listStocks',
-    //             content: JSON.stringify(stocks)
-    //           }
-    //         ]
-    //       })
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: 'assistant',
+                content: message,
+              },
+              {
+                id: nanoid(),
+                role: 'sources',
+                content: JSON.stringify(docs)
+              }
+            ]
+          })
+        }
+      } else if (eventType === "on_llm_end") {
+        const message = event.data.output.generations[0][0].text
 
-    //       return (
-    //         <BotCard>
-    //           <Stocks props={stocks} />
-    //         </BotCard>
-    //       )
-    //     }
-    //   },
-    //   showStockPrice: {
-    //     description:
-    //       'Get the current stock price of a given stock or currency. Use this to show the price to the user.',
-    //     parameters: z.object({
-    //       symbol: z
-    //         .string()
-    //         .describe(
-    //           'The name or symbol of the stock or currency. e.g. DOGE/AAPL/USD.'
-    //         ),
-    //       price: z.number().describe('The price of the stock.'),
-    //       delta: z.number().describe('The change in price of the stock')
-    //     }),
-    //     render: async function* ({ symbol, price, delta }) {
-    //       yield (
-    //         <BotCard>
-    //           <StockSkeleton />
-    //         </BotCard>
-    //       )
+        textStream.done()
+      }
+    }
 
-    //       await sleep(1000)
-
-    //       aiState.done({
-    //         ...aiState.get(),
-    //         messages: [
-    //           ...aiState.get().messages,
-    //           {
-    //             id: nanoid(),
-    //             role: 'function',
-    //             name: 'showStockPrice',
-    //             content: JSON.stringify({ symbol, price, delta })
-    //           }
-    //         ]
-    //       })
-
-    //       return (
-    //         <BotCard>
-    //           <Stock props={{ symbol, price, delta }} />
-    //         </BotCard>
-    //       )
-    //     }
-    //   },
-    //   showStockPurchase: {
-    //     description:
-    //       'Show price and the UI to purchase a stock or currency. Use this if the user wants to purchase a stock or currency.',
-    //     parameters: z.object({
-    //       symbol: z
-    //         .string()
-    //         .describe(
-    //           'The name or symbol of the stock or currency. e.g. DOGE/AAPL/USD.'
-    //         ),
-    //       price: z.number().describe('The price of the stock.'),
-    //       numberOfShares: z
-    //         .number()
-    //         .describe(
-    //           'The **number of shares** for a stock or currency to purchase. Can be optional if the user did not specify it.'
-    //         )
-    //     }),
-    //     render: async function* ({ symbol, price, numberOfShares = 100 }) {
-    //       if (numberOfShares <= 0 || numberOfShares > 1000) {
-    //         aiState.done({
-    //           ...aiState.get(),
-    //           messages: [
-    //             ...aiState.get().messages,
-    //             {
-    //               id: nanoid(),
-    //               role: 'system',
-    //               content: `[User has selected an invalid amount]`
-    //             }
-    //           ]
-    //         })
-
-    //         return <BotMessage content={'Invalid amount'} />
-    //       }
-
-    //       aiState.done({
-    //         ...aiState.get(),
-    //         messages: [
-    //           ...aiState.get().messages,
-    //           {
-    //             id: nanoid(),
-    //             role: 'function',
-    //             name: 'showStockPurchase',
-    //             content: JSON.stringify({
-    //               symbol,
-    //               price,
-    //               numberOfShares
-    //             })
-    //           }
-    //         ]
-    //       })
-
-    //       return (
-    //         <BotCard>
-    //           <Purchase
-    //             props={{
-    //               numberOfShares,
-    //               symbol,
-    //               price: +price,
-    //               status: 'requires_action'
-    //             }}
-    //           />
-    //         </BotCard>
-    //       )
-    //     }
-    //   },
-    //   getEvents: {
-    //     description:
-    //       'List funny imaginary events between user highlighted dates that describe stock activity.',
-    //     parameters: z.object({
-    //       events: z.array(
-    //         z.object({
-    //           date: z
-    //             .string()
-    //             .describe('The date of the event, in ISO-8601 format'),
-    //           headline: z.string().describe('The headline of the event'),
-    //           description: z.string().describe('The description of the event')
-    //         })
-    //       )
-    //     }),
-    //     render: async function* ({ events }) {
-    //       yield (
-    //         <BotCard>
-    //           <EventsSkeleton />
-    //         </BotCard>
-    //       )
-
-    //       await sleep(1000)
-
-    //       aiState.done({
-    //         ...aiState.get(),
-    //         messages: [
-    //           ...aiState.get().messages,
-    //           {
-    //             id: nanoid(),
-    //             role: 'function',
-    //             name: 'getEvents',
-    //             content: JSON.stringify(events)
-    //           }
-    //         ]
-    //       })
-
-    //       return (
-    //         <BotCard>
-    //           <Events props={events} />
-    //         </BotCard>
-    //       )
-    //     }
-    //   }
-    // }
   })
 
   return {
     id: nanoid(),
-    display: ui
+    display: textNode
   }
+
 }
 
 export type Message = {
-  role: 'user' | 'assistant' | 'system' | 'function' | 'data' | 'tool'
+  role: 'user' | 'assistant' | 'system' | 'function' | 'data' | 'tool' | 'sources'
   content: string
   id: string
   name?: string
+  docs?: Document[]
 }
 
 export type AIState = {
@@ -475,6 +297,8 @@ export const getUIStateFromAIState = (aiState: Chat) => {
           ) : null
         ) : message.role === 'user' ? (
           <UserMessage>{message.content}</UserMessage>
+        ) : message.role === "sources" ? (
+          <SourcesMessage docs={JSON.parse(message.content)}></SourcesMessage>
         ) : (
           <BotMessage content={message.content} />
         )
