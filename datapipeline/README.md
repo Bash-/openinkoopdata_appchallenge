@@ -8,22 +8,8 @@ This folder contains files to perform Extract, Load, and Transform (ELT) tasks f
 - `datapipeline/clean_publications_tenderned.py`: This file contains the code for merging all raw data into a Delta table.
 
 ## How to run
-To run the code using Poetry, you can follow these steps:
 
-1. Make sure you have Poetry installed. If not, you can install it by running the following command in your terminal:
-`pip install poetry`
-
-1. Navigate to the root directory of your project where the pyproject.toml file is located.
-
-1. Initialize Poetry by running the following command:
-`poetry init`
-
-1. Install the project dependencies by running:
-`poetry install`
-
-1. To run the extract_publications_tenderned.py script, use the following command:
-`poetry run python datapipeline/extract_publications_tenderned.py`
-
-1. To run the clean_publications_tenderned.py script, use the following command:
-`poetry run python datapipeline/clean_publications_tenderned.py`
-
+1. Make sure you have access to the ai-tenderportaal GCP project.
+1. Save your GCP Service Account Credentials in this folder and name it "gcp_serviceaccount.json"
+1. Build the Docker file, e.g. `docker build -t aitenderportaal-datapipeline .`
+1. Run the Docker file, e.g. `docker run --rm aitenderportaal-datapipeline`

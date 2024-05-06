@@ -10,7 +10,7 @@ def upload_file_to_gcp(file_name, bucket_name, destination_blob_name):
 
     try:
         # Authenticate with Google Cloud Storage using credentials from .env file
-        storage_client = storage.Client.from_service_account_json(os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
+        storage_client = storage.Client.from_service_account_json("gcp_serviceaccount.json")
         bucket = storage_client.bucket(bucket_name)
         blob = bucket.blob(destination_blob_name)
         blob.upload_from_filename(file_name)

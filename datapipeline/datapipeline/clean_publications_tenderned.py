@@ -13,7 +13,7 @@ load_dotenv()
 today = (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
 
 # Download the JSON file from Google Cloud Storage to the local environment
-storage_client = storage.Client.from_service_account_json(os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
+storage_client = storage.Client.from_service_account_json("gcp_serviceaccount.json")
 bucket = storage_client.bucket("aitenderportaal-storage")
 blob = bucket.blob(f"raw/publications/{today}/publications.json")
 blob.download_to_filename(f"data_local/raw/publications/{today}/publications.json")
@@ -84,7 +84,7 @@ if not os.path.exists(gcp_path + "_delta_log"):
     df.write_delta(
         gcp_path,
         mode="overwrite",
-        storage_options={"service_account": os.getenv("GOOGLE_APPLICATION_CREDENTIALS")}
+        storage_options={"service_account": "gcp_serviceaccount.json"}
     )
 
 # Upsert into the Delta table based on the publicatieId field
@@ -97,7 +97,7 @@ if not os.path.exists(gcp_path + "_delta_log"):
                 "source_alias": "s",
                 "target_alias": "t"
         },
-        storage_options={"service_account": os.getenv("GOOGLE_APPLICATION_CREDENTIALS")}
+        storage_options={"service_account": "gcp_serviceaccount.json"}
     )
     .when_matched_update_all()
     .when_not_matched_insert_all()
