@@ -6,10 +6,18 @@ import {
   TendersTable,
 } from './types';
 
+const datefilter = (min_date: Date, max_date: Date) => {
+  return `${min_date && max_date ? `AND date BETWEEN ${min_date} AND ${max_date}` : ''}
+  ${min_date && !max_date ? `AND date >= ${min_date}` : ''}
+  ${!min_date && max_date ? `AND date <= ${min_date}` : ''}`
+}
+
+
 const ITEMS_PER_PAGE = 6;
 export async function fetchFilteredTenders(
   query: string,
-  dates: Date[],
+  min_date: Date,
+  max_date: Date,
   currentPage: number,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -26,6 +34,7 @@ export async function fetchFilteredTenders(
       WHERE
         business.name ILIKE ${`%${query}%`} OR
         tenders.summary ILIKE ${`%${query}%`}
+        ${datefilter(min_date, max_date)}
       ORDER BY tenders.date DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
@@ -39,7 +48,7 @@ export async function fetchFilteredTenders(
   }
 }
 
-export async function fetchTendersPages(query: string, dates: Date[]) {
+export async function fetchTendersPages(query: string, min_date: Date, max_date: Date) {
   try {
     const count = await sql`SELECT COUNT(*)
     FROM tenders
@@ -47,6 +56,7 @@ export async function fetchTendersPages(query: string, dates: Date[]) {
     WHERE
       business.name ILIKE ${`%${query}%`} OR
       tenders.summary ILIKE ${`%${query}%`}
+      ${datefilter(min_date, max_date)}
   `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
