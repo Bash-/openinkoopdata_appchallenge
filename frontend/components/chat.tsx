@@ -1,16 +1,16 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import { ChatList } from '@/components/chat-list'
 import { ChatPanel } from '@/components/chat-panel'
 import { EmptyScreen } from '@/components/empty-screen'
-import { useLocalStorage } from '@/lib/hooks/use-local-storage'
-import { useEffect, useState } from 'react'
-import { useUIState, useAIState } from 'ai/rsc'
-import { Session } from '@/lib/types'
-import { usePathname, useRouter } from 'next/navigation'
 import { Message } from '@/lib/chat/actions'
+import { useLocalStorage } from '@/lib/hooks/use-local-storage'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
+import { Session } from '@/lib/types'
+import { cn } from '@/lib/utils'
+import { useAIState, useUIState } from 'ai/rsc'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
@@ -18,9 +18,11 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   id?: string
   session?: Session
   missingKeys: string[]
+  tenderId?: string | undefined
+  documentId?: string | undefined
 }
 
-export function Chat({ id, className, session, missingKeys }: ChatProps) {
+export function Chat({ id, tenderId, documentId, className, session, missingKeys }: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const [input, setInput] = useState('')
@@ -29,10 +31,16 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
+  const isTenderChat = path.includes('/tender')
+  const isDocumentChat = path.includes('/document')
+
   useEffect(() => {
     if (session?.user) {
-      if (!path.includes('chat') && messages.length === 1) {
+      if (!path.includes('chat') && messages.length === 1 && !isTenderChat && !isDocumentChat) {
         window.history.replaceState({}, '', `/chat/${id}`)
+      }
+      if (!path.includes('/tender') && messages.length === 1 && !isDocumentChat) {
+        window.history.replaceState({}, `/tenders/${id}`)
       }
     }
   }, [id, path, session?.user, messages])
@@ -74,6 +82,8 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         <div className="h-px w-full" ref={visibilityRef} />
       </div>
       <ChatPanel
+        tenderId={tenderId}
+        documentId={documentId}
         id={id}
         input={input}
         setInput={setInput}

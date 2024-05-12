@@ -19,12 +19,16 @@ export interface ChatPanelProps {
   setInput: (value: string) => void
   isAtBottom: boolean
   scrollToBottom: () => void
+  tenderId: string | undefined
+  documentId: string | undefined
 }
 
 export function ChatPanel({
   id,
   title,
   input,
+  tenderId,
+  documentId,
   setInput,
   isAtBottom,
   scrollToBottom
@@ -35,7 +39,7 @@ export function ChatPanel({
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
 
 
-  const exampleMessages = [
+  const normalExampleMessages = [
     {
       heading: 'Wat zijn de eisen van tender over het',
       subheading: 'Collectiebeheersysteem van Historisch Centrum Overijssel?',
@@ -57,6 +61,25 @@ export function ChatPanel({
       message: `Wat zijn speerpunten van het categorieplan "Bedrijfskleding" van de Rijksoverheid?`
     }
   ]
+
+  const tenderExampleMessages = [
+    {
+      heading: "ISO 27001",
+      subheading: 'Moet ik gecertificeerd zijn om in aanmerking te komen voor deze tender?',
+      message: "Moet ik ISO 27001 gecertificeerd zijn om in aanmerking te komen voor deze tender?"
+    }
+  ]
+
+  const documentExampleMessages = [
+    {
+      heading: "Vat dit document samen",
+      subHeading: 'en geef in bullet points alle duurzaamheidskwalificaties aan',
+      message: "Vat dit document samen en geef in bullet points alle duurzaamheidskwalificaties aan"
+    }
+  ]
+
+  const exampleMessages = (!tenderId && !documentId) ? normalExampleMessages : documentId ? documentExampleMessages : tenderExampleMessages
+
 
   return (
     <div className="fixed inset-x-0 bottom-0 w-full bg-gradient-to-b from-muted/30 from-0% to-muted/30 to-50% duration-300 ease-in-out animate-in dark:from-background/10 dark:from-10% dark:to-background/80 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
@@ -83,7 +106,9 @@ export function ChatPanel({
                   ])
 
                   const responseMessage = await submitUserMessage(
-                    example.message
+                    example.message,
+                    tenderId,
+                    documentId
                   )
 
                   setMessages(currentMessages => [

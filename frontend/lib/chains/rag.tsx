@@ -31,7 +31,7 @@ const formatDocs = (input: Record<string, any>): string => {
 
 // TODO: implement citations https://js.langchain.com/docs/use_cases/question_answering/citations
 
-export const rag = async (publicatie_id: string | undefined = undefined, company_data: boolean = false) => {
+export const rag = async (tender_id: string | undefined = undefined, document_id: string | undefined, company_data: boolean = false) => {
   const prompt = ChatPromptTemplate.fromMessages([
     [
       "system",
@@ -52,12 +52,12 @@ export const rag = async (publicatie_id: string | undefined = undefined, company
   // // only do rag for docs with this tender
   // // https://weaviate.io/developers/weaviate/api/graphql/filters
   // let filters = undefined
-  // if (publicatie_id) {
+  // if (tenderId) {
   //   filters = {
   //     where: {
   //       operator: "Equal",
-  //       path: ["foo"],
-  //       valueText: "baz",
+  //       path: ["tenderId"],
+  //       valueText: tenderId,
   //     },
   //   }
   //   // or use operator

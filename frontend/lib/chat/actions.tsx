@@ -117,7 +117,7 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
   }
 }
 
-async function submitUserMessage(content: string) {
+async function submitUserMessage(content: string, tenderId: string | undefined, documentId: string | undefined) {
   'use server'
 
   const aiState = getMutableAIState<typeof AI>()
@@ -136,7 +136,7 @@ async function submitUserMessage(content: string) {
 
   let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
   let textNode: undefined | React.ReactNode
-  let docsNode: undefined | React.Re
+  let docsNode: undefined | React.ReactNode
 
   runAsyncFnWithoutBlocking(async () => {
 
@@ -144,8 +144,7 @@ async function submitUserMessage(content: string) {
       textStream = createStreamableValue('')
       textNode = <BotMessage content={textStream.value} />
     }
-
-    const chain = await rag()
+    const chain = await rag(tenderId, documentId)
 
     const response = chain.streamEvents(content, { version: "v1" })
 
