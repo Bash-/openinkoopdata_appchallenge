@@ -9,6 +9,7 @@ COPY load_daily.sh load_daily.sh
 COPY pyproject.toml pyproject.toml
 COPY poetry.lock poetry.lock
 COPY gcp_serviceaccount.json gcp_serviceaccount.json
+COPY .env .env
 
 RUN chmod +x load_daily.sh
 

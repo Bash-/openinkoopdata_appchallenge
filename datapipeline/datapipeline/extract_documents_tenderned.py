@@ -1,4 +1,5 @@
 import requests
+from datapipeline.insert_documents_vectordb import insert_to_vectordb
 import polars as pl
 import datetime
 import os
@@ -57,4 +58,6 @@ for publicatie_id in df.select("publicatieId").to_series():
             file_path = os.path.join(root, file)
             destination_blob_name = os.path.join(directory, file)
             upload_file_to_gcp(file_path, 'aitenderportaal-storage', destination_blob_name)
+    
+    insert_to_vectordb(local_directory, publicatie_id)
             
