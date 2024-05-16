@@ -19,6 +19,8 @@ export default async function TenderDetailPage({
   const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
 
+  console.log(tender)
+
 
   if (!tender) return notFound();
   const chatId = `tender:${params.id}`
@@ -36,10 +38,10 @@ export default async function TenderDetailPage({
       <h2>Documenten</h2>
       <TenderDocuments tender={tender} />
 
-      {!session && <p><Link href={`/login?next=/tenders/${tender.id}/`}>Login to chat</Link></p>}
+      {!session && <p><Link href={`/login?next=/tenders/${tender.publicatie_id}/`}>Login to chat</Link></p>}
       {session && <AI initialAIState={{ chatId: chatId, messages: chat?.messages ?? [] }}>
         <Chat
-          tenderId={tender.id}
+          tenderId={tender.publicatie_id}
           id={chatId}
           session={session}
           initialMessages={chat?.messages ?? []}

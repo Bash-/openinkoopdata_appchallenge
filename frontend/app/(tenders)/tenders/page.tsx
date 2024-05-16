@@ -19,16 +19,16 @@ export default async function SearchPage({
     page?: string;
   };
 }) {
-  const { q: searchValue, dates, category } = searchParams as { [key: string]: string };
-  const currentPage = Number(searchParams?.page) || 1;
+  const { q: searchValue, min_date, max_date, category } = searchParams as { [key: string]: string };
+  const currentPage = Number(searchParams?.page ?? 1) || 1;
 
-  const totalPages = await fetchTendersPages(searchValue, dates);
+  const totalPages = await fetchTendersPages(searchValue, min_date, max_date);
 
   return (
     <main className="container mx-auto">
       <Search />
       <Suspense key={searchValue + currentPage} fallback={<TendersSkeleton />}>
-        <SearchResults q={searchValue} dates={[]} currentPage={currentPage} />
+        <SearchResults q={searchValue} min_date={min_date} max_date={max_date} currentPage={currentPage} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />

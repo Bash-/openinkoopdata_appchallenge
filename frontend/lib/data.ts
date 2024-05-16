@@ -1,15 +1,19 @@
 import { sql } from '@vercel/postgres';
 
-import { tenders } from './dummy-data';
 import {
-  TenderForm,
-  TendersTable,
+  Tender
 } from './types';
 
 const datefilter = (min_date: Date, max_date: Date) => {
   return `${min_date && max_date ? `AND date BETWEEN ${min_date} AND ${max_date}` : ''}
   ${min_date && !max_date ? `AND date >= ${min_date}` : ''}
   ${!min_date && max_date ? `AND date <= ${min_date}` : ''}`
+}
+
+const textFilter = (query: string) => {
+  return `tenders.aanbestedendeDienstNaam ILIKE ${`%${query}%`} OR
+  tenders.opdrachtgevermaam ILIKE ${`%${query}%`} OR
+  tenders.opdrachtbeschrijving ILIKE ${`%${query}%`}`
 }
 
 
@@ -21,70 +25,55 @@ export async function fetchFilteredTenders(
   currentPage: number,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
   try {
-    const tenders = await sql<TendersTable>`
+    const tenders = await sql<Tender>`
       SELECT
-        tenders.id,
-        tenders.summary
-        tenders.date,
-        business.name as business_name
-      FROM tenders
-      JOIN business ON tenders.business_id = business.id
-      WHERE
-        business.name ILIKE ${`%${query}%`} OR
-        tenders.summary ILIKE ${`%${query}%`}
-        ${datefilter(min_date, max_date)}
-      ORDER BY tenders.date DESC
+        publicatieid
+        -- aanbestedendedienstnaam,
+        -- sluitingsdatum,
+        -- opdrachtgevernaam
+      FROM publications
+      -- ORDER BY publicatiedatum ASC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
 
     return tenders.rows;
   } catch (error) {
-    console.error('Database Error:', error);
-    return tenders
-
+    console.error('Database Error:', error)
     throw new Error('Failed to fetch tenders.');
   }
 }
 
 export async function fetchTendersPages(query: string, min_date: Date, max_date: Date) {
   try {
-    const count = await sql`SELECT COUNT(*)
-    FROM tenders
-    JOIN business ON tenders.business_id = business.id
-    WHERE
-      business.name ILIKE ${`%${query}%`} OR
-      tenders.summary ILIKE ${`%${query}%`}
-      ${datefilter(min_date, max_date)}
-  `;
+    const count = await sql`SELECT COUNT(*) FROM publications -- INCLUDE WHERE FILTERS`;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
   } catch (error) {
     console.error('Database Error:', error);
-    return tenders.length
     throw new Error('Failed to fetch total number of tenders.');
   }
 }
 
 export async function fetchTenderById(id: string) {
   try {
-    const data = await sql<TenderForm>`
+    const data = await sql<Tender>`
       SELECT
-        tenders.id,
-        tenders.business_id,
-        tenders.summary,
-        tenders.date,
-        # tenders.documents,
-      FROM tenders
-      WHERE tenders.id = ${id};
+        publications.publicatieid
+        -- publications.opdrachtbeschrijving,
+        -- publications.publicatiedatum,
+        -- publications.sluitingsdatum,
+        -- # tenders.documents,
+      FROM publications
+      -- INNER JOIN documents on ...
+      WHERE publications.publicatieid = ${id}
+      LIMIT 1
     `;
 
-    return data[0];
+    return data.rows[0];
   } catch (error) {
     console.error('Database Error:', error);
-    return tenders[0]
     throw new Error('Failed to fetch tender.');
   }
 }

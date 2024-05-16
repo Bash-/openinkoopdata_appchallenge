@@ -65,8 +65,13 @@ export function ChatPanel({
   const tenderExampleMessages = [
     {
       heading: "ISO 27001",
-      subheading: 'Moet ik gecertificeerd zijn om in aanmerking te komen voor deze tender?',
+      subheading: "Moet ik gecertificeerd zijn om in aanmerking te komen voor deze tender?",
       message: "Moet ik ISO 27001 gecertificeerd zijn om in aanmerking te komen voor deze tender?"
+    },
+    {
+      heading: "Rijkscategoriën",
+      subheading: "Welke rijkscategoriën zijn relevant voor deze tender?",
+      message: "Welke rijkscategoriën zoals duurzaamheid, of circulariteit zijn relevant voor deze tender?"
     }
   ]
 
@@ -155,7 +160,7 @@ export function ChatPanel({
         ) : null}
 
         <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-          <PromptForm input={input} setInput={setInput} />
+          <PromptForm input={input} setInput={setInput} documentId={documentId} tenderId={tenderId} />
           <FooterText className="hidden sm:block" />
         </div>
       </div>

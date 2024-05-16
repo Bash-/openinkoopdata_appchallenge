@@ -45,22 +45,32 @@ export type TenderDocument = {
 }
 
 export type Tender = {
-  id: string
-  title: string;
-  summary: string
-  date: Date,
-  business_id: number
+  publicatieid: number
+  publicatiedatum: Date
+  aanbestedingnaam: string
+  aanbestedendedienstnaam: string
+  opdrachtgevernaam: string
+  sluitingsdatum: Date
+  digitaal: boolean
+  europees: boolean
+  isvroegtijdigebeeindiging: boolean
+  opdrachtbeschrijving: string
+  typepublicatiecode: string
+  typepublicatieomschrijving: string
+  procedurecode: string
+  procedureomschrijving: string
+  typeopdrachtcode: string
+  typeopdrachtomschrijving: string
+  publicatiecodecode: string
+  publicatiecodeomschrijving: string
+  publicatiestatuscode: string
+  publicatiestatusomschrijving: string
+  linkhref: string
+  linktitle: string
   documents: TenderDocument[]
 }
 
 export type Business = {
   id: number
   name: string
-}
-
-export type TenderTable = {
-  id: string
-  summary: string
-  date: Date,
-  business_name: string,
 }

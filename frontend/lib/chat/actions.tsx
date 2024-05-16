@@ -144,7 +144,10 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
       textStream = createStreamableValue('')
       textNode = <BotMessage content={textStream.value} />
     }
-    const chain = await rag(tenderId, documentId)
+
+    const history = aiState.get().messages.slice(-3) ?? [];
+    console.log(tenderId, documentId, history)
+    const chain = await rag(history, tenderId, documentId)
 
     const response = chain.streamEvents(content, { version: "v1" })
 
