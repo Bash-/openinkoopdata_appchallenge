@@ -1,14 +1,14 @@
 import * as React from 'react'
 
 import { shareChat } from '@/app/actions'
-import { Button } from '@/components/ui/button'
-import { PromptForm } from '@/components/prompt-form'
 import { ButtonScrollToBottom } from '@/components/button-scroll-to-bottom'
-import { IconShare } from '@/components/ui/icons'
-import { FooterText } from '@/components/footer'
 import { ChatShareDialog } from '@/components/chat-share-dialog'
-import { useAIState, useActions, useUIState } from 'ai/rsc'
+import { FooterText } from '@/components/footer'
+import { PromptForm } from '@/components/prompt-form'
+import { Button } from '@/components/ui/button'
+import { IconShare } from '@/components/ui/icons'
 import type { AI } from '@/lib/chat/actions'
+import { useAIState, useActions, useUIState } from 'ai/rsc'
 import { nanoid } from 'nanoid'
 import { UserMessage } from './stocks/message'
 
@@ -19,12 +19,16 @@ export interface ChatPanelProps {
   setInput: (value: string) => void
   isAtBottom: boolean
   scrollToBottom: () => void
+  tenderId: string | undefined
+  documentId: string | undefined
 }
 
 export function ChatPanel({
   id,
   title,
   input,
+  tenderId,
+  documentId,
   setInput,
   isAtBottom,
   scrollToBottom
@@ -34,7 +38,8 @@ export function ChatPanel({
   const { submitUserMessage } = useActions()
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
 
-  const exampleMessages = [
+
+  const normalExampleMessages = [
     {
       heading: 'Wat zijn de eisen van tender over het',
       subheading: 'Collectiebeheersysteem van Historisch Centrum Overijssel?',
@@ -57,6 +62,30 @@ export function ChatPanel({
     }
   ]
 
+  const tenderExampleMessages = [
+    {
+      heading: "ISO 27001",
+      subheading: "Moet ik gecertificeerd zijn om in aanmerking te komen voor deze tender?",
+      message: "Moet ik ISO 27001 gecertificeerd zijn om in aanmerking te komen voor deze tender?"
+    },
+    {
+      heading: "Rijkscategoriën",
+      subheading: "Welke rijkscategoriën zijn relevant voor deze tender?",
+      message: "Welke rijkscategoriën zoals duurzaamheid, of circulariteit zijn relevant voor deze tender?"
+    }
+  ]
+
+  const documentExampleMessages = [
+    {
+      heading: "Vat dit document samen",
+      subHeading: 'en geef in bullet points alle duurzaamheidskwalificaties aan',
+      message: "Vat dit document samen en geef in bullet points alle duurzaamheidskwalificaties aan"
+    }
+  ]
+
+  const exampleMessages = (!tenderId && !documentId) ? normalExampleMessages : documentId ? documentExampleMessages : tenderExampleMessages
+
+
   return (
     <div className="fixed inset-x-0 bottom-0 w-full bg-gradient-to-b from-muted/30 from-0% to-muted/30 to-50% duration-300 ease-in-out animate-in dark:from-background/10 dark:from-10% dark:to-background/80 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
       <ButtonScrollToBottom
@@ -70,9 +99,8 @@ export function ChatPanel({
             exampleMessages.map((example, index) => (
               <div
                 key={example.heading}
-                className={`cursor-pointer rounded-lg border bg-white p-4 hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900 ${
-                  index > 1 && 'hidden md:block'
-                }`}
+                className={`cursor-pointer rounded-lg border bg-white p-4 hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900 ${index > 1 && 'hidden md:block'
+                  }`}
                 onClick={async () => {
                   setMessages(currentMessages => [
                     ...currentMessages,
@@ -83,7 +111,9 @@ export function ChatPanel({
                   ])
 
                   const responseMessage = await submitUserMessage(
-                    example.message
+                    example.message,
+                    tenderId,
+                    documentId
                   )
 
                   setMessages(currentMessages => [
@@ -130,7 +160,7 @@ export function ChatPanel({
         ) : null}
 
         <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-          <PromptForm input={input} setInput={setInput} />
+          <PromptForm input={input} setInput={setInput} documentId={documentId} tenderId={tenderId} />
           <FooterText className="hidden sm:block" />
         </div>
       </div>

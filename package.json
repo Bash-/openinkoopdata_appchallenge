@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@langchain/community": "^0.0.57",
+    "@langchain/openai": "^0.0.31",
+    "@langchain/weaviate": "^0.0.2",
+    "@radix-ui/react-collapsible": "^1.0.3",
+    "@vercel/postgres": "^0.8.0",
+    "use-debounce": "^10.0.0"
+  }
+}
