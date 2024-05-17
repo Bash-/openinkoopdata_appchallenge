@@ -1,4 +1,10 @@
 {
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
     "@langchain/community": "^0.0.57",
     "@langchain/openai": "^0.0.31",
