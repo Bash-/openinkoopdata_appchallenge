@@ -20,6 +20,8 @@ pypdf = "^4.2.0"
 weaviate-client = "^4.6.0"
 openai = "^1.28.1"
 langchain-openai = "^0.1.6"
+pandas = "^2.2.2"
+psycopg2-binary = "^2.9.9"
 
 
 [build-system]

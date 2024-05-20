@@ -73,33 +73,12 @@ for column in schema.keys():
         )
         df = df.drop(column)
    
-# Path to the Delta table folder
-gcp_path = "gs://aitenderportaal-storage/clean/publications/"
-
 # TODO TEMPORARY: limit the number of publications to 5
 df = df.head(5)
 
-# Create delta table if it does not exist on GCP
-if not os.path.exists(gcp_path + "_delta_log"):
-    df.write_delta(
-        gcp_path,
-        mode="overwrite",
-        storage_options={"service_account": "gcp_serviceaccount.json"}
-    )
-
-# Upsert into the Delta table based on the publicatieId field
-(
-    df.write_delta(
-        gcp_path,
-        mode="merge",
-        delta_merge_options={
-                "predicate": "s.publicatieId = t.publicatieId",
-                "source_alias": "s",
-                "target_alias": "t"
-        },
-        storage_options={"service_account": "gcp_serviceaccount.json"}
-    )
-    .when_matched_update_all()
-    .when_not_matched_insert_all()
-    .execute()
+# Write the delta table to postgres database
+df.write_database(
+    connection=os.getenv("POSTGRES_CONNECTION_STRING"),
+    table_name="publications",
+    if_table_exists='append'
 )

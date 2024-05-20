@@ -68,12 +68,3 @@ def insert_to_vectordb(pdf_folder_path, tenderId: str) -> None:
         print(collection.batch.failed_objects[0].message)
     else:
         print("Batch uploaded successfully")
-        
-
-if __name__ == "__main__":
-    try:
-        print(insert_to_vectordb("./data_local/raw/documents/331522/", "331522"))
-    except Exception as e:
-        print(e)
-    finally:
-        client.close()
