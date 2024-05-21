@@ -46,9 +46,9 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
       "system",
       `${tenderId ? `Dit is een vraag over een specifieke tender van de gebruiker met id ${tenderId}. Beantwoord deze vraag met de context die hieronder gegeven wordt, dit zijn documenten die geüpload zijn bij deze tender` : `U bent een QA bot voor Tender aanvragen voor de nederlandse markt`}.
       \n\n
-      Dit is relevante tender informatie: {context}
+      Dit is relevante tender informatie: {context}.
       \n\n
-      Vat de kerntekst samen in bulletpoints
+      Als je informatie opsomt, gebruik dan bullets points. Als je het antwoord niet weet, vraag de gebruiker dan om de vraag te herformuleren.
       `
     ],
     // new MessagesPlaceholder("chat_history"),
