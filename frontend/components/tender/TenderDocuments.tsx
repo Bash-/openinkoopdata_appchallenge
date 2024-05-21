@@ -9,7 +9,7 @@ export default function TenderDocuments({
   return <ul>
     {tender.documents?.map(d =>
       <li style={{ display: 'flex', alignItems: 'center', }} key={d.id}>
-        <a href={`tender/${tender.id}/documents/${d.id}`}>Chat {d.title} {d.extension}</a>
+        <a href={`tender/${tender.publicatieid}/documents/${d.id}`}>Chat {d.title} {d.extension}</a>
         <a target="blank" href={`${d.download_link}`}><DownloadIcon /></a>
       </li>)}
   </ul>

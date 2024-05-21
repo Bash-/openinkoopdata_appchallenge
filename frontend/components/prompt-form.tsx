@@ -26,7 +26,7 @@ export function PromptForm({
 }: {
   input: string
   setInput: (value: string) => void
-  tenderId: string | undefined
+  tenderId: string | number | undefined
   documentId: string | undefined
 }) {
   const router = useRouter()

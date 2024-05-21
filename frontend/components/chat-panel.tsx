@@ -19,7 +19,7 @@ export interface ChatPanelProps {
   setInput: (value: string) => void
   isAtBottom: boolean
   scrollToBottom: () => void
-  tenderId: string | undefined
+  tenderId: string | number | undefined
   documentId: string | undefined
 }
 
@@ -78,7 +78,7 @@ export function ChatPanel({
   const documentExampleMessages = [
     {
       heading: "Vat dit document samen",
-      subHeading: 'en geef in bullet points alle duurzaamheidskwalificaties aan',
+      subheading: 'en geef in bullet points alle duurzaamheidskwalificaties aan',
       message: "Vat dit document samen en geef in bullet points alle duurzaamheidskwalificaties aan"
     }
   ]

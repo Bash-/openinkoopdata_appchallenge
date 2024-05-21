@@ -4,16 +4,16 @@ import {
   Tender
 } from './types';
 
-const datefilter = (min_date: Date, max_date: Date) => {
+const datefilter = (min_date: string, max_date: string) => {
   let whereClause = '';
   if (min_date) {
-    whereClause += `publicatiedatum >= ${sql(min_date)} `;
+    whereClause += `publicatiedatum >= '${min_date}' `;
   }
   if (max_date) {
     if (whereClause.length > 0) {
       whereClause += 'AND ';
     }
-    whereClause += `publicatiedatum <= ${sql(max_date)} `;
+    whereClause += `publicatiedatum <= '${max_date}' `;
   }
 
   return whereClause
@@ -29,8 +29,8 @@ const textFilter = (query: string) => {
 const ITEMS_PER_PAGE = 6;
 export async function fetchFilteredTenders(
   query: string,
-  min_date: Date,
-  max_date: Date,
+  min_date: string,
+  max_date: string,
   currentPage: number,
 ) {
   let whereClause = datefilter(min_date, max_date)
@@ -53,7 +53,7 @@ export async function fetchFilteredTenders(
   }
 }
 
-export async function fetchTendersPages(query: string, min_date: Date, max_date: Date) {
+export async function fetchTendersPages(query: string, min_date: string, max_date: string) {
   try {
     const count = await sql`SELECT COUNT(*) FROM publications -- INCLUDE WHERE FILTERS`;
 

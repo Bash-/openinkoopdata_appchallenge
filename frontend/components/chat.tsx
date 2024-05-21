@@ -18,9 +18,9 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   id?: string
   session?: Session
   missingKeys: string[]
-  tenderId?: string | undefined
+  tenderId?: string | number | undefined
   documentId?: string | undefined
-  showEmptyScreen: boolean;
+  showEmptyScreen?: boolean;
 }
 
 export function Chat({ id, tenderId, documentId, className, session, missingKeys, showEmptyScreen = true }: ChatProps) {

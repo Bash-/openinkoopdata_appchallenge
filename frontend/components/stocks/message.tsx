@@ -112,11 +112,14 @@ export function BotCard({
 export function SourcesMessage({
   content,
   className
+}: {
+  content: string,
+  className: string,
 }) {
   if (!content) {
     return <></>
   }
-  
+
   const docs = JSON.parse(content)
   console.log(docs)
   return <p>{docs[0].title}</p>

@@ -9,8 +9,8 @@ export default async function SearchResults({
   currentPage,
 }: {
   q: string;
-  min_date: Date,
-  max_date: Date,
+  min_date: string,
+  max_date: string,
   currentPage: number;
   // ...
 }) {
