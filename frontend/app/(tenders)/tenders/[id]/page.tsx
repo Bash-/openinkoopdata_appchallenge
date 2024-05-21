@@ -1,7 +1,6 @@
 import { getChat, getMissingKeys } from "@/app/actions";
 import { auth } from "@/auth";
 import { Chat } from "@/components/chat";
-import TenderDocuments from "@/components/tender/TenderDocuments";
 import { AI } from "@/lib/chat/actions";
 import { fetchTenderById } from "@/lib/data";
 import { Session, Tender } from '@/lib/types';
@@ -19,11 +18,8 @@ export default async function TenderDetailPage({
   const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
 
-  console.log(tender)
-
-
   if (!tender) return notFound();
-  const chatId = `tender:${params.id}`
+  const chatId = `tender${params.id}`
   const chat = await getChat(chatId, session?.user.id)
 
   // if we have a chat, but this user is not the one chatting, return not found
@@ -33,15 +29,23 @@ export default async function TenderDetailPage({
 
   return (
     <div className="mx-auto max-w-screen-2xl px-4">
-      <h2>Tender info</h2>
-      <p>{tender.summary}</p>
-      <h2>Documenten</h2>
-      <TenderDocuments tender={tender} />
+      {!chat?.messages && <div className="mx-auto max-w-2xl px-4">
+        <div className="flex flex-col gap-2 rounded-lg border bg-background p-8">
+          <h1 className="text-lg font-semibold">
+            {tender.aanbestedingnaam}
+          </h1>
+          <p className="leading-normal text-muted-foreground">
+            {tender.opdrachtbeschrijving}
+          </p>
+        </div>
+      </div>
+      }
 
-      {!session && <p><Link href={`/login?next=/tenders/${tender.publicatie_id}/`}>Login to chat</Link></p>}
+      {!session && <p><Link href={`/login?next=/tenders/${tender.publicatieid}/`}>Login to chat</Link></p>}
       {session && <AI initialAIState={{ chatId: chatId, messages: chat?.messages ?? [] }}>
         <Chat
-          tenderId={tender.publicatie_id}
+          showEmptyScreen={false}
+          tenderId={tender.publicatieid}
           id={chatId}
           session={session}
           initialMessages={chat?.messages ?? []}

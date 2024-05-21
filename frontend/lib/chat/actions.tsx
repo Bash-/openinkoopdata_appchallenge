@@ -147,51 +147,56 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
 
     const history = aiState.get().messages.slice(-3) ?? [];
     console.log(tenderId, documentId, history)
-    const chain = await rag(history, tenderId, documentId)
 
-    const response = chain.streamEvents(content, { version: "v1" })
+    try {
+      const chain = await rag([], tenderId, documentId)
 
-    for await (const event of response) {
-      const eventType = event.event;
+      const response = chain.streamEvents(content, { version: "v1" })
 
-      const parseAsJson = (chunk: string, docs: Document[] = []) => {
-        return JSON.stringify({
-          answer: `${chunk}`,
-          docs
-        })
-      }
+      for await (const event of response) {
+        const eventType = event.event;
 
-      if (eventType === "on_llm_stream") {
-        textStream.update(event.data.chunk.text);
-
-      } else if (eventType === "on_chain_end") {
-        // only on final call
-        if (event.name == 'RunnableSequence' && event?.tags?.length == 0) {
-          const message = event.data.output.answer;
-          const docs = event.data.output.docs
-
-          aiState.done({
-            ...aiState.get(),
-            messages: [
-              ...aiState.get().messages,
-              {
-                id: nanoid(),
-                role: 'assistant',
-                content: message,
-              },
-              {
-                id: nanoid(),
-                role: 'sources',
-                content: JSON.stringify(docs)
-              }
-            ]
+        const parseAsJson = (chunk: string, docs: Document[] = []) => {
+          return JSON.stringify({
+            answer: `${chunk}`,
+            docs
           })
         }
-      } else if (eventType === "on_llm_end") {
-        const message = event.data.output.generations[0][0].text
 
-        textStream.done()
+        if (eventType === "on_llm_stream") {
+          textStream.update(event.data.chunk.text);
+
+        } else if (eventType === "on_chain_end") {
+          // only on final call
+          if (event.name == 'RunnableSequence' && event?.tags?.length == 0) {
+            const message = event.data.output.answer;
+            const docs = event.data.output.docs
+
+            aiState.done({
+              ...aiState.get(),
+              messages: [
+                ...aiState.get().messages,
+                {
+                  id: nanoid(),
+                  role: 'assistant',
+                  content: message,
+                },
+                {
+                  id: nanoid(),
+                  role: 'sources',
+                  content: JSON.stringify(docs)
+                }
+              ]
+            })
+          }
+        } else if (eventType === "on_llm_end") {
+          const message = event.data.output.generations[0][0].text
+
+          textStream.done()
+        }
       }
+    } catch (e) {
+      console.error(e)
     }
 
   })

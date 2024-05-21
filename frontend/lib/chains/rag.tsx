@@ -1,6 +1,5 @@
 
 import { Document } from "@langchain/core/documents";
-import { AIMessage, HumanMessage } from "@langchain/core/messages";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { RunnablePassthrough, RunnableSequence } from "@langchain/core/runnables";
@@ -23,20 +22,21 @@ const weaviateClient = (weaviate as any).client({
  */
 const formatDocs = (docs: Document[]): string => {
 
+  console.log(docs)
   const uniqueDocs = [...new Map(docs.map(d =>
     [`${d.metadata.page_number}-${d.metadata.tenderId}-${d.metadata.source}`, d])).values()];
 
-  return (
+  const context =
     "\n\n" +
     uniqueDocs
       .map(
         (doc: Document) =>
-          `Tender titel: ${doc.metadata.tenderId}, bron: ${doc.metadata.source}, pagina: ${doc.metadata.page_number}\nTender Snippet:\n ${doc.pageContent}`
+          `Tender titel: ${doc.metadata.tenderId}, bron: ${doc.metadata.source}, pagina: ${doc.metadata.page_number}\nTender tekst:\n ${doc.metadata.page_content}`
       )
       .join("\n\n")
-  );
-}
 
+  return context
+}
 
 // TODO: implement citations https://js.langchain.com/docs/use_cases/question_answering/citations
 // TODO: chat history https://langchain.com/docs/use_cases/question_answering/chat_history/
@@ -44,24 +44,27 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
   const prompt = ChatPromptTemplate.fromMessages([
     [
       "system",
-      `U bent een QA bot voor Tender aanvragen voor de nederlandse markt.
-      Beantwoord de vragen van de gebruiker over tenders, als er specifieke tender ids worden genoemd in de vraag, dan kunt u de context gebruiken.
-      HARDE EISEN voor het antwoorden:
-      - Geef naast het noemen van een bron ook altijd antwoord op de vraag, noem niet alleen de bron
-      - Als u verwijst naar informatie van de Rijksoverheid, maak dit dan expliciet.
+      `${tenderId ? `Dit is een vraag over een specifieke tender van de gebruiker met id ${tenderId}. Beantwoord deze vraag met de context die hieronder gegeven wordt, dit zijn documenten die geüpload zijn bij deze tender` : `U bent een QA bot voor Tender aanvragen voor de nederlandse markt`}.
       \n\n
       Dit is relevante tender informatie: {context}
+      \n\n
+      Vat de kerntekst samen in bulletpoints
       `
     ],
     // new MessagesPlaceholder("chat_history"),
     ["human", "{question}"],
   ]);
 
-  const history_mapped_to_langchain = chat_history.map((m) => {
-    if (m.role == "user") return new HumanMessage(m.content)
-    if (m.role == "assistant" || m.role == "system") return new AIMessage(m.content)
-    return new AIMessage(m.content)
-  })
+  console.error(tenderId, documentId)
+
+  // const history_mapped_to_langchain = chat_history.map((m) => {
+  //   if (m.role == "user") return new HumanMessage({ content: m.content })
+  //   if (m.role == "assistant" || m.role == "system") return new AIMessage({ content: m.content })
+  //   return new AIMessage({ content: m.content })
+  // })
+
+  // console.log(history_mapped_to_langchain)
+
 
   // better modelling: https://forum.weaviate.io/t/return-unique-file-when-search-large-documents/163/2
   // const response = await weaviateClient.graphql
@@ -112,16 +115,17 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
     }
   }
 
+  console.log(filters)
 
   const retriever = store.asRetriever({
-    k: documentId ? 1 : tenderId ? 5 : 10,
-    searchType: "mmr",
+    k: documentId ? 1 : tenderId ? 12 : 12,
     filter: filters,
     verbose: true,
-    searchKwargs: {
-      lambda: 0.1,
-      fetchK: documentId ? 1 : tenderId ? 100 : 10,
-    },
+    // verbose: true,
+    // searchKwargs: {
+    //   lambda: 1,
+    //   fetchK: documentId ? 1 : tenderId ? 10 : 10,
+    // },
   })
 
   const llm = new ChatOpenAI({
@@ -138,6 +142,8 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
   ]).pick([
     "answer", "docs"
   ]);
+
+  console.log(chain)
 
   return chain
 

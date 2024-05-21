@@ -5,9 +5,18 @@ import {
 } from './types';
 
 const datefilter = (min_date: Date, max_date: Date) => {
-  return `${min_date && max_date ? `AND date BETWEEN ${min_date} AND ${max_date}` : ''}
-  ${min_date && !max_date ? `AND date >= ${min_date}` : ''}
-  ${!min_date && max_date ? `AND date <= ${min_date}` : ''}`
+  let whereClause = '';
+  if (min_date) {
+    whereClause += `publicatiedatum >= ${sql(min_date)} `;
+  }
+  if (max_date) {
+    if (whereClause.length > 0) {
+      whereClause += 'AND ';
+    }
+    whereClause += `publicatiedatum <= ${sql(max_date)} `;
+  }
+
+  return whereClause
 }
 
 const textFilter = (query: string) => {
@@ -24,16 +33,16 @@ export async function fetchFilteredTenders(
   max_date: Date,
   currentPage: number,
 ) {
+  let whereClause = datefilter(min_date, max_date)
+
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
+
     const tenders = await sql<Tender>`
       SELECT
-        publicatieid
-        -- aanbestedendedienstnaam,
-        -- sluitingsdatum,
-        -- opdrachtgevernaam
+        *
       FROM publications
-      -- ORDER BY publicatiedatum ASC
+      ORDER BY publicatiedatum DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
 
@@ -60,11 +69,7 @@ export async function fetchTenderById(id: string) {
   try {
     const data = await sql<Tender>`
       SELECT
-        publications.publicatieid
-        -- publications.opdrachtbeschrijving,
-        -- publications.publicatiedatum,
-        -- publications.sluitingsdatum,
-        -- # tenders.documents,
+        *
       FROM publications
       -- INNER JOIN documents on ...
       WHERE publications.publicatieid = ${id}

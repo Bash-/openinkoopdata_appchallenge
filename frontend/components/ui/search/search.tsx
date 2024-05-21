@@ -30,7 +30,12 @@ export default function Search({ }) {
   const handleDateChanged = (dates: DateRange) => {
 
     const params = new URLSearchParams(searchParams);
-    const urlFormatDate = (date: Date) => `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+    const urlFormatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
 
     if (dates?.from) {
 
