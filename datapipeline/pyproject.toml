@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-requests = "^2.31.0"
+requests = "^2.32.0"
 delta = "^0.4.2"
 polars = "^0.20.17"
 deltalake = "^0.16.3"
