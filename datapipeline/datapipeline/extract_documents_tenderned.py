@@ -14,15 +14,18 @@ document_base_url = "https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicati
 today = datetime.date.today() - datetime.timedelta(days=1)
 print(today)
 
-gcp_path = "gs://aitenderportaal-storage/clean/publications/"
+df = pl.read_database_uri(
+    query=f"SELECT * FROM publications WHERE date(publicatiedatum) = TO_DATE('{today}', 'YYYY-MM-DD')",
+    uri=os.getenv("POSTGRES_CONNECTION_STRING")
+)
 
-df = pl.read_delta(gcp_path, storage_options={"service_account": "gcp_serviceaccount.json"})
-df = df.filter(pl.col("publicatieDatum") == today)
 
 # TODO TEMPORARY: limit the number of publications to 5
 df = df.head(5)
+print(df)
 
-for publicatie_id in df.select("publicatieId").to_series():
+for publicatie_id in df.select("publicatieid").to_series():
+    publicatie_id = str(publicatie_id)
     print("Downloading documents for publicatie:", publicatie_id)
     document_url = f"{document_base_url}{publicatie_id}/documenten/zip"
     print(document_url)
@@ -60,4 +63,3 @@ for publicatie_id in df.select("publicatieId").to_series():
             upload_file_to_gcp(file_path, 'aitenderportaal-storage', destination_blob_name)
     
     insert_to_vectordb(local_directory, publicatie_id)
-            
