@@ -3,6 +3,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 import weaviate
 import os
 from dotenv import load_dotenv
+import psycopg2
+import requests
+
 
 load_dotenv()
   
@@ -31,6 +34,7 @@ def insert_to_vectordb(pdf_folder_path, tenderId: str) -> None:
     print(f"Inserting documents to Weaviate for tenderId: {tenderId}")
     
     documents = []
+    document_names = []
     for dirName, subdirList, fileList in os.walk(pdf_folder_path):
         print(f"Found directory: {dirName}")
         for fname in fileList:
@@ -68,3 +72,58 @@ def insert_to_vectordb(pdf_folder_path, tenderId: str) -> None:
         print(collection.batch.failed_objects[0].message)
     else:
         print("Batch uploaded successfully")
+
+        
+def insert_document_metadata_to_postgres(tenderId: str) -> None:
+    """
+    Insert the document ids to the Postgres database
+    :param
+    tenderId: str
+        Tender ID
+    document_ids: list
+        List of document ids
+    :return:
+        None
+    """
+    print(f"Inserting document ids to Postgres for tenderId: {tenderId}")
+    
+    try:
+        conn = psycopg2.connect(os.getenv("POSTGRES_CONNECTION_STRING"))
+    except:
+        print("I am unable to connect to the database")
+
+    # Insert the document ids to the Postgres database
+    # The code to insert the document ids to the Postgres database will be added here
+    # Write the delta table to postgres database
+    
+    # Create tenderdocuments table if it does not exist
+    document_info = requests.get(f"https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties/{tenderId}/documenten")
+    document_info = document_info.json()
+    
+    create_table_query = """
+       CREATE TABLE IF NOT EXISTS tenderdocuments
+         (
+            tenderId TEXT,
+            documentId TEXT,
+            documentNaam TEXT,
+            typeDocument TEXT,
+            datumPublicatie TEXT,
+            gepubliceerdDoor TEXT,
+            publicatieCategorie TEXT,
+            virusIndicatie BOOLEAN,
+            grootte INT,
+            downloadUrl TEXT
+         );
+    """
+    cursor = conn.cursor()
+    cursor.execute(create_table_query)
+    
+    for document in document_info["documenten"]:
+        cursor.execute(
+            f"INSERT INTO tenderdocuments VALUES ('{tenderId}', '{document['documentId']}', '{document['documentNaam']}', '{document['typeDocument']['omschrijving']}', '{document['datumPublicatie']}', '{document['gepubliceerdDoor']}', '{document['publicatieCategorie']['omschrijving']}', {document['virusIndicatie']}, {document['grootte']}, '{document['links']['download']['href']}')"
+        )
+    
+    conn.commit()
+    conn.close()
+    
+    print("Document ids inserted to Postgres")
