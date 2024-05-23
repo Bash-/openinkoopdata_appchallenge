@@ -103,16 +103,17 @@ def insert_document_metadata_to_postgres(tenderId: str) -> None:
     create_table_query = """
        CREATE TABLE IF NOT EXISTS tenderdocuments
          (
-            tenderId TEXT,
-            documentId TEXT,
-            documentNaam TEXT,
-            typeDocument TEXT,
-            datumPublicatie TEXT,
-            gepubliceerdDoor TEXT,
-            publicatieCategorie TEXT,
-            virusIndicatie BOOLEAN,
+            tenderid TEXT,
+            documentid TEXT,
+            documentnaam TEXT,
+            typedocument TEXT,
+            datumpublicatie TEXT,
+            gepubliceerddoor TEXT,
+            publicatiecategorie TEXT,
+            virusindicatie BOOLEAN,
             grootte INT,
-            downloadUrl TEXT
+            downloadurl TEXT,
+            PRIMARY KEY (tenderid, documentid)
          );
     """
     cursor = conn.cursor()
@@ -120,7 +121,19 @@ def insert_document_metadata_to_postgres(tenderId: str) -> None:
     
     for document in document_info["documenten"]:
         cursor.execute(
-            f"INSERT INTO tenderdocuments VALUES ('{tenderId}', '{document['documentId']}', '{document['documentNaam']}', '{document['typeDocument']['omschrijving']}', '{document['datumPublicatie']}', '{document['gepubliceerdDoor']}', '{document['publicatieCategorie']['omschrijving']}', {document['virusIndicatie']}, {document['grootte']}, '{document['links']['download']['href']}')"
+            f"""
+            INSERT INTO tenderdocuments (tenderid, documentid, documentnaam, typedocument, datumpublicatie, gepubliceerddoor, publicatiecategorie, virusindicatie, grootte, downloadurl) 
+            VALUES ('{tenderId}', '{document['documentId']}', '{document['documentNaam']}', '{document['typeDocument']['omschrijving']}', '{document['datumPublicatie']}', '{document['gepubliceerdDoor']}', '{document['publicatieCategorie']['omschrijving']}', {document['virusIndicatie']}, {document['grootte']}, '{document['links']['download']['href']}')
+            ON CONFLICT (tenderid, documentid) DO UPDATE SET
+            documentnaam = EXCLUDED.documentnaam,
+            typedocument = EXCLUDED.typedocument,
+            datumpublicatie = EXCLUDED.datumpublicatie,
+            gepubliceerddoor = EXCLUDED.gepubliceerddoor,
+            publicatiecategorie = EXCLUDED.publicatiecategorie,
+            virusindicatie = EXCLUDED.virusindicatie,
+            grootte = EXCLUDED.grootte,
+            downloadurl = EXCLUDED.downloadurl
+            """
         )
     
     conn.commit()

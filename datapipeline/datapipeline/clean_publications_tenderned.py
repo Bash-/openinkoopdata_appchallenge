@@ -42,7 +42,7 @@ cur = conn.cursor()
 # Define the table schema
 table_schema = """
 CREATE TABLE IF NOT EXISTS publications (
-    publicatieid BIGINT,
+    publicatieid BIGINT PRIMARY KEY,
     kenmerk BIGINT,
     aanbestedingnaam TEXT,
     aanbestedendedienstnaam TEXT,
@@ -147,11 +147,19 @@ for tenderId in tenderIds:
 
     # Only keep the data for the columns that exist in the table
     flat_data = {k: v for k, v in flat_data.items() if k in table_columns}
+    
+     # If publicatieidlaatsterectificatie exists, skip this iteration. This means that the tender is not valid anymore
+    if 'publicatieidlaatsterectificatie' in flat_data:
+        continue
 
-    # Insert the data into the database
+    # Insert the data into the database, or update the existing record if the publicatieid already exists
     columns = flat_data.keys()
     values = [flat_data[column] for column in columns]
-    insert_query = f"INSERT INTO publications ({', '.join(columns)}) VALUES %s"
+    insert_query = f"""
+    INSERT INTO publications ({', '.join(columns)}) VALUES %s
+    ON CONFLICT (publicatieid) DO UPDATE SET
+    {', '.join(f"{column} = EXCLUDED.{column}" for column in columns)}
+    """
     execute_values(cur, insert_query, [values])
 
 # Commit the transaction
