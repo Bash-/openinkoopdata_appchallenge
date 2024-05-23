@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 import psycopg2
 import requests
-
+from weaviate.classes.query import Filter
 
 load_dotenv()
   
@@ -32,6 +32,14 @@ def insert_to_vectordb(pdf_folder_path, tenderId: str) -> None:
         None
     """
     print(f"Inserting documents to Weaviate for tenderId: {tenderId}")
+    
+    # Check if the tenderId already exists in Weaviate, if so delete the existing documents first
+    collection = client.collections.get("Tender_documents")
+    deleted = collection.data.delete_many(
+        where=Filter.by_property("tenderId").equal(tenderId)
+    )
+    print("Deleted existing documents")
+    print(deleted)
     
     documents = []
     document_names = []
