@@ -1,6 +1,6 @@
 import requests
 from datapipeline.insert_documents_vectordb import insert_document_metadata_to_postgres, insert_to_vectordb
-import polars as pl
+import psycopg2
 import datetime
 import os
 from dotenv import load_dotenv
@@ -14,17 +14,19 @@ document_base_url = "https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicati
 today = datetime.date.today() - datetime.timedelta(days=1)
 print(today)
 
-df = pl.read_database_uri(
-    query=f"SELECT * FROM publications WHERE date(publicatiedatum) = TO_DATE('{today}', 'YYYY-MM-DD')",
-    uri=os.getenv("POSTGRES_CONNECTION_STRING")
-)
+# Connect to your postgres DB
+conn = psycopg2.connect(os.getenv("POSTGRES_CONNECTION_STRING"))
+cur = conn.cursor()
 
+# Get the column names from the publications table
+cur.execute(f"SELECT publicatieid FROM publications WHERE date(publicatiedatum) = TO_DATE('{today}', 'YYYY-MM-DD')")
+publicatie_ids = [row[0] for row in cur.fetchall()]
+print(publicatie_ids)
 
-# TODO TEMPORARY: limit the number of publications to 5
-df = df.head(5)
-print(df)
+conn.commit()
+conn.close()
 
-for publicatie_id in df.select("publicatieid").to_series():
+for publicatie_id in publicatie_ids:
     publicatie_id = str(publicatie_id)
     print("Downloading documents for publicatie:", publicatie_id)
     document_url = f"{document_base_url}{publicatie_id}/documenten/zip"
