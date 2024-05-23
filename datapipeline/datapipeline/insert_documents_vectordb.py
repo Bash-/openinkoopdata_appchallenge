@@ -87,56 +87,51 @@ def insert_document_metadata_to_postgres(tenderId: str) -> None:
     """
     print(f"Inserting document ids to Postgres for tenderId: {tenderId}")
     
-    try:
-        conn = psycopg2.connect(os.getenv("POSTGRES_CONNECTION_STRING"))
-    except:
-        print("I am unable to connect to the database")
-
-    # Insert the document ids to the Postgres database
-    # The code to insert the document ids to the Postgres database will be added here
-    # Write the delta table to postgres database
-    
-    # Create tenderdocuments table if it does not exist
     document_info = requests.get(f"https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties/{tenderId}/documenten")
     document_info = document_info.json()
     
-    create_table_query = """
-       CREATE TABLE IF NOT EXISTS tenderdocuments
-         (
-            tenderid TEXT,
-            documentid TEXT,
-            documentnaam TEXT,
-            typedocument TEXT,
-            datumpublicatie TEXT,
-            gepubliceerddoor TEXT,
-            publicatiecategorie TEXT,
-            virusindicatie BOOLEAN,
-            grootte INT,
-            downloadurl TEXT,
-            PRIMARY KEY (tenderid, documentid)
-         );
-    """
-    cursor = conn.cursor()
-    cursor.execute(create_table_query)
-    
-    for document in document_info["documenten"]:
-        cursor.execute(
-            f"""
-            INSERT INTO tenderdocuments (tenderid, documentid, documentnaam, typedocument, datumpublicatie, gepubliceerddoor, publicatiecategorie, virusindicatie, grootte, downloadurl) 
-            VALUES ('{tenderId}', '{document['documentId']}', '{document['documentNaam']}', '{document['typeDocument']['omschrijving']}', '{document['datumPublicatie']}', '{document['gepubliceerdDoor']}', '{document['publicatieCategorie']['omschrijving']}', {document['virusIndicatie']}, {document['grootte']}, '{document['links']['download']['href']}')
-            ON CONFLICT (tenderid, documentid) DO UPDATE SET
-            documentnaam = EXCLUDED.documentnaam,
-            typedocument = EXCLUDED.typedocument,
-            datumpublicatie = EXCLUDED.datumpublicatie,
-            gepubliceerddoor = EXCLUDED.gepubliceerddoor,
-            publicatiecategorie = EXCLUDED.publicatiecategorie,
-            virusindicatie = EXCLUDED.virusindicatie,
-            grootte = EXCLUDED.grootte,
-            downloadurl = EXCLUDED.downloadurl
-            """
-        )
-    
-    conn.commit()
-    conn.close()
-    
+    try:
+        conn = psycopg2.connect(os.getenv("POSTGRES_CONNECTION_STRING"))    
+        create_table_query = """
+        CREATE TABLE IF NOT EXISTS tenderdocuments
+            (
+                tenderid TEXT,
+                documentid TEXT,
+                documentnaam TEXT,
+                typedocument TEXT,
+                datumpublicatie TEXT,
+                gepubliceerddoor TEXT,
+                publicatiecategorie TEXT,
+                virusindicatie BOOLEAN,
+                grootte INT,
+                downloadurl TEXT,
+                PRIMARY KEY (tenderid, documentid)
+            );
+        """
+        cursor = conn.cursor()
+        cursor.execute(create_table_query)
+        
+        for document in document_info["documenten"]:
+            cursor.execute(
+                f"""
+                INSERT INTO tenderdocuments (tenderid, documentid, documentnaam, typedocument, datumpublicatie, gepubliceerddoor, publicatiecategorie, virusindicatie, grootte, downloadurl) 
+                VALUES ('{tenderId}', '{document['documentId']}', '{document['documentNaam']}', '{document['typeDocument']['omschrijving']}', '{document['datumPublicatie']}', '{document['gepubliceerdDoor']}', '{document['publicatieCategorie']['omschrijving']}', {document['virusIndicatie']}, {document['grootte']}, '{document['links']['download']['href']}')
+                ON CONFLICT (tenderid, documentid) DO UPDATE SET
+                documentnaam = EXCLUDED.documentnaam,
+                typedocument = EXCLUDED.typedocument,
+                datumpublicatie = EXCLUDED.datumpublicatie,
+                gepubliceerddoor = EXCLUDED.gepubliceerddoor,
+                publicatiecategorie = EXCLUDED.publicatiecategorie,
+                virusindicatie = EXCLUDED.virusindicatie,
+                grootte = EXCLUDED.grootte,
+                downloadurl = EXCLUDED.downloadurl
+                """
+            )
+        
+        conn.commit()
+    except:
+        print("I am unable to connect to the database")
+    finally:
+        conn.close()
+        
     print("Document ids inserted to Postgres")
