@@ -9,7 +9,6 @@ readme = "README.md"
 python = "^3.11"
 requests = "^2.31.0"
 delta = "^0.4.2"
-polars = "^0.20.17"
 deltalake = "^0.16.3"
 ipykernel = "^6.29.4"
 google-cloud-storage = "^2.16.0"
@@ -20,6 +19,9 @@ pypdf = "^4.2.0"
 weaviate-client = "^4.6.0"
 openai = "^1.28.1"
 langchain-openai = "^0.1.6"
+pandas = "^2.2.2"
+psycopg2-binary = "^2.9.9"
+connectorx = "^0.3.3"
 
 
 [build-system]

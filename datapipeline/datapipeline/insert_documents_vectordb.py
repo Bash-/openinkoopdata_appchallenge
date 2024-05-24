@@ -3,6 +3,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 import weaviate
 import os
 from dotenv import load_dotenv
+import psycopg2
+import requests
+from weaviate.classes.query import Filter
 
 load_dotenv()
   
@@ -30,7 +33,16 @@ def insert_to_vectordb(pdf_folder_path, tenderId: str) -> None:
     """
     print(f"Inserting documents to Weaviate for tenderId: {tenderId}")
     
+    # Check if the tenderId already exists in Weaviate, if so delete the existing documents first
+    collection = client.collections.get("Tender_documents")
+    deleted = collection.data.delete_many(
+        where=Filter.by_property("tenderId").equal(tenderId)
+    )
+    print("Deleted existing documents")
+    print(deleted)
+    
     documents = []
+    document_names = []
     for dirName, subdirList, fileList in os.walk(pdf_folder_path):
         print(f"Found directory: {dirName}")
         for fname in fileList:
@@ -68,12 +80,66 @@ def insert_to_vectordb(pdf_folder_path, tenderId: str) -> None:
         print(collection.batch.failed_objects[0].message)
     else:
         print("Batch uploaded successfully")
-        
 
-if __name__ == "__main__":
+        
+def insert_document_metadata_to_postgres(tenderId: str) -> None:
+    """
+    Insert the document ids to the Postgres database
+    :param
+    tenderId: str
+        Tender ID
+    document_ids: list
+        List of document ids
+    :return:
+        None
+    """
+    print(f"Inserting document ids to Postgres for tenderId: {tenderId}")
+    
+    document_info = requests.get(f"https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties/{tenderId}/documenten")
+    document_info = document_info.json()
+    
     try:
-        print(insert_to_vectordb("./data_local/raw/documents/331522/", "331522"))
-    except Exception as e:
-        print(e)
+        conn = psycopg2.connect(os.getenv("POSTGRES_CONNECTION_STRING"))    
+        create_table_query = """
+        CREATE TABLE IF NOT EXISTS tenderdocuments
+            (
+                tenderid TEXT,
+                documentid TEXT,
+                documentnaam TEXT,
+                typedocument TEXT,
+                datumpublicatie TEXT,
+                gepubliceerddoor TEXT,
+                publicatiecategorie TEXT,
+                virusindicatie BOOLEAN,
+                grootte INT,
+                downloadurl TEXT,
+                PRIMARY KEY (tenderid, documentid)
+            );
+        """
+        cursor = conn.cursor()
+        cursor.execute(create_table_query)
+        
+        for document in document_info["documenten"]:
+            cursor.execute(
+                f"""
+                INSERT INTO tenderdocuments (tenderid, documentid, documentnaam, typedocument, datumpublicatie, gepubliceerddoor, publicatiecategorie, virusindicatie, grootte, downloadurl) 
+                VALUES ('{tenderId}', '{document['documentId']}', '{document['documentNaam']}', '{document['typeDocument']['omschrijving']}', '{document['datumPublicatie']}', '{document['gepubliceerdDoor']}', '{document['publicatieCategorie']['omschrijving']}', {document['virusIndicatie']}, {document['grootte']}, '{document['links']['download']['href']}')
+                ON CONFLICT (tenderid, documentid) DO UPDATE SET
+                documentnaam = EXCLUDED.documentnaam,
+                typedocument = EXCLUDED.typedocument,
+                datumpublicatie = EXCLUDED.datumpublicatie,
+                gepubliceerddoor = EXCLUDED.gepubliceerddoor,
+                publicatiecategorie = EXCLUDED.publicatiecategorie,
+                virusindicatie = EXCLUDED.virusindicatie,
+                grootte = EXCLUDED.grootte,
+                downloadurl = EXCLUDED.downloadurl
+                """
+            )
+        
+        conn.commit()
+    except:
+        print("I am unable to connect to the database")
     finally:
-        client.close()
+        conn.close()
+        
+    print("Document ids inserted to Postgres")

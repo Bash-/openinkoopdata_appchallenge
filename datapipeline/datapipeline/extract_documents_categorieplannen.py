@@ -63,4 +63,5 @@ def extract_documents_categorieplannen():
         with open(f"data_local/raw/categorieplannen/{filename}", "wb") as f:
             f.write(response.content)
             
+
 extract_documents_categorieplannen()
