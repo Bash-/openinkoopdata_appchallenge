@@ -15,12 +15,14 @@ export default async function SearchPage({
 }: {
   searchParams?: {
     q?: string;
-    categorie?: string;
+    min_date?: string;
+    max_date?: string;
+    category?: string;
     page?: string;
   };
 }) {
-  const { q: searchValue, min_date, max_date, category } = searchParams as { [key: string]: string };
-  const currentPage = Number(searchParams?.page ?? 1) || 1;
+  const { q: searchValue, min_date, max_date, category, page } = searchParams as { [key: string]: string };
+  const currentPage = Number(page ?? 1) || 1;
 
   const totalPages = await fetchTendersPages(searchValue, min_date, max_date);
 
