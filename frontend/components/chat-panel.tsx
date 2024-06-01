@@ -69,9 +69,9 @@ export function ChatPanel({
       message: "Moet ik ISO 27001 gecertificeerd zijn om in aanmerking te komen voor deze tender?"
     },
     {
-      heading: "Rijkscategoriën",
-      subheading: "Welke rijkscategoriën zijn relevant voor deze tender?",
-      message: "Welke rijkscategoriën zoals duurzaamheid, of circulariteit zijn relevant voor deze tender?"
+      heading: "Rijkscategorieën",
+      subheading: "Welke rijkscategorieën zijn relevant voor deze tender?",
+      message: "Welke rijkscategorieën zoals duurzaamheid, of circulariteit zijn relevant voor deze tender?"
     }
   ]
 

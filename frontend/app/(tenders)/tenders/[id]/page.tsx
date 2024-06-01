@@ -28,23 +28,13 @@ export default async function TenderDetailPage({
   }
 
   return (
-    <div className="mx-auto max-w-screen-2xl px-4">
-      {!chat?.messages && <div className="mx-auto max-w-2xl px-4">
-        <div className="flex flex-col gap-2 rounded-lg border bg-background p-8">
-          <h1 className="text-lg font-semibold">
-            {tender.aanbestedingnaam}
-          </h1>
-          <p className="leading-normal text-muted-foreground">
-            {tender.opdrachtbeschrijving}
-          </p>
-        </div>
-      </div>
-      }
-
+    <>
       {!session && <p><Link href={`/login?next=/tenders/${tender.publicatieid}/`}>Login to chat</Link></p>}
       {session && <AI initialAIState={{ chatId: chatId, messages: chat?.messages ?? [] }}>
         <Chat
-          showEmptyScreen={false}
+          showEmptyScreen={true}
+          emptyScreenHeader={tender.aanbestedingnaam}
+          emptyScreenBody={tender.opdrachtbeschrijving}
           tenderId={tender.publicatieid}
           id={chatId}
           session={session}
@@ -53,5 +43,5 @@ export default async function TenderDetailPage({
         />
       </AI>}
 
-    </div>)
+    </>)
 }

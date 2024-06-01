@@ -21,9 +21,11 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   tenderId?: string | number | undefined
   documentId?: string | undefined
   showEmptyScreen?: boolean;
+  emptyScreenHeader?: string;
+  emptyScreenBody?: string;
 }
 
-export function Chat({ id, tenderId, documentId, className, session, missingKeys, showEmptyScreen = true }: ChatProps) {
+export function Chat({ id, tenderId, documentId, className, session, missingKeys, showEmptyScreen = true, emptyScreenHeader, emptyScreenBody }: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const [input, setInput] = useState('')
@@ -78,7 +80,7 @@ export function Chat({ id, tenderId, documentId, className, session, missingKeys
         {messages.length ? (
           <ChatList messages={messages} isShared={false} session={session} />
         ) : (showEmptyScreen ?
-          <EmptyScreen /> : null
+          <EmptyScreen emptyScreenHeader={emptyScreenHeader} emptyScreenBody={emptyScreenBody} /> : null
         )}
         <div className="h-px w-full" ref={visibilityRef} />
       </div>
