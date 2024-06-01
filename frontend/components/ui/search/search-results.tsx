@@ -17,6 +17,6 @@ export default async function SearchResults({
   const tenders = await fetchFilteredTenders(q, min_date, max_date, currentPage);
 
   return <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    {tenders.map(t => <SearchResultCard key={t.publicatie_id} tender={t} />)}
+    {tenders.map(t => <SearchResultCard key={t.publicatieid} tender={t} />)}
   </div>
 }
