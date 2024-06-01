@@ -1,8 +1,9 @@
 'use client'
 
-import { IconOpenAI, IconUser } from '@/components/ui/icons'
+import { IconExternalLink, IconOpenAI, IconUser } from '@/components/ui/icons'
 import { useStreamableText } from '@/lib/hooks/use-streamable-text'
 import { cn } from '@/lib/utils'
+import { Document } from '@langchain/core/documents'
 import { StreamableValue } from 'ai/rsc'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
@@ -24,68 +25,169 @@ export function UserMessage({ children }: { children: React.ReactNode }) {
   )
 }
 
-export function BotMessage({
-  content,
-  className,
+export function SourcesMessage({
+  sources
 }: {
-  content: string | StreamableValue<string>
-  className?: string,
+  sources: Document[]
 }) {
-  const text = useStreamableText(content)
-
-
+  if (sources.length === 0) {
+    return null
+  }
   return (
-    <div className={cn('group relative flex items-start md:-ml-12', className)}>
-      <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm">
-        <IconOpenAI />
-      </div>
-      <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
-        <MemoizedReactMarkdown
-          className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
-          remarkPlugins={[remarkGfm, remarkMath]}
-          components={{
-            p({ children }) {
-              return <p className="mb-2 last:mb-0">{children}</p>
-            },
-            code({ node, inline, className, children, ...props }) {
-              if (children.length) {
-                if (children[0] == '▍') {
-                  return (
-                    <span className="mt-1 animate-pulse cursor-default">▍</span>
-                  )
-                }
-
-                children[0] = (children[0] as string).replace('`▍`', '▍')
-              }
-
-              const match = /language-(\w+)/.exec(className || '')
-
-              if (inline) {
-                return (
-                  <code className={className} {...props}>
-                    {children}
-                  </code>
-                )
-              }
-
-              return (
-                <CodeBlock
-                  key={Math.random()}
-                  language={(match && match[1]) || ''}
-                  value={String(children).replace(/\n$/, '')}
-                  {...props}
-                />
-              )
-            }
-          }}
-        >
-          {text}
-        </MemoizedReactMarkdown>
+    <div className="mt-2 flex items-center justify-center gap-2 text-xs text-gray-500">
+      <div className="max-w-[600px] flex-initial p-2">
+        <div className="flex items-center gap-2">
+          <p className="text-muted-foreground">Sources:</p>
+          <ul className="flex flex-wrap gap-2">
+            {sources.map((source, index) => (
+              <li key={index}>
+                <a
+                  href={source.metadata?.id}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary underline"
+                >
+                  {source.metadata?.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   )
 }
 
+import * as Collapsible from '@radix-ui/react-collapsible'
+import { ArrowDownIcon, Cross1Icon } from '@radix-ui/react-icons'
+import React from 'react'
+
+const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
+  const [open, setOpen] = React.useState(false);
+
+  const groupedBySource = sources.reduce((acc, doc) => {
+    const source = doc.metadata.source;
+    const pageNumber = doc.metadata.page_number;
+    if (!acc[source]) {
+      acc[source] = { 'pages': new Set(), 'tenderId': doc.metadata.tenderId };
+    }
+
+    acc[source]['pages'].add(parseInt(pageNumber) + 1);
+    return acc;
+  }, {});
+
+  console.log(groupedBySource)
+  return (
+    <Collapsible.Root className="CollapsibleRoot" open={open} onOpenChange={setOpen}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Collapsible.Trigger asChild>
+          <button className="w-full text-center flex items-center justify-between text-left text-white text-blue-500 hover:text-blue-700 focus:outline-none">
+            Bekijk bronnen {open ? <Cross1Icon /> : <ArrowDownIcon />}
+          </button>
+        </Collapsible.Trigger>
+      </div>
+      <Collapsible.Content>
+        <table className="table-auto w-full mt-4 bg-white shadow-md rounded-lg overflow-hidden">
+          <thead className="bg-gray-300 text-white">
+            <tr>
+              <th className="px-4 text-gray-900 text-left py-2">Bron</th>
+              <th className="px-4 text-gray-900 text-left py-2">Pagina</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(groupedBySource).map(([source, { pages, tenderId }], index) => (
+              <tr key={source} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
+                <td className="border px-4 py-2 text-gray-900 text-left flex">
+                  <a href={`https://www.tenderned.nl/aankondigingen/overzicht/${tenderId}`} target="_blank">{source} <IconExternalLink className='inline-block' /></a>
+                </td>
+                <td className="border px-4 py-2 text-gray-900 text-left">
+                  {Array.from(pages).sort((a, b) => a - b).join(', ')}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Collapsible.Content>
+    </Collapsible.Root>
+  );
+};
+
+
+export function BotMessage({
+  content,
+  sources,
+  className,
+}: {
+  content: string | StreamableValue<string>
+  sources: string | StreamableValue<string>
+  className?: string,
+}) {
+  const text = useStreamableText(content)
+  const sourceOutput = useStreamableText(sources)
+
+  return (
+    <>
+      <div className={cn('group relative flex items-start md:-ml-12', className)}>
+        <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm">
+          <IconOpenAI />
+        </div>
+        <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
+          <MemoizedReactMarkdown
+            className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
+            remarkPlugins={[remarkGfm, remarkMath]}
+            components={{
+              p({ children }) {
+                return <p className="mb-2 last:mb-0">{children}</p>
+              },
+              code({ node, inline, className, children, ...props }) {
+                if (children.length) {
+                  if (children[0] == '▍') {
+                    return (
+                      <span className="mt-1 animate-pulse cursor-default">▍</span>
+                    )
+                  }
+
+                  children[0] = (children[0] as string).replace('`▍`', '▍')
+                }
+
+                const match = /language-(\w+)/.exec(className || '')
+
+                if (inline) {
+                  return (
+                    <code className={className} {...props}>
+                      {children}
+                    </code>
+                  )
+                }
+
+                return (
+                  <CodeBlock
+                    key={Math.random()}
+                    language={(match && match[1]) || ''}
+                    value={String(children).replace(/\n$/, '')}
+                    {...props}
+                  />
+                )
+              }
+            }}
+          >
+            {text}
+          </MemoizedReactMarkdown>
+        </div>
+      </div>
+      {sourceOutput && (<div className={cn('group relative flex items-start md:-ml-12', className)}>
+        <div className="flex size-[24px] shrink-0 select-none items-center justify-center">
+        </div>
+        <div className='ml-4 flex-1 space-y-2 overflow-hidden px-1'>
+          <SourcesCollapsible sources={JSON.parse(sourceOutput)} />
+        </div>
+      </div>
+      )}
+    </>
+  )
+}
+
+// import * as SwitchPrimitives from "@radix-ui/react-switch"
 
 export function BotCard({
   children,
@@ -109,21 +211,6 @@ export function BotCard({
   )
 }
 
-export function SourcesMessage({
-  content,
-  className
-}: {
-  content: string,
-  className: string,
-}) {
-  if (!content) {
-    return <></>
-  }
-
-  const docs = JSON.parse(content)
-  console.log(docs)
-  return <p>{docs[0].title}</p>
-}
 
 export function SystemMessage({ children }: { children: React.ReactNode }) {
   return (

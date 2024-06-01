@@ -1,8 +1,8 @@
 import { Separator } from '@/components/ui/separator'
 import { UIState } from '@/lib/chat/actions'
 import { Session } from '@/lib/types'
-import Link from 'next/link'
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
 
 export interface ChatList {
   messages: UIState
@@ -14,6 +14,8 @@ export function ChatList({ messages, session, isShared }: ChatList) {
   if (!messages.length) {
     return null
   }
+
+  console.log(messages)
 
   return (
     <div className="relative mx-auto max-w-2xl px-4">

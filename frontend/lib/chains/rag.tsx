@@ -2,7 +2,7 @@
 import { Document } from "@langchain/core/documents";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { RunnablePassthrough, RunnableSequence } from "@langchain/core/runnables";
+import { RunnableMap, RunnablePassthrough, RunnableSequence } from "@langchain/core/runnables";
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { WeaviateStore } from "@langchain/weaviate";
 import weaviate, { ApiKey } from "weaviate-ts-client";
@@ -115,8 +115,6 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
     }
   }
 
-  console.log(filters)
-
   const retriever = store.asRetriever({
     k: documentId ? 1 : tenderId ? 12 : 12,
     filter: filters,
@@ -135,16 +133,19 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
 
 
   const chain = RunnableSequence.from([
-    { context: retriever.pipe(formatDocs), question: new RunnablePassthrough() },
+    RunnablePassthrough.assign({
+      context: (input) => formatDocs(input.context),
+    }),
     prompt,
     llm,
     new StringOutputParser()
-  ]).pick([
-    "answer", "docs"
-  ]);
+  ])
 
-  console.log(chain)
+  let ragChainWithSource = new RunnableMap({
+    steps: { context: retriever, question: new RunnablePassthrough() },
+  });
+  ragChainWithSource = ragChainWithSource.assign({ answer: chain });
 
-  return chain
+  return ragChainWithSource
 
 }
