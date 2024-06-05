@@ -172,19 +172,19 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
             const docs = event.data.output.context
 
             sourcesStream.done(JSON.stringify(docs))
+            // aiState.done({
+            //   ...aiState.get(),
+            //   messages: [
+            //     ...aiState.get().messages,
+            //     {
+            //       id: nanoid(),
+            //       role: 'assistant',
+            //       content: message,
+            //     },
+            //   ]
+            // })
             textStream.done()
-
-            aiState.done({
-              ...aiState.get(),
-              messages: [
-                ...aiState.get().messages,
-                {
-                  id: nanoid(),
-                  role: 'assistant',
-                  content: message,
-                },
-              ]
-            })
+           
           }
         } else if (eventType === "on_llm_end") {
           const message = event.data.output.generations[0][0].text
