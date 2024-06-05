@@ -21,7 +21,7 @@ import OpenAI from 'openai';
 import { saveChat } from '@/app/actions';
 import { auth } from '@/auth';
 import { Events } from '@/components/stocks/events';
-import { SourcesMessage, UserMessage } from '@/components/stocks/message';
+import { UserMessage } from '@/components/stocks/message';
 import { Stocks } from '@/components/stocks/stocks';
 import { Chat } from '@/lib/types';
 import {
@@ -135,24 +135,23 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
   })
 
   let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
+  let sourcesStream: undefined | ReturnType<typeof createStreamableValue<string>>
   let textNode: undefined | React.ReactNode
-  let docsNode: undefined | React.ReactNode
 
   runAsyncFnWithoutBlocking(async () => {
 
-    if (!textStream) {
+    if (!textStream || !sourcesStream) {
       textStream = createStreamableValue('')
-      textNode = <BotMessage content={textStream.value} />
+      sourcesStream = createStreamableValue('')
+      textNode = <BotMessage content={textStream.value} sources={sourcesStream.value} />
     }
 
     const history = aiState.get().messages.slice(-3) ?? [];
     console.log(tenderId, documentId, history)
-
     try {
       const chain = await rag([], tenderId, documentId)
 
       const response = chain.streamEvents(content, { version: "v1" })
-
       for await (const event of response) {
         const eventType = event.event;
 
@@ -170,29 +169,26 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
           // only on final call
           if (event.name == 'RunnableSequence' && event?.tags?.length == 0) {
             const message = event.data.output.answer;
-            const docs = event.data.output.docs
+            const docs = event.data.output.context
 
-            aiState.done({
-              ...aiState.get(),
-              messages: [
-                ...aiState.get().messages,
-                {
-                  id: nanoid(),
-                  role: 'assistant',
-                  content: message,
-                },
-                {
-                  id: nanoid(),
-                  role: 'sources',
-                  content: JSON.stringify(docs)
-                }
-              ]
-            })
+            sourcesStream.done(JSON.stringify(docs))
+            // aiState.done({
+            //   ...aiState.get(),
+            //   messages: [
+            //     ...aiState.get().messages,
+            //     {
+            //       id: nanoid(),
+            //       role: 'assistant',
+            //       content: message,
+            //     },
+            //   ]
+            // })
+            textStream.done()
+           
           }
         } else if (eventType === "on_llm_end") {
           const message = event.data.output.generations[0][0].text
-
-          textStream.done()
+          console.log('llm end')
         }
       }
     } catch (e) {
@@ -203,7 +199,7 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
 
   return {
     id: nanoid(),
-    display: textNode
+    display: textNode,
   }
 
 }
@@ -213,7 +209,7 @@ export type Message = {
   content: string
   id: string
   name?: string
-  docs?: Document[]
+  sources?: Document[]
 }
 
 export type AIState = {
@@ -224,6 +220,7 @@ export type AIState = {
 export type UIState = {
   id: string
   display: React.ReactNode
+  sources: Document[]
 }[]
 
 export const AI = createAI<AIState, UIState>({
@@ -304,8 +301,6 @@ export const getUIStateFromAIState = (aiState: Chat) => {
           ) : null
         ) : message.role === 'user' ? (
           <UserMessage>{message.content}</UserMessage>
-        ) : message.role === "sources" ? (
-          <SourcesMessage docs={JSON.parse(message.content)}></SourcesMessage>
         ) : (
           <BotMessage content={message.content} />
         )
