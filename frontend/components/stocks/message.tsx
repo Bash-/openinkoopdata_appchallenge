@@ -81,7 +81,7 @@ const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
     <Collapsible.Root className="CollapsibleRoot" open={open} onOpenChange={setOpen}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Collapsible.Trigger asChild>
-          <button className="w-full text-center flex items-center justify-between text-left text-white text-blue-500 hover:text-blue-700 focus:outline-none">
+          <button className="w-full flex items-center justify-between text-left text-blue-500 hover:text-blue-700 focus:outline-none">
             Bekijk bronnen {open ? <Cross1Icon /> : <ArrowDownIcon />}
           </button>
         </Collapsible.Trigger>
