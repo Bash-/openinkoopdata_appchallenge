@@ -32,7 +32,7 @@ with open(f"data_local/raw/publications/{today}/publications.json") as f:
     
         
 # TODO amount tenderIds limited to 5 for testing purposes
-tenderIds = tenderIds[:5]
+tenderIds = tenderIds[:20]
 print("Going to load tenderIds:", tenderIds)
 
 # Connect to your postgres DB
@@ -133,35 +133,43 @@ cur.execute("SELECT column_name FROM information_schema.columns WHERE table_name
 table_columns = [row[0] for row in cur.fetchall()]
 
 for tenderId in tenderIds:
-    print("Inserting", tenderId)
-    # Fetch the publication details
-    url = f"https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties/{tenderId}/"
-    response = requests.get(url)
+    tender_document_url = f"https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties/{tenderId}/documenten"
+    response = requests.get(tender_document_url)
     data = response.json()
-
-    # Flatten the JSON data
-    flat_data = flatten_json(data)
-
-    # Filter out any values that are lists
-    flat_data = {k: v for k, v in flat_data.items() if not isinstance(v, list)}
-
-    # Only keep the data for the columns that exist in the table
-    flat_data = {k: v for k, v in flat_data.items() if k in table_columns}
     
-     # If publicatieidlaatsterectificatie exists, skip this iteration. This means that the tender is not valid anymore
-    if 'publicatieidlaatsterectificatie' in flat_data:
-        continue
+    if len(data.get("documenten")) > 0:
+        print("Inserting", tenderId)
+        # Fetch the publication details
+        url = f"https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties/{tenderId}/"
+        response = requests.get(url)
+        data = response.json()
 
-    # Insert the data into the database, or update the existing record if the publicatieid already exists
-    columns = flat_data.keys()
-    values = [flat_data[column] for column in columns]
-    insert_query = f"""
-    INSERT INTO publications ({', '.join(columns)}) VALUES %s
-    ON CONFLICT (publicatieid) DO UPDATE SET
-    {', '.join(f"{column} = EXCLUDED.{column}" for column in columns)}
-    """
-    execute_values(cur, insert_query, [values])
+        # Flatten the JSON data
+        flat_data = flatten_json(data)
+
+        # Filter out any values that are lists
+        flat_data = {k: v for k, v in flat_data.items() if not isinstance(v, list)}
+
+        # Only keep the data for the columns that exist in the table
+        flat_data = {k: v for k, v in flat_data.items() if k in table_columns}
+        
+        # If publicatieidlaatsterectificatie exists, skip this iteration. This means that the tender is not valid anymore
+        if 'publicatieidlaatsterectificatie' in flat_data:
+            continue
+
+        # Insert the data into the database, or update the existing record if the publicatieid already exists
+        columns = flat_data.keys()
+        values = [flat_data[column] for column in columns]
+        insert_query = f"""
+        INSERT INTO publications ({', '.join(columns)}) VALUES %s
+        ON CONFLICT (publicatieid) DO UPDATE SET
+        {', '.join(f"{column} = EXCLUDED.{column}" for column in columns)}
+        """
+        execute_values(cur, insert_query, [values])
+    else:
+        print("No documents found for", tenderId, "so skipping this tender")
 
 # Commit the transaction
 conn.commit()
+cur.close()
 conn.close()
