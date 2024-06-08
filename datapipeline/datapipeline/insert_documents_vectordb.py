@@ -1,4 +1,4 @@
-from langchain_community.document_loaders import PyPDFLoader, TextLoader
+from langchain_community.document_loaders import PyPDFLoader, TextLoader, Docx2txtLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import weaviate
 import os
@@ -24,10 +24,10 @@ client = weaviate.connect_to_wcs(
 
 def insert_to_vectordb(folder_path, tenderId: str) -> None:
     """
-    Load pdfs from a folder, chunk them and persist them in the Weaviate Vector store
+    Load files from a folder, chunk them and persist them in the Weaviate Vector store
     :param
-    pdf_folder_path: str
-        Path to the folder with pdfs
+    folder_path: str
+        Path to the folder with files
     :return:
         None
     """
@@ -52,6 +52,9 @@ def insert_to_vectordb(folder_path, tenderId: str) -> None:
                 documents.extend(loader.load())
             elif fname.endswith('.txt'):
                 loader = TextLoader(file_path)
+                documents.extend(loader.load())
+            elif fname.endswith('.docx'):
+                loader = Docx2txtLoader(file_path)
                 documents.extend(loader.load())
     
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=10)
