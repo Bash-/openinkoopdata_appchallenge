@@ -1,5 +1,6 @@
 import requests
 import os
+from datapipeline.insert_documents_vectordb import insert_to_vectordb
 
 urls: list = [
     {
@@ -16,7 +17,7 @@ urls: list = [
     },
     {
         "categorie": "Consumptieve Dienstverlening",
-        "url": "https://www.rijksoverheid.nl/onderwerpen/zakendoen-met-het-rijk/documenten/rapporten/2022/06/30/strategisch-categorieplan-consumptieve-dienstverlening"
+        "url": "https://www.rijksoverheid.nl/binaries/rijksoverheid/documenten/rapporten/2022/06/30/strategisch-categorieplan-consumptieve-dienstverlening/Strategisch+Categorieplan+Consumptieve+Dienstverlening+toegankelijk.pdf"
     },
     {
         "categorie": "Duurzame Inzetbaarheid",
@@ -51,17 +52,26 @@ def extract_documents_categorieplannen():
         os.makedirs("data_local/raw/categorieplannen")
     
     for url in urls:
-        response = requests.get(url["url"])
-        # Check if contents of response is a pdf
-        if response.headers["Content-Type"] != "application/pdf":
-            print(f"Could not extract pdf for Categorieplan {url['categorie']} from {url['url']}")
-            continue
-        
-        # Replace spaces with underscores and replace & with 'en'
         filename = url["categorie"].replace(" ", "_").replace("&", "en") + ".pdf"
         
-        with open(f"data_local/raw/categorieplannen/{filename}", "wb") as f:
-            f.write(response.content)
+        # Check if categorieplan already exists
+        if not os.path.exists(f"data_local/raw/categorieplannen/{filename}"):
+            print(f"Extracting pdf for Categorieplan {url['categorie']} from {url['url']}")
+            response = requests.get(url["url"])
+            # Check if contents of response is a pdf
+            if "application/pdf" not in response.headers["Content-Type"]:
+                print(f"Could not extract pdf for Categorieplan {url['categorie']} from {url['url']}")
+                print(f"Content-Type: {response.headers['Content-Type']}")
+                continue
+            
+            # Replace spaces with underscores and replace & with 'en'
+            
+            with open(f"data_local/raw/categorieplannen/{filename}", "wb") as f:
+                f.write(response.content)
+        else:
+            print(f"Pdf for Categorieplan {url['categorie']} already exists")
+    
+    insert_to_vectordb('data_local/raw/categorieplannen', 'categorieplannen')
             
 
 extract_documents_categorieplannen()

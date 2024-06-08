@@ -63,23 +63,6 @@ collections = [
                 data_type=DataType.TEXT,
             ),
         ],
-    },
-    {
-        "name": "rijksoverheid_documents",
-        "properties": [
-            Property(
-                name="source",
-                data_type=DataType.TEXT,
-            ),
-            Property(
-                name="page_number",
-                data_type=DataType.TEXT,
-            ),
-            Property(
-                name="page_content",
-                data_type=DataType.TEXT,
-            ),
-        ],
     }
 ]
 

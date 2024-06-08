@@ -1,6 +1,8 @@
 import requests
 import os
 
+from datapipeline.insert_documents_vectordb import insert_to_vectordb
+
 urls: list = [
     {
         "name": "Besluit vaststelling Algemene Rijksvoorwaarden voor inkoop (ARBIT-2018, ARIV-2018 en ARVODI-2018)",
@@ -22,12 +24,19 @@ def extract_documents_voorwaarden():
         os.makedirs("data_local/raw/rijksvoorwaarden")
     
     for url in urls:
-        response = requests.get(url["url"])
+        filename = url["name"].replace(" ", "_").replace("&", "en") + ".txt"
         
-        # Replace spaces with underscores and replace & with 'en'
-        filename = url["name"].replace(" ", "_").replace("&", "en")
-        with open(f"data_local/raw/rijksvoorwaarden/{filename}.txt", "w") as f:
-            f.write(response.text)
-            print(f"Extracted {url['name']} to data_local/raw/rijksvoorwaarden/{filename}.txt")
+        # Check if Rijksvoorwaarde document already exists
+        if not os.path.exists(f"data_local/raw/rijksvoorwaarden/{filename}"):
+            response = requests.get(url["url"])
+            
+            # Replace spaces with underscores and replace & with 'en'
+            with open(f"data_local/raw/rijksvoorwaarden/{filename}", "w") as f:
+                f.write(response.text)
+                print(f"Extracted {url['name']} to data_local/raw/rijksvoorwaarden/{filename}")
+        else:
+            print(f"File for Rijksvoorwaarde {url['name']} already exists")
+    
+    insert_to_vectordb('data_local/raw/rijksvoorwaarden', 'rijksvoorwaarden')
 
 extract_documents_voorwaarden()

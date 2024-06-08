@@ -1,4 +1,4 @@
-from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import weaviate
 import os
@@ -22,7 +22,7 @@ client = weaviate.connect_to_wcs(
     }
 )
 
-def insert_to_vectordb(pdf_folder_path, tenderId: str) -> None:
+def insert_to_vectordb(folder_path, tenderId: str) -> None:
     """
     Load pdfs from a folder, chunk them and persist them in the Weaviate Vector store
     :param
@@ -42,14 +42,16 @@ def insert_to_vectordb(pdf_folder_path, tenderId: str) -> None:
     print(deleted)
     
     documents = []
-    document_names = []
-    for dirName, subdirList, fileList in os.walk(pdf_folder_path):
+    for dirName, subdirList, fileList in os.walk(folder_path):
         print(f"Found directory: {dirName}")
         for fname in fileList:
+            print(f" \t Found file {fname}")
+            file_path = os.path.join(folder_path, fname)
             if fname.endswith('.pdf'):
-                print(f" \t Found file {fname}")
-                pdf_path = os.path.join(pdf_folder_path, fname)
-                loader = PyPDFLoader(pdf_path)
+                loader = PyPDFLoader(file_path)
+                documents.extend(loader.load())
+            elif fname.endswith('.txt'):
+                loader = TextLoader(file_path)
                 documents.extend(loader.load())
     
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=10)
@@ -68,9 +70,11 @@ def insert_to_vectordb(pdf_folder_path, tenderId: str) -> None:
             properties = {
                 "tenderId": tenderId,
                 "source": source,
-                "page_number": str(document.metadata["page"]),
                 "page_content": document.page_content,
             }
+            
+            if document.metadata.get("page"):
+                properties["page_number"] = str(document.metadata.get("page"))
 
             batch.add_object(
                 properties=properties
