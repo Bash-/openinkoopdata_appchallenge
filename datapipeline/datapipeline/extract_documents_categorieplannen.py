@@ -17,7 +17,7 @@ urls: list = [
     },
     {
         "categorie": "Consumptieve Dienstverlening",
-        "url": "https://www.rijksoverheid.nl/onderwerpen/zakendoen-met-het-rijk/documenten/rapporten/2022/06/30/strategisch-categorieplan-consumptieve-dienstverlening"
+        "url": "https://www.rijksoverheid.nl/binaries/rijksoverheid/documenten/rapporten/2022/06/30/strategisch-categorieplan-consumptieve-dienstverlening/Strategisch+Categorieplan+Consumptieve+Dienstverlening+toegankelijk.pdf"
     },
     {
         "categorie": "Duurzame Inzetbaarheid",
@@ -59,8 +59,9 @@ def extract_documents_categorieplannen():
             print(f"Extracting pdf for Categorieplan {url['categorie']} from {url['url']}")
             response = requests.get(url["url"])
             # Check if contents of response is a pdf
-            if response.headers["Content-Type"] != "application/pdf":
+            if "application/pdf" not in response.headers["Content-Type"]:
                 print(f"Could not extract pdf for Categorieplan {url['categorie']} from {url['url']}")
+                print(f"Content-Type: {response.headers['Content-Type']}")
                 continue
             
             # Replace spaces with underscores and replace & with 'en'
