@@ -9,6 +9,8 @@ from google.cloud import storage
 from psycopg2.extensions import AsIs, register_adapter
 from psycopg2.extras import Json, execute_values
 
+from datapipeline.insert_documents_vectordb import insert_tender_metadata_to_vectordb
+
 register_adapter(dict, Json)
 
 load_dotenv()
@@ -166,6 +168,9 @@ for tenderId in tenderIds:
         {', '.join(f"{column} = EXCLUDED.{column}" for column in columns)}
         """
         execute_values(cur, insert_query, [values])
+        
+        # Insert the publicatie metadata into the vector database as well
+        insert_tender_metadata_to_vectordb(tenderId, flat_data)
     else:
         print("No documents found for", tenderId, "so skipping this tender")
 
