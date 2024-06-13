@@ -1,7 +1,7 @@
 
 import { Document } from "@langchain/core/documents";
 import { StringOutputParser } from "@langchain/core/output_parsers";
-import { ChatPromptTemplate } from "@langchain/core/prompts";
+import {ChatPromptTemplate, MessagesPlaceholder} from "@langchain/core/prompts";
 import { RunnableMap, RunnablePassthrough, RunnableSequence } from "@langchain/core/runnables";
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { WeaviateStore } from "@langchain/weaviate";
@@ -22,7 +22,7 @@ const weaviateClient = (weaviate as any).client({
  */
 const formatDocs = (docs: Document[]): string => {
 
-  console.log(docs)
+  // console.log(docs)
   const uniqueDocs = [...new Map(docs.map(d =>
     [`${d.metadata.page_number}-${d.metadata.tenderId}-${d.metadata.source}`, d])).values()];
 
@@ -52,6 +52,15 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
       `
     ],
     // new MessagesPlaceholder("chat_history"),
+    ["human", "{question}"],
+  ]);
+
+  const contextualize_prompt = ChatPromptTemplate.fromMessages([
+    [
+      "system",
+      "U bent een QA bot voor Tender aanvragen voor de nederlandse markt. Gegeven een chatgeschiedenis en de laatste vraag van de gebruiker, die mogelijk verwijst naar context in de chatgeschiedenis, formuleer een op zichzelf staande vraag die begrepen kan worden zonder de chatgeschiedenis. Beantwoord de vraag niet, formuleer deze alleen opnieuw indien nodig en anders retourneer deze zoals deze is."
+    ],
+    new MessagesPlaceholder("chat_history"),
     ["human", "{question}"],
   ]);
 
@@ -116,6 +125,17 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
   }
 
   const retriever = store.asRetriever({
+    k: documentId ? 1 : tenderId ? 12 : 12,
+    filter: filters,
+    verbose: true,
+    // verbose: true,
+    // searchKwargs: {
+    //   lambda: 1,
+    //   fetchK: documentId ? 1 : tenderId ? 10 : 10,
+    // },
+  })
+
+  const history_aware_retriever = store.asRetriever({
     k: documentId ? 1 : tenderId ? 12 : 12,
     filter: filters,
     verbose: true,
