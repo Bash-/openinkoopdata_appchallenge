@@ -32,6 +32,7 @@ import {
 } from '@/lib/utils';
 import React from 'react';
 import { rag } from '../chains/rag';
+import { Message } from '@/lib/types';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || ''
@@ -155,13 +156,6 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
       for await (const event of response) {
         const eventType = event.event;
 
-        const parseAsJson = (chunk: string, docs: Document[] = []) => {
-          return JSON.stringify({
-            answer: `${chunk}`,
-            docs
-          })
-        }
-
         if (eventType === "on_llm_stream") {
           textStream.update(event.data.chunk.text);
 
@@ -172,19 +166,20 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
             const docs = event.data.output.context
 
             sourcesStream.done(JSON.stringify(docs))
-            // aiState.done({
-            //   ...aiState.get(),
-            //   messages: [
-            //     ...aiState.get().messages,
-            //     {
-            //       id: nanoid(),
-            //       role: 'assistant',
-            //       content: message,
-            //     },
-            //   ]
-            // })
+            aiState.done({
+              ...aiState.get(),
+              messages: [
+                ...aiState.get().messages,
+                {
+                  id: nanoid(),
+                  role: 'assistant',
+                  content: message,
+                  sources: JSON.stringify(docs)
+                },
+              ]
+            })
             textStream.done()
-           
+
           }
         } else if (eventType === "on_llm_end") {
           const message = event.data.output.generations[0][0].text
@@ -204,13 +199,6 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
 
 }
 
-export type Message = {
-  role: 'user' | 'assistant' | 'system' | 'function' | 'data' | 'tool' | 'sources'
-  content: string
-  id: string
-  name?: string
-  sources?: Document[]
-}
 
 export type AIState = {
   chatId: string
@@ -220,17 +208,16 @@ export type AIState = {
 export type UIState = {
   id: string
   display: React.ReactNode
-  sources: Document[]
 }[]
 
 export const AI = createAI<AIState, UIState>({
   actions: {
     submitUserMessage,
-    confirmPurchase
+    // confirmPurchase
   },
   initialUIState: [],
   initialAIState: { chatId: nanoid(), messages: [] },
-  unstable_onGetUIState: async () => {
+  onGetUIState: async () => {
     'use server'
 
     const session = await auth()
@@ -246,7 +233,7 @@ export const AI = createAI<AIState, UIState>({
       return
     }
   },
-  unstable_onSetAIState: async ({ state, done }) => {
+  onSetAIState: async ({ state, done }) => {
     'use server'
 
     const session = await auth()
@@ -278,31 +265,33 @@ export const AI = createAI<AIState, UIState>({
 export const getUIStateFromAIState = (aiState: Chat) => {
   return aiState.messages
     .filter(message => message.role !== 'system')
-    .map((message, index) => ({
-      id: `${aiState.chatId}-${index}`,
-      display:
-        message.role === 'function' ? (
-          message.name === 'listStocks' ? (
-            <BotCard>
-              <Stocks props={JSON.parse(message.content)} />
-            </BotCard>
-          ) : message.name === 'showStockPrice' ? (
-            <BotCard>
-              <Stock props={JSON.parse(message.content)} />
-            </BotCard>
-          ) : message.name === 'showStockPurchase' ? (
-            <BotCard>
-              <Purchase props={JSON.parse(message.content)} />
-            </BotCard>
-          ) : message.name === 'getEvents' ? (
-            <BotCard>
-              <Events props={JSON.parse(message.content)} />
-            </BotCard>
-          ) : null
-        ) : message.role === 'user' ? (
-          <UserMessage>{message.content}</UserMessage>
-        ) : (
-          <BotMessage content={message.content} />
-        )
-    }))
+    .map((message, index) => {
+      return ({
+        id: `${aiState.chatId}-${index}`,
+        display:
+          message.role === 'function' ? (
+            message.name === 'listStocks' ? (
+              <BotCard>
+                <Stocks props={JSON.parse(message.content)} />
+              </BotCard>
+            ) : message.name === 'showStockPrice' ? (
+              <BotCard>
+                <Stock props={JSON.parse(message.content)} />
+              </BotCard>
+            ) : message.name === 'showStockPurchase' ? (
+              <BotCard>
+                <Purchase props={JSON.parse(message.content)} />
+              </BotCard>
+            ) : message.name === 'getEvents' ? (
+              <BotCard>
+                <Events props={JSON.parse(message.content)} />
+              </BotCard>
+            ) : null
+          ) : message.role === 'user' ? (
+            <UserMessage>{message.content}</UserMessage>
+          ) : (
+            message.sources && <BotMessage content={message.content} sources={createStreamableValue(message.sources).value} />
+          )
+      })
+    })
 }

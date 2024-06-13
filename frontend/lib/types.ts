@@ -1,4 +1,8 @@
-import { Message } from 'ai'
+import { Message as MessageReactAI } from 'ai'
+export type Message = MessageReactAI & {
+  role: 'user' | 'assistant' | 'system' | 'function' | 'data' | 'tool' | 'sources'
+  sources?: string
+}
 
 export interface Chat extends Record<string, any> {
   id: string
