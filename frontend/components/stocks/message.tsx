@@ -65,7 +65,7 @@ import React from 'react'
 const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
   const [open, setOpen] = React.useState(false);
 
-  const groupedBySource = sources.reduce((acc, doc) => {
+  const groupedBySource = sources.reduce((acc: any, doc: Document) => {
     const source = doc.metadata.source;
     const pageNumber = doc.metadata.page_number;
     if (!acc[source]) {
@@ -76,7 +76,6 @@ const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
     return acc;
   }, {});
 
-  console.log(groupedBySource)
   return (
     <Collapsible.Root className="CollapsibleRoot" open={open} onOpenChange={setOpen}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -95,13 +94,13 @@ const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(groupedBySource).map(([source, { pages, tenderId }], index) => (
+            {Object.entries(groupedBySource).map(([source, { pages, tenderId }]: any[], index) => (
               <tr key={source} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
                 <td className="border px-4 py-2 text-gray-900 text-left flex">
                   <a href={`https://www.tenderned.nl/aankondigingen/overzicht/${tenderId}`} target="_blank">{source} <IconExternalLink className='inline-block' /></a>
                 </td>
                 <td className="border px-4 py-2 text-gray-900 text-left">
-                  {Array.from(pages).sort((a, b) => a - b).join(', ')}
+                  {Array.from(pages).sort((a: any, b: any) => a - b).join(', ')}
                 </td>
               </tr>
             ))}
