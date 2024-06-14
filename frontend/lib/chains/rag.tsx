@@ -1,4 +1,3 @@
-
 import { Document } from "@langchain/core/documents";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import {ChatPromptTemplate, MessagesPlaceholder} from "@langchain/core/prompts";
@@ -7,6 +6,9 @@ import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { WeaviateStore } from "@langchain/weaviate";
 import weaviate, { ApiKey } from "weaviate-ts-client";
 import { Message } from "../chat/actions";
+import { createHistoryAwareRetriever } from "langchain/chains/history_aware_retriever";
+import { createRetrievalChain } from "langchain/chains/retrieval";
+import { createStuffDocumentsChain } from "langchain/chains/combine_documents"
 
 const weaviateClient = (weaviate as any).client({
   scheme: process.env.WEAVIATE_SCHEME || "https",
@@ -135,31 +137,36 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
     // },
   })
 
-  const history_aware_retriever = store.asRetriever({
-    k: documentId ? 1 : tenderId ? 12 : 12,
-    filter: filters,
-    verbose: true,
-    // verbose: true,
-    // searchKwargs: {
-    //   lambda: 1,
-    //   fetchK: documentId ? 1 : tenderId ? 10 : 10,
-    // },
-  })
-
   const llm = new ChatOpenAI({
     modelName: "gpt-3.5-turbo",
     streaming: true,
   });
 
-
-  const chain = RunnableSequence.from([
-    RunnablePassthrough.assign({
-      context: (input) => formatDocs(input.context),
-    }),
-    prompt,
+    // history aware retriever
+  const history_aware_retriever = createHistoryAwareRetriever({
     llm,
-    new StringOutputParser()
-  ])
+    retriever,
+    contextualize_prompt
+  });
+
+  // const chain = RunnableSequence.from([
+  //   RunnablePassthrough.assign({
+  //     context: (input) => formatDocs(input.context),
+  //   }),
+  //   prompt,
+  //   llm,
+  //   new StringOutputParser()
+  // ])
+
+  const questionAnswerChain = createStuffDocumentsChain({
+    llm: llm,
+    promptTemplate: prompt
+});
+
+  const chain = createRetrievalChain({
+    retriever: history_aware_retriever,
+    questionAnswerChain: questionAnswerChain
+  });
 
   let ragChainWithSource = new RunnableMap({
     steps: { context: retriever, question: new RunnablePassthrough() },
