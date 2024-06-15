@@ -16,7 +16,7 @@ export const metadata = {
     default: 'TenderFlow',
     template: `%s - AI Tenderportaal`
   },
-  description: 'An AI-powered chatbot template built with Next.js and Vercel.',
+  description: 'Open source Tenderportaal dat met behulp van AI vragen kan beantwoorden over aanbestedingen van het Rijk',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
