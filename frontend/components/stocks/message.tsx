@@ -1,6 +1,6 @@
 'use client'
 
-import { IconExternalLink, IconTenderFlow, IconUser } from '@/components/ui/icons'
+import { IconExternalLink, IconTenderFlow, IconTenderFlowFancy, IconUser } from '@/components/ui/icons'
 import { useStreamableText } from '@/lib/hooks/use-streamable-text'
 import { cn } from '@/lib/utils'
 import { Document } from '@langchain/core/documents'
@@ -127,9 +127,11 @@ export function BotMessage({
   return (
     <>
       <div className={cn('group relative flex items-start md:-ml-12', className)}>
-        <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border text-primary-foreground shadow-sm">
-          <IconTenderFlow />
+        <div>
+          <IconTenderFlowFancy />
         </div>
+        {/* <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border text-primary-foreground shadow-sm"> */}
+        {/* </div> */}
         <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
           <MemoizedReactMarkdown
             className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
