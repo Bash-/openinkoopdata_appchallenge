@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Set these environment variables
-URL = os.getenv("WCS_URL")
-APIKEY = os.getenv("WCS_API_KEY")
+URL = os.getenv("WEAVIATE_HOST")
+APIKEY = os.getenv("WEAVIATE_API_KEY")
 
 # Connect to a WCS instance
 client = weaviate.connect_to_wcs(
