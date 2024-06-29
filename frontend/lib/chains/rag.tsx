@@ -1,12 +1,13 @@
 
 import { Document } from "@langchain/core/documents";
 import { StringOutputParser } from "@langchain/core/output_parsers";
-import { ChatPromptTemplate } from "@langchain/core/prompts";
+import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
 import { RunnableMap, RunnablePassthrough, RunnableSequence } from "@langchain/core/runnables";
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { WeaviateStore } from "@langchain/weaviate";
 import weaviate, { ApiKey } from "weaviate-ts-client";
 import { Message } from "../chat/actions";
+import { formatDocumentsAsString } from "langchain/util/document";
 
 const weaviateClient = (weaviate as any).client({
   scheme: process.env.WEAVIATE_SCHEME || "https",
@@ -51,7 +52,7 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
       Als je informatie opsomt, gebruik dan bullets points. Als je het antwoord niet weet, vraag de gebruiker dan om de vraag te herformuleren.
       `
     ],
-    // new MessagesPlaceholder("chat_history"),
+    new MessagesPlaceholder("chat_history"),
     ["human", "{question}"],
   ]);
 
@@ -131,10 +132,40 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
     streaming: true,
   });
 
+  const contextualizeQSystemPrompt = `Given a chat history and the latest user question
+    which might reference context in the chat history, formulate a standalone question
+    which can be understood without the chat history. Do NOT answer the question,
+    just reformulate it if needed and otherwise return it as is.`;
+
+  const contextualizeQPrompt = ChatPromptTemplate.fromMessages([
+    ["system", contextualizeQSystemPrompt],
+    new MessagesPlaceholder("chat_history"),
+    ["human", "{question}"],
+  ]);
+  const contextualizeQChain = contextualizeQPrompt
+    .pipe(llm)
+    .pipe(new StringOutputParser());
+
+  const contextualizedQuestion = (input: Record<string, unknown>) => {
+    if ("chat_history" in input) {
+      return contextualizeQChain;
+    }
+    return input.question;
+  };
 
   const chain = RunnableSequence.from([
     RunnablePassthrough.assign({
-      context: (input) => formatDocs(input.context),
+      context: (input) => {
+        let res = ""
+        if ("chat_history" in input) {
+          const hchain = contextualizedQuestion(input);
+          res += hchain.pipe(retriever).pipe(formatDocumentsAsString);
+        }
+
+        res = "\n\n" + formatDocs(input.context)
+
+        return res
+      }
     }),
     prompt,
     llm,

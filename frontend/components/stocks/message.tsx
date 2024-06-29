@@ -72,7 +72,9 @@ const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
       acc[source] = { 'pages': new Set(), 'tenderId': doc.metadata.tenderId };
     }
 
-    acc[source]['pages'].add(parseInt(pageNumber) + 1);
+    if (pageNumber && pageNumber !== 'null') {
+      acc[source]['pages'].add(parseInt(pageNumber) + 1);
+    }
     return acc;
   }, {});
 

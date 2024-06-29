@@ -55,25 +55,22 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
 
   let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
   let sourcesStream: undefined | ReturnType<typeof createStreamableValue<string>>
-  let textNode: undefined | React.ReactNode
+  if (!textStream) {
+    textStream = createStreamableValue('')
+  }
+  if (!sourcesStream) {
+    sourcesStream = createStreamableValue('')
+  }
 
   runAsyncFnWithoutBlocking(async () => {
-    if (!textStream) {
-      textStream = createStreamableValue('')
-    }
-    if (!sourcesStream) {
-      sourcesStream = createStreamableValue('')
-    }
-    if (!textNode) {
-      textNode = <BotMessage content={textStream.value} sources={sourcesStream.value} />
-    }
-
+    
     const history = aiState.get().messages.slice(-3) ?? [];
     console.log(tenderId, documentId, history)
     try {
       const chain = await rag([], tenderId, documentId)
 
-      const response = chain.streamEvents(content, { version: "v1" })
+      // TODO this seems to be not working, cannot pass an object here? Not sure how to pass chat_history then to RAG function and these message templates
+      const response = chain.streamEvents({question: content, chat_history: history}, { version: "v1" })
       for await (const event of response) {
         const eventType = event.event;
 
@@ -114,7 +111,7 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
 
   return {
     id: nanoid(),
-    display: textNode,
+    display: <BotMessage content={textStream.value} sources={sourcesStream.value} />,
   }
 
 }
