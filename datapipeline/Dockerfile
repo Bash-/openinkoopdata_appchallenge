@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
 WORKDIR /app
-ENV PYTHONPATH /app
+ENV PYTHONPATH=/app
 
 COPY datapipeline datapipeline
 COPY utils utils

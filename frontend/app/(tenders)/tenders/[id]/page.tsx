@@ -6,6 +6,7 @@ import { fetchTenderById } from "@/lib/data";
 import { Session, Tender } from '@/lib/types';
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { nanoid } from '@/lib/utils'
 
 export default async function TenderDetailPage({
   params
@@ -17,9 +18,10 @@ export default async function TenderDetailPage({
   const tender: Tender = await fetchTenderById(params?.id)
   const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
-
+  
   if (!tender) return notFound();
-  const chatId = `tender${params.id}`
+  const nid = nanoid()
+  const chatId = `tender${params.id}${nid}`
   const chat = await getChat(chatId, session?.user.id)
 
   // if we have a chat, but this user is not the one chatting, return not found

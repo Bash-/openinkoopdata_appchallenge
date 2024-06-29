@@ -22,7 +22,7 @@ const weaviateClient = (weaviate as any).client({
  */
 const formatDocs = (docs: Document[]): string => {
 
-  console.log(docs)
+  // console.log(docs)
   const uniqueDocs = [...new Map(docs.map(d =>
     [`${d.metadata.page_number}-${d.metadata.tenderId}-${d.metadata.source}`, d])).values()];
 

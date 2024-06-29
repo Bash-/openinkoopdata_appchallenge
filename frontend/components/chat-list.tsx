@@ -15,7 +15,7 @@ export function ChatList({ messages, session, isShared }: ChatList) {
     return null
   }
 
-  console.log(messages)
+  // console.log(messages)
 
   return (
     <div className="relative mx-auto max-w-2xl px-4">
