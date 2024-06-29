@@ -21,6 +21,7 @@ import { saveChat } from '@/app/actions';
 import { auth } from '@/auth';
 import { Events } from '@/components/stocks/events';
 import { UserMessage } from '@/components/stocks/message';
+import { AIMessage, HumanMessage } from "@langchain/core/messages";
 import { Stocks } from '@/components/stocks/stocks';
 import { Chat } from '@/lib/types';
 import {
@@ -63,15 +64,30 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
   }
 
   runAsyncFnWithoutBlocking(async () => {
-    
+
     const history = aiState.get().messages.slice(-3) ?? [];
-    console.log(tenderId, documentId, history)
+    console.log("++++++++++++HIstory++++++++++++")
+    console.log(history)
+
+    let historicalMessages = history.map((m) => {
+      if (m.role == "user") return new HumanMessage({ content: m.content })
+      if (m.role == "assistant" || m.role == "system") return new AIMessage({ content: m.content })
+      return new AIMessage({ content: m.content })
+    }
+    )
+
+    console.log("++++++++++++HIstory messages++++++++++++")
+    console.log(historicalMessages)
+
+    // console.log(tenderId, documentId, history)
     try {
       const chain = await rag([], tenderId, documentId)
 
       // TODO this seems to be not working, cannot pass an object here? Not sure how to pass chat_history then to RAG function and these message templates
-      const response = chain.streamEvents({question: content, chat_history: history}, { version: "v1" })
+      const response = chain.streamEvents({ question: content, chat_history: historicalMessages }, { version: "v1" })
       for await (const event of response) {
+        // console.log(event)
+        // console.log("==================")
         const eventType = event.event;
 
         if (eventType === "on_llm_stream") {
