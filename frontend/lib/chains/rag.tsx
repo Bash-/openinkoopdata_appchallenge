@@ -157,7 +157,7 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
       context: (input: Record<string, unknown>) => {
         if ("chat_history" in input) {
           const chain = contextualizedQuestion(input);
-          return chain.pipe(retriever).pipe(formatDocumentsAsString);
+          return chain.pipe(retriever).pipe(formatDocs);
         }
         return "";
       }
@@ -169,13 +169,15 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
   console.log("retriever")
   console.log(retriever)
 
+
+  
   // const getQuestion = (input: any) => input.question;
 
   let ragChainWithSource = new RunnableMap({
-    steps: { context: retriever, question: retriever.pipe(getQuestion) },
+    steps: { context: retriever, question: new RunnablePassthrough() },
   });
   ragChainWithSource = ragChainWithSource.assign({ answer: chain });
 
-  return chain
+  return ragChainWithSource
 
 }
