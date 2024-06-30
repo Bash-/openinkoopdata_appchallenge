@@ -110,7 +110,7 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
                 {
                   id: nanoid(),
                   role: 'assistant',
-                  content: event.data.output.content,
+                  content: message,
                   // sources: JSON.stringify(docs)
                 },
               ]
