@@ -99,8 +99,6 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
             const message = event.data.output.answer;
             const docs = event.data.output.context
 
-            textStream.done()
-            sourcesStream.done(JSON.stringify(docs))
             aiState.done({
               ...aiState.get(),
               messages: [
@@ -113,6 +111,9 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
                 },
               ]
             })
+
+            textStream.done()
+            sourcesStream.done(JSON.stringify(docs))
           }
         } else if (eventType === "on_llm_end") {
           const message = event.data.output.generations[0][0].text

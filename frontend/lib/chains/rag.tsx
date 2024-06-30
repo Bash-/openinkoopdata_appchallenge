@@ -42,30 +42,47 @@ const formatDocs = (docs: Document[]): string => {
 // TODO: implement citations https://js.langchain.com/docs/use_cases/question_answering/citations
 // TODO: chat history https://langchain.com/docs/use_cases/question_answering/chat_history/
 export const rag = async (chat_history: Message[], tenderId: string | undefined = undefined, documentId: string | undefined, company_data: boolean = false) => {
-  const prompt = ChatPromptTemplate.fromMessages([
-    [
-      "system",
-      `${tenderId ? `Dit is een vraag over een specifieke tender van de gebruiker met id ${tenderId}. Beantwoord deze vraag met de context die hieronder gegeven wordt, dit zijn documenten die geüpload zijn bij deze tender` : `U bent een QA bot voor Tender aanvragen voor de nederlandse markt`}.
+
+  const llm = new ChatOpenAI({
+    modelName: "gpt-3.5-turbo",
+    streaming: true,
+  });
+
+  // ============ Chat History Chain ============
+
+  const contextualizeQSystemPrompt = `Gegeven een chatgeschiedenis en de laatste gebruikersvraag
+ die mogelijk verwijst naar de context in de chatgeschiedenis, en een op zichzelf staande vraag formuleert
+ wat kan worden begrepen zonder de chatgeschiedenis. Beantwoord de vraag NIET,
+ herformuleer het indien nodig en geef het anders terug zoals het is.`;
+
+  const contextualizeQPrompt = ChatPromptTemplate.fromMessages([
+    ["system", contextualizeQSystemPrompt],
+    new MessagesPlaceholder("chat_history"),
+    ["human", "{question}"],
+  ]);
+  const contextualizeQChain = contextualizeQPrompt
+    .pipe(llm)
+    .pipe(new StringOutputParser());
+
+  // ============ QA Chain ============
+
+  const qaSystemPrompt = `
+      ${tenderId ? `Dit is een vraag over een specifieke tender van de gebruiker met id ${tenderId}. Beantwoord deze vraag met de context die hieronder gegeven wordt, dit zijn documenten die geüpload zijn bij deze tender` : `U bent een QA bot voor Tender aanvragen voor de nederlandse markt`}.
       \n\n
       Dit is relevante tender informatie: {context}.
       \n\n
       Als je informatie opsomt, gebruik dan bullets points. Als je het antwoord niet weet, vraag de gebruiker dan om de vraag te herformuleren.
-      `
-    ],
+    `
+
+  const qaPrompt = ChatPromptTemplate.fromMessages([
+    ["system", qaSystemPrompt],
     new MessagesPlaceholder("chat_history"),
     ["human", "{question}"],
   ]);
 
   console.error(tenderId, documentId)
 
-  // const history_mapped_to_langchain = chat_history.map((m) => {
-  //   if (m.role == "user") return new HumanMessage({ content: m.content })
-  //   if (m.role == "assistant" || m.role == "system") return new AIMessage({ content: m.content })
-  //   return new AIMessage({ content: m.content })
-  // })
-
-  // console.log(history_mapped_to_langchain)
-
+  // ============ RAG Chain ============
 
   // better modelling: https://forum.weaviate.io/t/return-unique-file-when-search-large-documents/163/2
   // const response = await weaviateClient.graphql
@@ -127,62 +144,38 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
     // },
   })
 
-  const llm = new ChatOpenAI({
-    modelName: "gpt-3.5-turbo",
-    streaming: true,
-  });
-
-  const contextualizeQSystemPrompt = `Given a chat history and the latest user question
-    which might reference context in the chat history, formulate a standalone question
-    which can be understood without the chat history. Do NOT answer the question,
-    just reformulate it if needed and otherwise return it as is.`;
-
-  const contextualizeQPrompt = ChatPromptTemplate.fromMessages([
-    ["system", contextualizeQSystemPrompt],
-    new MessagesPlaceholder("chat_history"),
-    ["human", "{question}"],
-  ]);
-  const contextualizeQChain = contextualizeQPrompt
-    .pipe(llm)
-    .pipe(new StringOutputParser());
 
   const contextualizedQuestion = (input: Record<string, unknown>) => {
     if ("chat_history" in input) {
       return contextualizeQChain;
     }
-    console.log("input")
-    console.log(input)
     return input.question;
   };
 
   const chain = RunnableSequence.from([
     RunnablePassthrough.assign({
-      context: (input) => {
-        let res = ""
+      context: (input: Record<string, unknown>) => {
         if ("chat_history" in input) {
-          const hchain = contextualizedQuestion(input);
-          res += hchain.pipe(retriever).pipe(formatDocumentsAsString);
+          const chain = contextualizedQuestion(input);
+          return chain.pipe(retriever).pipe(formatDocumentsAsString);
         }
-
-        res = "\n\n" + formatDocs(input.context)
-
-        return res
+        return "";
       }
     }),
-    prompt,
+    qaPrompt,
     llm,
-    new StringOutputParser()
+    // new StringOutputParser()
   ])
   console.log("retriever")
   console.log(retriever)
 
-  const getQuestion = (input: any) => input.question;
+  // const getQuestion = (input: any) => input.question;
 
   let ragChainWithSource = new RunnableMap({
     steps: { context: retriever, question: retriever.pipe(getQuestion) },
   });
   ragChainWithSource = ragChainWithSource.assign({ answer: chain });
 
-  return ragChainWithSource
+  return chain
 
 }
