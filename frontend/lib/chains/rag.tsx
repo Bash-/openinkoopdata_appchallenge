@@ -23,6 +23,7 @@ const weaviateClient = (weaviate as any).client({
  */
 const formatDocs = (docs: Document[]): string => {
 
+  // console.log("docs")
   // console.log(docs)
   const uniqueDocs = [...new Map(docs.map(d =>
     [`${d.metadata.page_number}-${d.metadata.tenderId}-${d.metadata.source}`, d])).values()];
@@ -35,6 +36,10 @@ const formatDocs = (docs: Document[]): string => {
           `Tender titel: ${doc.metadata.tenderId}, bron: ${doc.metadata.source}, pagina: ${doc.metadata.page_number}\nTender tekst:\n ${doc.metadata.page_content}`
       )
       .join("\n\n")
+
+
+  // console.log("context")
+  // console.log(context)
 
   return context
 }
@@ -50,19 +55,19 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
 
   // ============ Chat History Chain ============
 
-  const contextualizeQSystemPrompt = `Gegeven een chatgeschiedenis en de laatste gebruikersvraag
- die mogelijk verwijst naar de context in de chatgeschiedenis, en een op zichzelf staande vraag formuleert
- wat kan worden begrepen zonder de chatgeschiedenis. Beantwoord de vraag NIET,
- herformuleer het indien nodig en geef het anders terug zoals het is.`;
+    const contextualizeQSystemPrompt = `Gegeven een chatgeschiedenis en de laatste gebruikersvraag
+   die mogelijk verwijst naar de context in de chatgeschiedenis, en een op zichzelf staande vraag formuleert
+   wat kan worden begrepen zonder de chatgeschiedenis. 
+   Beantwoord de vraag NIET, herformuleer het indien nodig en geef het anders terug zoals het is.`;
 
-  const contextualizeQPrompt = ChatPromptTemplate.fromMessages([
-    ["system", contextualizeQSystemPrompt],
-    new MessagesPlaceholder("chat_history"),
-    ["human", "{question}"],
-  ]);
-  const contextualizeQChain = contextualizeQPrompt
-    .pipe(llm)
-    .pipe(new StringOutputParser());
+    const contextualizeQPrompt = ChatPromptTemplate.fromMessages([
+      ["system", contextualizeQSystemPrompt],
+      new MessagesPlaceholder("chat_history"),
+      ["human", "{question}"],
+    ]);
+    const contextualizeQChain = contextualizeQPrompt
+      .pipe(llm)
+      .pipe(new StringOutputParser());
 
   // ============ QA Chain ============
 
@@ -76,7 +81,6 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
 
   const qaPrompt = ChatPromptTemplate.fromMessages([
     ["system", qaSystemPrompt],
-    new MessagesPlaceholder("chat_history"),
     ["human", "{question}"],
   ]);
 
@@ -159,25 +163,43 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
           const chain = contextualizedQuestion(input);
           return chain.pipe(retriever).pipe(formatDocs);
         }
-        return "";
+        return retriever.pipe(formatDocs);
       }
     }),
     qaPrompt,
     llm,
     // new StringOutputParser()
   ])
-  console.log("retriever")
-  console.log(retriever)
+  // console.log("retriever")
+  // console.log(retriever)
 
 
-  
-  // const getQuestion = (input: any) => input.question;
 
-  let ragChainWithSource = new RunnableMap({
-    steps: { context: retriever, question: new RunnablePassthrough() },
-  });
-  ragChainWithSource = ragChainWithSource.assign({ answer: chain });
 
-  return ragChainWithSource
+  // let ragChainWithSource = new RunnableMap({
+  //   steps: { context: retriever, question: new RunnablePassthrough() },
+  // });
+  // ragChainWithSource = ragChainWithSource.assign({ answer: chain });
 
+  // return ragChainWithSource
+  const getQuestion = (input: any) => input.question;
+
+  // const chain = RunnableSequence.from([
+  //   RunnablePassthrough.assign({
+  //     context: (input) => formatDocs(input.context),
+  //   }),
+  //   qaPrompt,
+  //   llm,
+  //   new StringOutputParser()
+  // ])
+
+  // let ragChainWithSource = new RunnableMap({
+  //   steps: { 
+  //     docs: retriever, 
+  //     context: new RunnablePassthrough()
+  //   },
+  // });
+  // ragChainWithSource = ragChainWithSource.assign({ answer: chain });
+
+  return chain
 }

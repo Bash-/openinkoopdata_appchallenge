@@ -86,8 +86,8 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
       // TODO this seems to be not working, cannot pass an object here? Not sure how to pass chat_history then to RAG function and these message templates
       const response = chain.streamEvents({ question: content, chat_history: historicalMessages }, { version: "v1" })
       for await (const event of response) {
-        // console.log(event)
-        // console.log("==================")
+        console.log(event)
+        console.log("==================")
         const eventType = event.event;
 
         if (eventType === "on_llm_stream") {
@@ -97,7 +97,11 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
           // only on final call
           if (event.name == 'RunnableSequence' && event?.tags?.length == 0) {
             const message = event.data.output.answer;
-            const docs = event.data.output.context
+            const docs = event.data.output.docs
+
+            console.log("answer", event.data.output.content)
+
+            // console.log(docs)
 
             aiState.done({
               ...aiState.get(),
@@ -106,14 +110,14 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
                 {
                   id: nanoid(),
                   role: 'assistant',
-                  content: message,
-                  sources: JSON.stringify(docs)
+                  content: event.data.output.content,
+                  // sources: JSON.stringify(docs)
                 },
               ]
             })
 
-            textStream.done()
-            sourcesStream.done(JSON.stringify(docs))
+            // textStream.done()
+            // sourcesStream.done(JSON.stringify(docs))
           }
         } else if (eventType === "on_llm_end") {
           const message = event.data.output.generations[0][0].text
