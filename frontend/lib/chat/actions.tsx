@@ -21,6 +21,7 @@ import { saveChat } from '@/app/actions';
 import { auth } from '@/auth';
 import { Events } from '@/components/stocks/events';
 import { UserMessage } from '@/components/stocks/message';
+import { AIMessage, HumanMessage } from "@langchain/core/messages";
 import { Stocks } from '@/components/stocks/stocks';
 import { Chat } from '@/lib/types';
 import {
@@ -55,39 +56,54 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
 
   let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
   let sourcesStream: undefined | ReturnType<typeof createStreamableValue<string>>
-  let textNode: undefined | React.ReactNode
+  if (!textStream) {
+    textStream = createStreamableValue('')
+  }
+  if (!sourcesStream) {
+    sourcesStream = createStreamableValue('')
+  }
 
   runAsyncFnWithoutBlocking(async () => {
-    if (!textStream) {
-      textStream = createStreamableValue('')
-    }
-    if (!sourcesStream) {
-      sourcesStream = createStreamableValue('')
-    }
-    if (!textNode) {
-      textNode = <BotMessage content={textStream.value} sources={sourcesStream.value} />
-    }
 
     const history = aiState.get().messages.slice(-3) ?? [];
-    console.log(tenderId, documentId, history)
+    console.log("++++++++++++HIstory++++++++++++")
+    console.log(history)
+
+    let historicalMessages = history.map((m) => {
+      if (m.role == "user") return new HumanMessage({ content: m.content })
+      if (m.role == "assistant" || m.role == "system") return new AIMessage({ content: m.content })
+      return new AIMessage({ content: m.content })
+    }
+    )
+
+    let chainCounter = 0;
     try {
       const chain = await rag([], tenderId, documentId)
 
-      const response = chain.streamEvents(content, { version: "v1" })
+      // TODO this seems to be not working, cannot pass an object here? Not sure how to pass chat_history then to RAG function and these message templates
+      const response = chain.streamEvents({ question: content, chat_history: historicalMessages }, { version: "v1" })
       for await (const event of response) {
+        // console.log(event)
+        // console.log("==================")
         const eventType = event.event;
 
-        if (eventType === "on_llm_stream") {
+        if (eventType === "on_llm_stream" && chainCounter > 0) {
           textStream.update(event.data.chunk.text);
 
         } else if (eventType === "on_chain_end") {
           // only on final call
-          if (event.name == 'RunnableSequence' && event?.tags?.length == 0) {
-            const message = event.data.output.answer;
-            const docs = event.data.output.context
+          if (event.name == 'RunnableSequence' && event?.tags?.length == 0 && chainCounter == 0) {
+            chainCounter = chainCounter + 1
+          }
+          else if (event.name == 'RunnableSequence' && event?.tags?.length == 0 && chainCounter > 0) {
+            const message = event.data.output.answer.content;
+            const docs = event.data.output.sourceDocuments
+
+            console.log(event.data.output)
 
             textStream.done()
             sourcesStream.done(JSON.stringify(docs))
+
             aiState.done({
               ...aiState.get(),
               messages: [
@@ -100,6 +116,7 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
                 },
               ]
             })
+
           }
         } else if (eventType === "on_llm_end") {
           const message = event.data.output.generations[0][0].text
@@ -114,7 +131,7 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
 
   return {
     id: nanoid(),
-    display: textNode,
+    display: <BotMessage content={textStream.value} sources={sourcesStream.value} />,
   }
 
 }
