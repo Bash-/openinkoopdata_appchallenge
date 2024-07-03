@@ -22,9 +22,6 @@ const weaviateClient = (weaviate as any).client({
  * Format the documents into a readable string.
  */
 const formatDocs = (docs: Document[]): string => {
-
-  // console.log("docs")
-  // console.log(docs)
   const uniqueDocs = [...new Map(docs.map(d =>
     [`${d.metadata.page_number}-${d.metadata.tenderId}-${d.metadata.source}`, d])).values()];
 
@@ -36,10 +33,6 @@ const formatDocs = (docs: Document[]): string => {
           `Tender titel: ${doc.metadata.tenderId}, bron: ${doc.metadata.source}, pagina: ${doc.metadata.page_number}\nTender tekst:\n ${doc.metadata.page_content}`
       )
       .join("\n\n")
-
-
-  // console.log("context")
-  // console.log(context)
 
   return context
 }

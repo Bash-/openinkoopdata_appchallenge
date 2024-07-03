@@ -77,8 +77,6 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
     )
 
     let chainCounter = 0;
-
-    // console.log(tenderId, documentId, history)
     try {
       const chain = await rag([], tenderId, documentId)
 
