@@ -40,11 +40,18 @@ export default async function IndexPage() {
                   Kom meer te weten over categorieplannen, voorwaarden voor inkoop bij rijksopdrachten, de Rijksaanbestedingskalender en meer.
                 </p>
                 <Link
-                  href="/about"
+                  href="/rijksvoorwaarden"
                   className={cn(buttonVariants({ variant: 'outline' }))}
                 >
                   <IconArrowRight className="mr-1" />
-                  <span className="hidden ml-2 md:flex">Chat met Rijksdocumenten</span>
+                  <span className="hidden ml-2 md:flex">Chat met Rijksvoorwaarden</span>
+                </Link>
+                <Link
+                  href="/categorieplannen"
+                  className={cn(buttonVariants({ variant: 'outline' }))}
+                >
+                  <IconArrowRight className="mr-1" />
+                  <span className="hidden ml-2 md:flex">Chat met Categorieplannen</span>
                 </Link>
               </div>
             </div>
@@ -57,7 +64,7 @@ export default async function IndexPage() {
                   Lees meer over gepubliceerde aanbestedingen, maatschappelijk verantwoord ondernemen, voorwaarden voor inkoop bij rijksopdrachten en meer.
                 </p>
                 <Link
-                  href="/about"
+                  href="/tenders"
                   className={cn(buttonVariants({ variant: 'outline' }))}
                 >
                   <IconArrowRight className="mr-1" />

@@ -23,9 +23,10 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   showEmptyScreen?: boolean;
   emptyScreenHeader?: string;
   emptyScreenBody?: string;
+  genericExamples?: boolean
 }
 
-export function Chat({ id, tenderId, documentId, className, session, missingKeys, showEmptyScreen = true, emptyScreenHeader, emptyScreenBody }: ChatProps) {
+export function Chat({ id, tenderId, documentId, className, session, missingKeys, showEmptyScreen = true, emptyScreenHeader, emptyScreenBody, genericExamples }: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const [input, setInput] = useState('')
@@ -92,6 +93,7 @@ export function Chat({ id, tenderId, documentId, className, session, missingKeys
         setInput={setInput}
         isAtBottom={isAtBottom}
         scrollToBottom={scrollToBottom}
+        genericExamples={genericExamples}
       />
     </div>
   )

@@ -2,7 +2,7 @@
 import Link from 'next/link'
 
 import { buttonVariants } from '@/components/ui/button'
-import { IconShare } from '@/components/ui/icons'
+import { IconMessage, IconShare } from '@/components/ui/icons'
 import { cn } from '@/lib/utils'
 import { HomeIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
 
@@ -25,6 +25,26 @@ export async function MainMenu() {
           Hoofdpagina
         </Link>
         <Link
+          href="/rijksvoorwaarden"
+          className={cn(
+            buttonVariants({ variant: 'outline' }),
+            buttonClassname
+          )}
+        >
+          <IconMessage className="-translate-x-2 stroke-2" />
+          Chat met Rijksvoorwaarden
+        </Link>
+        <Link
+          href="/categorieplannen"
+          className={cn(
+            buttonVariants({ variant: 'outline' }),
+            buttonClassname
+          )}
+        >
+          <IconMessage className="-translate-x-2 stroke-2" />
+          Chat met Categorieplannen
+        </Link>
+        <Link
           href="/tenders"
           className={cn(
             buttonVariants({ variant: 'outline' }),
@@ -32,7 +52,7 @@ export async function MainMenu() {
           )}
         >
           <MagnifyingGlassIcon className="-translate-x-2 stroke-2" />
-          Zoek tenders
+          Zoek en chat met tenders
         </Link>
         <Link
           href="/profile"
