@@ -83,8 +83,8 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
       // TODO this seems to be not working, cannot pass an object here? Not sure how to pass chat_history then to RAG function and these message templates
       const response = chain.streamEvents({ question: content, chat_history: historicalMessages }, { version: "v1" })
       for await (const event of response) {
-        console.log(event)
-        console.log("==================")
+        // console.log(event)
+        // console.log("==================")
         const eventType = event.event;
 
         if (eventType === "on_llm_stream" && chainCounter > 0) {
