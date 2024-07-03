@@ -143,19 +143,10 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
     // },
   })
 
-
-  const contextualizedQuestion = (input: Record<string, unknown>) => {
-    if ("chat_history" in input) {
-      return contextualizeQChain;
-    }
-    return input.question;
-  };
-
   let contextualizedQuestionRunnable = RunnablePassthrough.assign({
     contextualizedQuestion: (input: Record<string, unknown>) => {
       if ("chat_history" in input) {
-        const chain = contextualizedQuestion(input);
-        return chain;
+        return contextualizeQChain;
       }
       return input.question;
     }
