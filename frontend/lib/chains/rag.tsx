@@ -167,13 +167,13 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
     }
   })
 
-  const chain = RunnableSequence.from([
+  const answerChain = RunnableSequence.from([
     docRunnable,
     qaPrompt,
     llm
   ])
 
-  let ragChainWithSource = contextualizedQuestionRunnable.pipe(retrieverRunnable).assign({ answer: chain });
+  let ragChainWithSource = contextualizedQuestionRunnable.pipe(retrieverRunnable).assign({ answer: answerChain });
 
   return ragChainWithSource
 }
