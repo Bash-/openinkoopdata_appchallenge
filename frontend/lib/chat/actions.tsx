@@ -76,8 +76,7 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
     }
     )
 
-    console.log("++++++++++++HIstory messages++++++++++++")
-    console.log(historicalMessages)
+    let chainCounter = 0;
 
     // console.log(tenderId, documentId, history)
     try {
@@ -90,18 +89,22 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
         console.log("==================")
         const eventType = event.event;
 
-        if (eventType === "on_llm_stream") {
+        if (eventType === "on_llm_stream" && chainCounter > 0) {
           textStream.update(event.data.chunk.text);
 
         } else if (eventType === "on_chain_end") {
           // only on final call
-          if (event.name == 'RunnableSequence' && event?.tags?.length == 0) {
-            const message = event.data.output.answer;
-            const docs = event.data.output.docs
+          if (event.name == 'RunnableSequence' && event?.tags?.length == 0 && chainCounter == 0) {
+            chainCounter = chainCounter + 1
+          }
+          else if (event.name == 'RunnableSequence' && event?.tags?.length == 0 && chainCounter > 0) {
+            const message = event.data.output.answer.content;
+            const docs = event.data.output.sourceDocuments
 
-            console.log("answer", event.data.output.content)
+            console.log(event.data.output)
 
-            // console.log(docs)
+            textStream.done()
+            sourcesStream.done(JSON.stringify(docs))
 
             aiState.done({
               ...aiState.get(),
@@ -111,13 +114,11 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
                   id: nanoid(),
                   role: 'assistant',
                   content: message,
-                  // sources: JSON.stringify(docs)
+                  sources: JSON.stringify(docs)
                 },
               ]
             })
 
-            // textStream.done()
-            // sourcesStream.done(JSON.stringify(docs))
           }
         } else if (eventType === "on_llm_end") {
           const message = event.data.output.generations[0][0].text

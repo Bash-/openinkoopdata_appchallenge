@@ -81,7 +81,7 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
 
   const qaPrompt = ChatPromptTemplate.fromMessages([
     ["system", qaSystemPrompt],
-    ["human", "{question}"],
+    ["human", "{contextualizedQuestion}"],
   ]);
 
   console.error(tenderId, documentId)
@@ -156,50 +156,38 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
     return input.question;
   };
 
-  const chain = RunnableSequence.from([
-    RunnablePassthrough.assign({
-      context: (input: Record<string, unknown>) => {
-        if ("chat_history" in input) {
-          const chain = contextualizedQuestion(input);
-          return chain.pipe(retriever).pipe(formatDocs);
-        }
-        return retriever.pipe(formatDocs);
+  let contextualizedQuestionRunnable = RunnablePassthrough.assign({
+    contextualizedQuestion: (input: Record<string, unknown>) => {
+      if ("chat_history" in input) {
+        const chain = contextualizedQuestion(input);
+        return chain;
       }
-    }),
+      return input.question;
+    }
+  })
+
+  let retrieverRunnable = RunnablePassthrough.assign({
+    sourceDocuments: (input: Record<string, unknown>) => {
+      return retriever._getRelevantDocuments(input.contextualizedQuestion)
+    }
+  })
+
+  let docRunnable = RunnablePassthrough.assign({
+    context: (input: Record<string, unknown>) => {
+      if ("sourceDocuments" in input) {
+        return formatDocs(input.sourceDocuments);
+      }
+      return "";
+    }
+  })
+
+  const chain = RunnableSequence.from([
+    docRunnable,
     qaPrompt,
-    llm,
-    // new StringOutputParser()
+    llm
   ])
-  // console.log("retriever")
-  // console.log(retriever)
 
+  let ragChainWithSource = contextualizedQuestionRunnable.pipe(retrieverRunnable).assign({ answer: chain });
 
-
-
-  // let ragChainWithSource = new RunnableMap({
-  //   steps: { context: retriever, question: new RunnablePassthrough() },
-  // });
-  // ragChainWithSource = ragChainWithSource.assign({ answer: chain });
-
-  // return ragChainWithSource
-  const getQuestion = (input: any) => input.question;
-
-  // const chain = RunnableSequence.from([
-  //   RunnablePassthrough.assign({
-  //     context: (input) => formatDocs(input.context),
-  //   }),
-  //   qaPrompt,
-  //   llm,
-  //   new StringOutputParser()
-  // ])
-
-  // let ragChainWithSource = new RunnableMap({
-  //   steps: { 
-  //     docs: retriever, 
-  //     context: new RunnablePassthrough()
-  //   },
-  // });
-  // ragChainWithSource = ragChainWithSource.assign({ answer: chain });
-
-  return chain
+  return ragChainWithSource
 }
