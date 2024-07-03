@@ -163,7 +163,7 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
 
   let retrieverRunnable = RunnablePassthrough.assign({
     sourceDocuments: (input: Record<string, unknown>) => {
-      return retriever._getRelevantDocuments(input.contextualizedQuestion)
+      return retriever._getRelevantDocuments(input.question)
     }
   })
 
