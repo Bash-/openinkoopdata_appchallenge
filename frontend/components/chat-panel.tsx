@@ -21,6 +21,7 @@ export interface ChatPanelProps {
   scrollToBottom: () => void
   tenderId: string | number | undefined
   documentId: string | undefined
+  genericExamples?: boolean
 }
 
 export function ChatPanel({
@@ -29,6 +30,7 @@ export function ChatPanel({
   input,
   tenderId,
   documentId,
+  genericExamples = false,
   setInput,
   isAtBottom,
   scrollToBottom
@@ -83,7 +85,26 @@ export function ChatPanel({
     }
   ]
 
-  const exampleMessages = (!tenderId && !documentId) ? normalExampleMessages : documentId ? documentExampleMessages : tenderExampleMessages
+
+  let exampleMessages = []
+  if (genericExamples) {
+    exampleMessages = [
+      {
+        heading: 'Wat is ...',
+        subheading: 'de strekking van de documenten?',
+        message: `Vat de documenten samen.`
+      },
+      {
+        heading: 'Waar moet ik op letten ...',
+        subheading: 'als leverancier in de ICT sector?',
+        message: `Waar moet ik op letten als leverancier in de ICT sector?`
+      }
+    ]
+
+  }
+  else {
+    exampleMessages = (!tenderId && !documentId) ? normalExampleMessages : documentId ? documentExampleMessages : tenderExampleMessages
+  }
 
 
   return (

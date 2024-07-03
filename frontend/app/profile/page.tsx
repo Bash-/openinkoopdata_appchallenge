@@ -11,6 +11,10 @@ export default async function IndexPage() {
 
   return (
     <div className="relative mx-auto max-w-2xl px-4">
+      <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
+        <p className="font-bold">Let op</p>
+        <p>Deze functionaliteit is nog in ontwikkeling en doet verder nog niks!</p>
+      </div>
       <h1 className="text-lg font-semibold"> Uw documenten </h1>
       <p className="leading-normal text-muted-foreground">
         Hier kunt u uw bedrijfsdocumenten uploaden en beheren.
