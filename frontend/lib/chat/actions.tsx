@@ -234,3 +234,5 @@ export const getUIStateFromAIState = (aiState: Chat) => {
       })
     })
 }
+export type { Message };
+
