@@ -48,10 +48,11 @@ export default async function ChatPage({ params }: ChatPageProps) {
   }
 
   return (
-    <AI initialAIState={{ chatId: chat.id, messages: chat.messages }}>
+    <AI initialAIState={{ chatId: chat.id, messages: chat.messages, tenderId: chat.tenderId }}>
       <Chat
         id={chat.id}
         session={session}
+        tenderId={chat.tenderId}
         initialMessages={chat.messages}
         missingKeys={missingKeys}
       />

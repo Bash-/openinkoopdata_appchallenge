@@ -12,10 +12,9 @@ export default async function RijksvoorwaardenPage() {
   // const tender: Tender = await fetchTenderById('rijksdocumenten')
   const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
-  
   // if (!tender) return notFound();
   const nid = nanoid()
-  const chatId = `rijksvoorwaarden${nid}`
+  const chatId = `${nid}`
   // const chat = await getChat(chatId, session?.user.id)
 
   // if we have a chat, but this user is not the one chatting, return not found
@@ -26,10 +25,13 @@ export default async function RijksvoorwaardenPage() {
   return (
     <>
       {!session && <p><Link href={`/login`}>Login to chat</Link></p>}
-      {session && <AI initialAIState={{ chatId: chatId, 
+      {session && <AI initialAIState={{
+        chatId: chatId,
         messages:
-        //  chat?.messages ?? 
-        [] }}>
+          //  chat?.messages ?? 
+          [],
+        tenderId: "rijksvoorwaarden"
+      }}>
         <Chat
           showEmptyScreen={true}
           emptyScreenHeader={"Chat met Rijksvoorwaarden"}

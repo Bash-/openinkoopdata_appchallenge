@@ -140,6 +140,7 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
 export type AIState = {
   chatId: string
   messages: Message[]
+  tenderId: string | undefined
 }
 
 export type UIState = {
@@ -153,7 +154,7 @@ export const AI = createAI<AIState, UIState>({
     // confirmPurchase
   },
   initialUIState: [],
-  initialAIState: { chatId: nanoid(), messages: [] },
+  initialAIState: { chatId: nanoid(), messages: [], tenderId: undefined},
   onGetUIState: async () => {
     'use server'
 
@@ -176,7 +177,7 @@ export const AI = createAI<AIState, UIState>({
     const session = await auth()
 
     if (session && session.user) {
-      const { chatId, messages } = state
+      const { chatId, messages, tenderId } = state
 
       const createdAt = new Date()
       const userId = session.user.id as string
@@ -187,6 +188,7 @@ export const AI = createAI<AIState, UIState>({
         id: chatId,
         title,
         userId,
+        tenderId,
         createdAt,
         messages,
         path

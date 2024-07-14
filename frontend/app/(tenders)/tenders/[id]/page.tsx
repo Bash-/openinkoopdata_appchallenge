@@ -21,7 +21,7 @@ export default async function TenderDetailPage({
   
   if (!tender) return notFound();
   const nid = nanoid()
-  const chatId = `tender${params.id}${nid}`
+  const chatId = `${nid}`
   const chat = await getChat(chatId, session?.user.id)
 
   // if we have a chat, but this user is not the one chatting, return not found
@@ -32,7 +32,7 @@ export default async function TenderDetailPage({
   return (
     <>
       {!session && <p><Link href={`/login?next=/tenders/${tender.publicatieid}/`}>Login to chat</Link></p>}
-      {session && <AI initialAIState={{ chatId: chatId, messages: chat?.messages ?? [] }}>
+      {session && <AI initialAIState={{ chatId: chatId, messages: chat?.messages ?? [], tenderId: tender.publicatieid.toString()}}>
         <Chat
           showEmptyScreen={true}
           emptyScreenHeader={tender.aanbestedingnaam}
