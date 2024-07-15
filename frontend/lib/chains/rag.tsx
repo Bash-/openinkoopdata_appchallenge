@@ -49,11 +49,11 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
   // ============ Chat History Chain ============
 
   const contextualizeQSystemPrompt = `
-        U bent een QA bot voor Tender aanvragen voor de nederlandse markt.
-        Gegeven is een chatgeschiedenis en de laatste gebruikersvraag
-        die mogelijk verwijst naar de context in de chatgeschiedenis.
-        Formuleer een op zichzelf staande vraag wat kan worden begrepen zonder de chatgeschiedenis. 
-        Beantwoord de vraag NIET, herformuleer het alleen indien nodig en geef het anders terug zoals het is.`;
+        U bent gespecialiseerd in tender aanvragen voor de nederlandse markt.
+        Gegeven is een chatgeschiedenis en de laatste gebruikers prompt.
+        Herschrijf de gebruikers prompt kort en bondig om de duidelijkheid en nauwkeurigheid te verbeteren
+        Deze prompt wordt gebruikt om relevante documenten te vinden die de vraag van de gebruiker kunnen beantwoorden.
+        Herformuleer de prompt indien nodig en geef ALTIJD een prompt terug.`;
 
   const contextualizeQPrompt = ChatPromptTemplate.fromMessages([
     ["system", contextualizeQSystemPrompt],
