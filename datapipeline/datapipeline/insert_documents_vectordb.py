@@ -155,6 +155,35 @@ def insert_document_metadata_to_postgres(tenderId: str) -> None:
 
     print("Document ids inserted to Postgres")
 
+def insert_other_documents_postgres(documents) -> None:
+    try:
+        conn = psycopg2.connect(os.getenv("POSTGRES_CONNECTION_STRING"))
+        cursor = conn.cursor()
+        for document in documents:
+            print('Inserting document to Postgres', document['tenderid'], document['documentnaam'])
+            cursor.execute(
+                    f"""
+                    INSERT INTO tenderdocuments (tenderid, documentid, documentnaam, typedocument, datumpublicatie, gepubliceerddoor, publicatiecategorie, virusindicatie, grootte, downloadurl) 
+                    VALUES ('{document['tenderid']}', '{document['documentid']}', '{document['documentnaam']}', '{document['typedocument']}', '{document['datumpublicatie']}', '{document['gepubliceerddoor']}', '{document['publicatiecategorie']}', '{document['virusindicatie']}', '{document['grootte']}', '{document['downloadurl']}')
+                    ON CONFLICT (tenderid, documentid) DO UPDATE SET
+                    documentnaam = EXCLUDED.documentnaam,
+                    typedocument = EXCLUDED.typedocument,
+                    datumpublicatie = EXCLUDED.datumpublicatie,
+                    gepubliceerddoor = EXCLUDED.gepubliceerddoor,
+                    publicatiecategorie = EXCLUDED.publicatiecategorie,
+                    virusindicatie = EXCLUDED.virusindicatie,
+                    grootte = EXCLUDED.grootte,
+                    downloadurl = EXCLUDED.downloadurl
+                    """
+                )
+        conn.commit()
+    except Exception as e: 
+        print(e)
+        print("I am unable to connect to the database")
+    finally:
+        conn.close()
+
+    
 
 def insert_tender_metadata_to_vectordb(tenderId: str, metadata: dict) -> None:
     print(f"Inserting tender metadata to Weaviate for tenderId: {tenderId}")

@@ -66,8 +66,6 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
   runAsyncFnWithoutBlocking(async () => {
 
     const history = aiState.get().messages.slice(-3) ?? [];
-    console.log("++++++++++++HIstory++++++++++++")
-    console.log(history)
 
     let historicalMessages = history.map((m) => {
       if (m.role == "user") return new HumanMessage({ content: m.content })
@@ -99,8 +97,6 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
             const message = event.data.output.answer.content;
             const docs = event.data.output.sourceDocuments
 
-            console.log(event.data.output)
-
             textStream.done()
             sourcesStream.done(JSON.stringify(docs))
 
@@ -131,13 +127,14 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
 
   return {
     id: nanoid(),
-    display: <BotMessage content={textStream.value} sources={sourcesStream.value} />,
+    display: <BotMessage content={textStream.value} sources={sourcesStream.value} tenderDocumentMetadata={aiState.get().tenderDocumentMetadata} />,
   }
 
 }
 
 
 export type AIState = {
+  tenderDocumentMetadata?: any[];
   chatId: string
   messages: Message[]
   tenderId: string | undefined
@@ -154,7 +151,7 @@ export const AI = createAI<AIState, UIState>({
     // confirmPurchase
   },
   initialUIState: [],
-  initialAIState: { chatId: nanoid(), messages: [], tenderId: undefined},
+  initialAIState: { chatId: nanoid(), messages: [], tenderId: undefined, tenderDocumentMetadata: [] },
   onGetUIState: async () => {
     'use server'
 
@@ -229,7 +226,7 @@ export const getUIStateFromAIState = (aiState: Chat) => {
           ) : message.role === 'user' ? (
             <UserMessage>{message.content}</UserMessage>
           ) : (
-            message.sources && <BotMessage content={message.content} sources={createStreamableValue(message.sources).value} />
+            message.sources && <BotMessage content={message.content} sources={createStreamableValue(message.sources).value} tenderDocumentMetadata={aiState.tenderDocumentMetadata} />
           )
       })
     })

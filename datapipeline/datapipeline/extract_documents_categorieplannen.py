@@ -1,6 +1,6 @@
 import requests
 import os
-from datapipeline.insert_documents_vectordb import insert_to_vectordb
+from datapipeline.insert_documents_vectordb import insert_other_documents_postgres, insert_to_vectordb
 
 urls: list = [
     {
@@ -45,13 +45,15 @@ urls: list = [
     }
 ]
 
+tenderId = "categorieplannen"
 
 def extract_documents_categorieplannen():
     # Make directory if it does not exist
     if not os.path.exists("data_local/raw/categorieplannen"):
         os.makedirs("data_local/raw/categorieplannen")
     
-    for url in urls:
+    documents = []
+    for i, url in enumerate(urls):
         filename = url["categorie"].replace(" ", "_").replace("&", "en") + ".pdf"
         
         # Check if categorieplan already exists
@@ -68,10 +70,25 @@ def extract_documents_categorieplannen():
             
             with open(f"data_local/raw/categorieplannen/{filename}", "wb") as f:
                 f.write(response.content)
+    
         else:
             print(f"Pdf for Categorieplan {url['categorie']} already exists")
+            
+        documents.append({
+            "tenderid": tenderId,
+            "documentid": f"DOC_ID_{i}",
+            "documentnaam": filename,
+            "typedocument": "pdf",
+            "datumpublicatie": "",
+            "gepubliceerddoor": "PUBLISHER_NAME",
+            "publicatiecategorie": "CATEGORY",
+            "virusindicatie": False,
+            "grootte": -1,
+            "downloadurl": url["url"]}
+        )
     
     insert_to_vectordb('data_local/raw/categorieplannen', 'categorieplannen')
+    insert_other_documents_postgres(documents)
             
 
 extract_documents_categorieplannen()
