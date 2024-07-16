@@ -176,6 +176,7 @@ def insert_other_documents_postgres(documents) -> None:
                     downloadurl = EXCLUDED.downloadurl
                     """
                 )
+        conn.commit()
     except Exception as e: 
         print(e)
         print("I am unable to connect to the database")
