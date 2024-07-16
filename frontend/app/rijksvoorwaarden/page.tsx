@@ -30,7 +30,8 @@ export default async function RijksvoorwaardenPage() {
         messages:
           //  chat?.messages ?? 
           [],
-        tenderId: "rijksvoorwaarden"
+        tenderId: "rijksvoorwaarden",
+        tenderDocumentMetadata: []
       }}>
         <Chat
           showEmptyScreen={true}

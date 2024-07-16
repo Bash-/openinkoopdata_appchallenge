@@ -30,7 +30,8 @@ export default async function CategorieplannenPage() {
         messages:
           //  chat?.messages ?? 
           [],
-        tenderId: "categorieplannen"
+        tenderId: "categorieplannen",
+        tenderDocumentMetadata: []
       }}>
         <Chat
           showEmptyScreen={true}

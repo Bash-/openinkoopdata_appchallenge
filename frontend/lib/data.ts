@@ -1,3 +1,5 @@
+'use server'
+
 import { sql } from '@vercel/postgres';
 
 import {
@@ -80,5 +82,21 @@ export async function fetchTenderById(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch tender.');
+  }
+}
+
+export async function fetchTenderDocuments(id: string): Promise<any> {
+  try {
+    const data = await sql`
+      SELECT
+        *
+      FROM tenderdocuments
+      WHERE tenderid = ${id}
+    `;
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch tender documents.');
   }
 }

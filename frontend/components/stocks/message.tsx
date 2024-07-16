@@ -62,11 +62,13 @@ import * as Collapsible from '@radix-ui/react-collapsible'
 import { ArrowDownIcon, Cross1Icon } from '@radix-ui/react-icons'
 import React from 'react'
 
-const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
+const SourcesCollapsible = ({sources, tenderDocumentMetadata}: any) => {
   const [open, setOpen] = React.useState(false);
 
   const groupedBySource = sources.reduce((acc: any, doc: Document) => {
     const source = doc.metadata.source;
+    let sourceClean = source.replace('.pdf','').replace('.docx','');
+
     const pageNumber = doc.metadata.page_number;
     if (!acc[source]) {
       acc[source] = { 'pages': new Set(), 'tenderId': doc.metadata.tenderId };
@@ -75,6 +77,14 @@ const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
     if (pageNumber && pageNumber !== 'null') {
       acc[source]['pages'].add(parseInt(pageNumber) + 1);
     }
+
+    if (tenderDocumentMetadata) {
+      const match = tenderDocumentMetadata.find((doc: any) => doc.documentnaam === sourceClean);
+      if (match && match.downloadurl) {
+        acc[source]['downloadurl'] = `https://www.tenderned.nl${match.downloadurl}`;
+      }
+    }
+
     return acc;
   }, {});
 
@@ -96,10 +106,10 @@ const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(groupedBySource).map(([source, { pages, tenderId }]: any[], index) => (
+            {Object.entries(groupedBySource).map(([source, { pages, downloadurl }]: any[], index) => (
               <tr key={source} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
                 <td className="border px-4 py-2 text-gray-900 text-left flex">
-                  <a href={`https://www.tenderned.nl/aankondigingen/overzicht/${tenderId}`} target="_blank">{source} <IconExternalLink className='inline-block' /></a>
+                  <a href={downloadurl} target="_blank">{source} <IconExternalLink className='inline-block' /></a>
                 </td>
                 <td className="border px-4 py-2 text-gray-900 text-left">
                   {Array.from(pages).sort((a: any, b: any) => a - b).join(', ')}
@@ -117,10 +127,12 @@ const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
 export function BotMessage({
   content,
   sources,
+  tenderDocumentMetadata,
   className,
 }: {
   content: string | StreamableValue<string>
   sources: string | StreamableValue<string>
+  tenderDocumentMetadata?: any[]
   className?: string,
 }) {
   const text = useStreamableText(content)
@@ -182,7 +194,7 @@ export function BotMessage({
         <div className="flex size-[24px] shrink-0 select-none items-center justify-center">
         </div>
         <div className='ml-4 flex-1 space-y-2 overflow-hidden px-1'>
-          <SourcesCollapsible sources={JSON.parse(sourceOutput)} />
+          <SourcesCollapsible sources={JSON.parse(sourceOutput)} tenderDocumentMetadata={tenderDocumentMetadata} />
         </div>
       </div>
       )}

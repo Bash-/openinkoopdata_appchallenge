@@ -18,7 +18,7 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   id?: string
   session?: Session
   missingKeys: string[]
-  tenderId?: string | number | undefined
+  tenderId?: string | undefined
   documentId?: string | undefined
   showEmptyScreen?: boolean;
   emptyScreenHeader?: string;
@@ -49,12 +49,17 @@ export function Chat({ id, tenderId, documentId, className, session, missingKeys
     }
   }, [id, path, session?.user, messages])
 
-  useEffect(() => {
-    const messagesLength = aiState.messages?.length
-    if (messagesLength === 2) {
-      router.refresh()
-    }
-  }, [aiState.messages, router])
+  // TODO, maybe remove this, see if it affects the chat saving, this was uncommented initally by Vercel
+  // useEffect(() => {
+  //   const messagesLength = aiState.messages?.length
+  //   // console.log("aistate messages", aiState.messages)
+  //   // if (messagesLength === 2) {
+  //   //   // add delay of 1 second to allow the chat to be saved
+  //   //   setTimeout(() => {
+  //   //     router.refresh()
+  //   //   }, 1000)
+  //   // }
+  // }, [aiState.messages, router])
 
   useEffect(() => {
     setNewChatId(id)
