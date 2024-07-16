@@ -134,7 +134,7 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
 
 
 export type AIState = {
-  tenderDocumentMetadata: any[];
+  tenderDocumentMetadata?: any[];
   chatId: string
   messages: Message[]
   tenderId: string | undefined
@@ -226,7 +226,7 @@ export const getUIStateFromAIState = (aiState: Chat) => {
           ) : message.role === 'user' ? (
             <UserMessage>{message.content}</UserMessage>
           ) : (
-            message.sources && <BotMessage content={message.content} sources={createStreamableValue(message.sources).value} />
+            message.sources && <BotMessage content={message.content} sources={createStreamableValue(message.sources).value} tenderDocumentMetadata={aiState.tenderDocumentMetadata} />
           )
       })
     })

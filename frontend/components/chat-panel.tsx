@@ -92,7 +92,7 @@ export function ChatPanel({
       {
         heading: 'Wat is ...',
         subheading: 'de strekking van de documenten?',
-        message: `Vat de documenten samen.`
+        message: `Wat is de strekking van de documenten?`
       },
       {
         heading: 'Waar moet ik op letten ...',

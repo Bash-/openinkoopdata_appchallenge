@@ -2,7 +2,7 @@ import { getChat, getMissingKeys } from "@/app/actions";
 import { auth } from "@/auth";
 import { Chat } from "@/components/chat";
 import { AI } from "@/lib/chat/actions";
-import { fetchTenderById } from "@/lib/data";
+import { fetchTenderById, fetchTenderDocuments } from "@/lib/data";
 import { Session, Tender } from '@/lib/types';
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -21,6 +21,7 @@ export default async function RijksvoorwaardenPage() {
   // if (chat && (chat?.userId !== session?.user?.id)) {
   //   notFound()
   // }
+  let tenderDocumentMetadata = await fetchTenderDocuments("rijksvoorwaarden")
 
   return (
     <>
@@ -31,7 +32,7 @@ export default async function RijksvoorwaardenPage() {
           //  chat?.messages ?? 
           [],
         tenderId: "rijksvoorwaarden",
-        tenderDocumentMetadata: []
+        tenderDocumentMetadata
       }}>
         <Chat
           showEmptyScreen={true}

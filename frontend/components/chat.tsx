@@ -38,16 +38,16 @@ export function Chat({ id, tenderId, documentId, className, session, missingKeys
   const isTenderChat = path.includes('/tender')
   const isDocumentChat = path.includes('/document')
 
-  useEffect(() => {
-    if (session?.user) {
-      if (!path.includes('chat') && messages.length === 1 && !isTenderChat && !isDocumentChat) {
-        window.history.replaceState({}, '', `/chat/${id}`)
-      }
-      if (!path.includes('/tender') && messages.length === 1 && !isDocumentChat) {
-        window.history.replaceState({}, `/tenders/${id}`)
-      }
-    }
-  }, [id, path, session?.user, messages])
+  // useEffect(() => {
+  //   if (session?.user) {
+  //     if (!path.includes('chat') && messages.length === 1 && !isTenderChat && !isDocumentChat) {
+  //       window.history.replaceState({}, '', `/chat/${id}`)
+  //     }
+  //     if (!path.includes('/tender') && messages.length === 1 && !isDocumentChat) {
+  //       window.history.replaceState({}, `/tenders/${id}`)
+  //     }
+  //   }
+  // }, [id, path, session?.user, messages])
 
   // TODO, maybe remove this, see if it affects the chat saving, this was uncommented initally by Vercel
   // useEffect(() => {

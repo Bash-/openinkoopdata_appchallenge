@@ -79,9 +79,13 @@ const SourcesCollapsible = ({sources, tenderDocumentMetadata}: any) => {
     }
 
     if (tenderDocumentMetadata) {
-      const match = tenderDocumentMetadata.find((doc: any) => doc.documentnaam === sourceClean);
+      const match = tenderDocumentMetadata.find((doc: any) => (doc.documentnaam === sourceClean || doc.documentnaam === source));
       if (match && match.downloadurl) {
-        acc[source]['downloadurl'] = `https://www.tenderned.nl${match.downloadurl}`;
+        if (match.downloadurl.includes('/papi')) {
+          acc[source]['downloadurl'] = `https://www.tenderned.nl${match.downloadurl}`;
+        } else {
+          acc[source]['downloadurl'] = match.downloadurl;
+        }
       }
     }
 
