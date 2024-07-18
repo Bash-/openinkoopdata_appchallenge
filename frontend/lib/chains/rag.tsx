@@ -39,7 +39,7 @@ const formatDocs = (docs: Document[]): string => {
 
 // TODO: implement citations https://js.langchain.com/docs/use_cases/question_answering/citations
 // TODO: chat history https://langchain.com/docs/use_cases/question_answering/chat_history/
-export const rag = async (chat_history: Message[], tenderId: string | undefined = undefined, documentId: string | undefined, company_data: boolean = false) => {
+export const rag = async (question: string, chat_history: Message[], tenderId: string | undefined = undefined, documentId: string | undefined, company_data: boolean = false) => {
 
   const llm = new ChatOpenAI({
     modelName: "gpt-3.5-turbo",
@@ -67,11 +67,16 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
   // ============ QA Chain ============
 
   const qaSystemPrompt = `
-      ${tenderId ? `Dit is een vraag over een specifieke tender van de gebruiker met id ${tenderId}. Beantwoord deze vraag met de context die hieronder gegeven wordt, dit zijn documenten die geüpload zijn bij deze tender` : `U bent een QA bot voor Tender aanvragen voor de nederlandse markt`}.
+      ${tenderId ? `Dit is een vraag van de gebruiker over een specifieke tender of over rijksdocumenten die gaan over aanbestedingen van het rijk, het heeft het id ${tenderId}.`
+         : `U bent een QA bot voor Tender aanvragen voor de nederlandse markt. Dit is een vraag van de gebruiker over een specifieke tender of over rijksdocumenten die gaan over aanbestedingen van het rijk`}.
+      Beantwoord deze vraag met de context die hieronder gegeven wordt, dit zijn teksten uit de documenten.
+      
       \n\n
-      Dit is relevante tender informatie: {context}.
+
+      Dit is relevante informatie: {context}.
       \n\n
-      Als je informatie opsomt, gebruik dan bullets points. Als je het antwoord niet weet, vraag de gebruiker dan om de vraag te herformuleren.
+      Als je het antwoord niet weet, vraag de gebruiker dan om de vraag te herformuleren.
+      Probeer het antwoord zo uitgebreid mogelijk te geven en verwijs naar de bronbestanden met pagina nummers waar dat kan.
     `
 
   const qaPrompt = ChatPromptTemplate.fromMessages([
@@ -101,19 +106,44 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
     metadataKeys: ["source", "tenderId", "page_number",],
   });
 
-
   // // only do rag for docs with this tender
   // // https://weaviate.io/developers/weaviate/api/graphql/filters
-  let filters = undefined
-  if (tenderId) {
-    filters = {
-      where: {
-        operator: "Equal",
-        path: ["tenderId"],
-        valueText: tenderId,
-      },
-    }
+  let filters: any = {
+    where: {
+      operator: 'And',
+      operands: [
+        {
+          operator: "Or",
+          operands: []
+        }
+      ]
+    },
   }
+
+  if (tenderId) {
+    filters.where.operands[0].operands.push({
+      operator: "Equal",
+      path: ["tenderId"],
+      valueText: tenderId,
+    })
+  }
+
+  if (question && typeof question === 'string' && question.toLowerCase().includes("rijksvoorwaarden")) {
+    filters.where.operands[0].operands.push({
+      operator: "Equal",
+      path: ["tenderId"],
+      valueText: "rijksvoorwaarden",
+    })
+  }
+
+  if (question && typeof question === 'string' && question.toLowerCase().includes("categorie")) {
+    filters.where.operands[0].operands.push({
+      operator: "Equal",
+      path: ["tenderId"],
+      valueText: "categorieplannen",
+    })
+  }
+
   if (documentId) {
     filters = {
       operator: 'And',
@@ -132,8 +162,10 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
     }
   }
 
+  // TODO multiple RAG runs based on keywords
+
   const retriever = store.asRetriever({
-    k: documentId ? 1 : tenderId ? 12 : 12,
+    k: documentId ? 1 : tenderId ? 25 : 12,
     filter: filters,
     verbose: true,
     // verbose: true,
