@@ -52,7 +52,7 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
         U bent gespecialiseerd in tender aanvragen voor de nederlandse markt.
         Gegeven is een chatgeschiedenis en de laatste gebruikers prompt.
         Herschrijf de gebruikers prompt kort en bondig om de duidelijkheid en nauwkeurigheid te verbeteren
-        Deze prompt wordt gebruikt om relevante documenten te vinden die de vraag van de gebruiker kunnen beantwoorden.
+        Deze prompt wordt gebruikt om relevante documenten te vinden passend bij de gebruikers prompt.
         Herformuleer de prompt indien nodig en geef ALTIJD een prompt terug.`;
 
   const contextualizeQPrompt = ChatPromptTemplate.fromMessages([
