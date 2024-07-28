@@ -48,7 +48,7 @@ def is_ignored(link: str) -> bool:
         r"^#.*",
         r"^nl/$",
         r"https://(?:www.)pianoo.nl/.*#.*^",  # internal links
-        r"^((?!pianoo).)*$", # external links
+        r"^((?!pianoo).)*$",  # external links
     ]
     for pattern in IGNORED_LINKS:
         if re.match(pattern, link):
