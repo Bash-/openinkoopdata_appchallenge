@@ -20,8 +20,10 @@ class PianooLink:
         return self.url == other.url
 
 
-PIANO_SITEMAP_URL = "https://www.pianoo.nl/nl/sitemap"
-PIANO_SAVE_PATH = "./pianoo"
+PAGE_LIMIT = 1000
+PIANOO_SITEMAP_URL = "https://www.pianoo.nl/nl/sitemap"
+PIANOO_SAVE_PATH = "./pianoo"
+
 
 def is_ignored(link: str) -> bool:
     """Determine if a link should be ignored based on predefined patterns.
@@ -79,18 +81,33 @@ def save_data(links: List[PianooLink], file_path: str):
 
 
 def save_pianoo_link(link: PianooLink):
-    file_name = f"{PIANO_SAVE_PATH}/{link.url.replace('https://www.pianoo.nl/', '').replace('/', '_')}.json"
-    with open(file_name, "w+") as f:
+
+    clean_file_name = link.url.replace("https://www.pianoo.nl/", "").replace("/", "_")
+    with open(f"{PIANOO_SAVE_PATH}/json/{clean_file_name}.json", "w+") as f:
         json.dump(
             {
                 "title": link.title,
                 "url": link.url,
-                "content": link.content,
+                "description": link.description,
                 "scraped_at": datetime.datetime.now().isoformat(),
             },
             f,
             indent=2,
         )
+    with open(f"{PIANOO_SAVE_PATH}/txt/{clean_file_name}.txt", "w+") as f:
+
+        def clean_text(text: str) -> str:
+            return (
+                text.replace("\n", " ")
+                .replace("\r", " ")
+                .replace("\t", " ")
+                .replace("\xa0", " ")
+                .strip()
+                .encode("ascii", "ignore")
+                .decode()
+            )
+
+        f.write(clean_text(f"{link.title}. {link.description}. {link.content}"))
 
 
 def scrape_links(
@@ -111,8 +128,11 @@ def scrape_links(
     if links_to_return is None:
         links_to_return = []
 
-    if len(links_to_return) >= 100:
-        print(f"Reached limit of 100 pages. Stopping.")
+    if link.startswith("/nl"):
+        link = f"https://www.pianoo.nl{link}"
+
+    if len(links_to_return) >= PAGE_LIMIT:
+        print(f"Reached limit of {PAGE_LIMIT} pages. Stopping.")
         return links_to_return
 
     if link in visited_links or is_ignored(link):
@@ -137,7 +157,7 @@ def scrape_links(
     if page_content:
         page_content = page_content.get_text()
     else:
-        page_content = soup.find("body").get_text()
+        page_content = soup.find("body").get_text().strip()
 
     page_title = soup.title.string if soup.title else "No title"
     page_description = soup.find("meta", {"name": "description"})
@@ -174,14 +194,14 @@ def scrape_links(
 if __name__ == "__main__":
     data = []
     try:
+        if not os.path.exists(f"{PIANOO_SAVE_PATH}/txt/"):
+            os.makedirs(f"{PIANOO_SAVE_PATH}/txt/")
+        if not os.path.exists(f"{PIANOO_SAVE_PATH}/json/"):
+            os.makedirs(f"{PIANOO_SAVE_PATH}/json/")
         # Start recursive scraping
-        data = scrape_links(PIANO_SITEMAP_URL)
+        data = scrape_links(PIANOO_SITEMAP_URL)
     except Exception as e:
         print(f"Error scraping Pianoo: {e}")
     except KeyboardInterrupt:
         # this only works if we have finished at least one recursive scrape of a
         print("Scraping interrupted by user.")
-    finally:
-        # Save the URLs of scraped pages
-        save_data(data, PIANO_SAVE_PATH)
-        print("Data saved.")
