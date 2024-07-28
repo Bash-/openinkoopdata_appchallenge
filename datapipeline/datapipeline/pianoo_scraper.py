@@ -20,7 +20,7 @@ class PianooLink:
         return self.url == other.url
 
 
-PAGE_LIMIT = 1000
+PAGE_LIMIT = 10
 PIANOO_SITEMAP_URL = "https://www.pianoo.nl/nl/sitemap"
 PIANOO_SAVE_PATH = "./pianoo"
 

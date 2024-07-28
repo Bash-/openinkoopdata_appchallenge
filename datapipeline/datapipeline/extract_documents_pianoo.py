@@ -3,11 +3,11 @@
 import json
 import os
 
-from datapipeline.insert_documents_vectordb import (
+from insert_documents_vectordb import (
     insert_other_documents_postgres,
     insert_to_vectordb,
 )
-from datapipeline.pianoo_scraper import PIANOO_SAVE_PATH, PianooLink
+from pianoo_scraper import PIANOO_SAVE_PATH, PianooLink
 
 if __name__ == "__main__":
     documents = []
