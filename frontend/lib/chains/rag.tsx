@@ -2,12 +2,11 @@
 import { Document } from "@langchain/core/documents";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
-import { RunnableMap, RunnablePassthrough, RunnableSequence } from "@langchain/core/runnables";
+import { RunnablePassthrough, RunnableSequence } from "@langchain/core/runnables";
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { WeaviateStore } from "@langchain/weaviate";
 import weaviate, { ApiKey } from "weaviate-ts-client";
 import { Message } from "../chat/actions";
-import { formatDocumentsAsString } from "langchain/util/document";
 
 const weaviateClient = (weaviate as any).client({
   scheme: process.env.WEAVIATE_SCHEME || "https",
@@ -41,9 +40,23 @@ const formatDocs = (docs: Document[]): string => {
 // TODO: chat history https://langchain.com/docs/use_cases/question_answering/chat_history/
 export const rag = async (chat_history: Message[], tenderId: string | undefined = undefined, documentId: string | undefined, company_data: boolean = false) => {
 
+  let tags = []
+  if (documentId) {
+    tags = [...tags, "document", documentId]
+  }
+  if (tenderId) {
+    tags = [...tags, "tender", tenderId]
+  }
+
   const llm = new ChatOpenAI({
     modelName: "gpt-3.5-turbo",
     streaming: true,
+  }).withConfig({
+    tags: tags,
+    metadata: {
+      tenderId,
+      documentId,
+    }
   });
 
   // ============ Chat History Chain ============
@@ -133,7 +146,7 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
   }
 
   const retriever = store.asRetriever({
-    k: documentId ? 1 : tenderId ? 12 : 12,
+    k: documentId ? 2 : tenderId ? 12 : 12,
     filter: filters,
     verbose: true,
     // verbose: true,
@@ -154,7 +167,7 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
 
   let retrieverRunnable = RunnablePassthrough.assign({
     sourceDocuments: (input: Record<string, unknown>) => {
-      return retriever._getRelevantDocuments(input.question)
+      return process.env.NODE_ENV === 'development' ? [] : retriever._getRelevantDocuments(input.question)
     }
   })
 
@@ -171,7 +184,13 @@ export const rag = async (chat_history: Message[], tenderId: string | undefined 
     docRunnable,
     qaPrompt,
     llm
-  ])
+  ]).withConfig({
+    tags: tags,
+    metadata: {
+      tenderId,
+      documentId,
+    }
+  })
 
   let ragChainWithSource = contextualizedQuestionRunnable.pipe(retrieverRunnable).assign({ answer: answerChain });
 
