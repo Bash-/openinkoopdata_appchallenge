@@ -1,14 +1,11 @@
-import { nanoid } from '@/lib/utils'
-import { Chat } from '@/components/chat'
-import { AI } from '@/lib/chat/actions'
 import { auth } from '@/auth'
-import { Session } from '@/lib/types'
-import { getMissingKeys } from '../actions'
 import { EmptyScreen } from '@/components/empty-screen'
-import { cn } from '@/lib/utils'
-import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
-import { IconArrowRight, IconMessage } from '@/components/ui/icons'
+import { IconArrowRight } from '@/components/ui/icons'
+import { Session } from '@/lib/types'
+import { cn, nanoid } from '@/lib/utils'
+import Link from 'next/link'
+import { getMissingKeys } from '../actions'
 
 export const metadata = {
   title: 'Chat'
@@ -41,17 +38,17 @@ export default async function IndexPage() {
                 </p>
                 <Link
                   href="/rijksvoorwaarden"
-                  className={cn(buttonVariants({ variant: 'outline' }))}
+                  className={cn(buttonVariants({ variant: 'outline' }), "mt-2", 'w-full', 'justify-between')}
                 >
-                  <IconArrowRight className="mr-1" />
-                  <span className="hidden ml-2 md:flex">Chat met Rijksvoorwaarden</span>
+                  <span className="hidden ml-2 mt-1 md:flex">Chat met Rijksvoorwaarden</span>
+                  <IconArrowRight className="ml-2" />
                 </Link>
                 <Link
                   href="/categorieplannen"
-                  className={cn(buttonVariants({ variant: 'outline' }))}
+                  className={cn(buttonVariants({ variant: 'outline' }), "mt-2", 'w-full', 'justify-between')}
                 >
-                  <IconArrowRight className="mr-1" />
                   <span className="hidden ml-2 md:flex">Chat met Categorieplannen</span>
+                  <IconArrowRight className="ml-2" />
                 </Link>
               </div>
             </div>
@@ -65,10 +62,17 @@ export default async function IndexPage() {
                 </p>
                 <Link
                   href="/tenders"
-                  className={cn(buttonVariants({ variant: 'outline' }))}
+                  className={cn(buttonVariants({ variant: 'outline' }), 'mt-2', 'w-full', 'justify-between')}
                 >
-                  <IconArrowRight className="mr-1" />
                   <span className="hidden ml-2 md:flex">Zoek en chat met Tenders</span>
+                  <IconArrowRight className="ml-2" />
+                </Link>
+                <Link
+                  href="/pianoo"
+                  className={cn(buttonVariants({ variant: 'outline' }), 'mt-2', 'w-full', 'justify-between')}
+                >
+                  <span className="hidden ml-2 md:flex">Chat met Pianoo</span>
+                  <IconArrowRight className="ml-2" />
                 </Link>
               </div>
             </div>
