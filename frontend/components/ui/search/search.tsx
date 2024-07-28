@@ -14,7 +14,6 @@ export default function Search({ }) {
   const pathname = usePathname()
 
   const handleSearch = useDebounceCallback((term: string) => {
-    console.log(term);
     const params = new URLSearchParams(searchParams);
     params.set('page', '1');
     if (term) {

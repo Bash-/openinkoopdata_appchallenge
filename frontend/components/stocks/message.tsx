@@ -1,6 +1,6 @@
 'use client'
 
-import { IconExternalLink, IconOpenAI, IconUser } from '@/components/ui/icons'
+import { IconExternalLink, IconTenderFlow, IconTenderFlowFancy, IconUser } from '@/components/ui/icons'
 import { useStreamableText } from '@/lib/hooks/use-streamable-text'
 import { cn } from '@/lib/utils'
 import { Document } from '@langchain/core/documents'
@@ -62,21 +62,36 @@ import * as Collapsible from '@radix-ui/react-collapsible'
 import { ArrowDownIcon, Cross1Icon } from '@radix-ui/react-icons'
 import React from 'react'
 
-const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
+const SourcesCollapsible = ({sources, tenderDocumentMetadata}: any) => {
   const [open, setOpen] = React.useState(false);
 
-  const groupedBySource = sources.reduce((acc, doc) => {
+  const groupedBySource = sources.reduce((acc: any, doc: Document) => {
     const source = doc.metadata.source;
+    let sourceClean = source.replace('.pdf','').replace('.docx','');
+
     const pageNumber = doc.metadata.page_number;
     if (!acc[source]) {
       acc[source] = { 'pages': new Set(), 'tenderId': doc.metadata.tenderId };
     }
 
-    acc[source]['pages'].add(parseInt(pageNumber) + 1);
+    if (pageNumber && pageNumber !== 'null') {
+      acc[source]['pages'].add(parseInt(pageNumber) + 1);
+    }
+
+    if (tenderDocumentMetadata) {
+      const match = tenderDocumentMetadata.find((doc: any) => (doc.documentnaam === sourceClean || doc.documentnaam === source));
+      if (match && match.downloadurl) {
+        if (match.downloadurl.includes('/papi')) {
+          acc[source]['downloadurl'] = `https://www.tenderned.nl${match.downloadurl}`;
+        } else {
+          acc[source]['downloadurl'] = match.downloadurl;
+        }
+      }
+    }
+
     return acc;
   }, {});
 
-  console.log(groupedBySource)
   return (
     <Collapsible.Root className="CollapsibleRoot" open={open} onOpenChange={setOpen}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -95,13 +110,13 @@ const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(groupedBySource).map(([source, { pages, tenderId }], index) => (
+            {Object.entries(groupedBySource).map(([source, { pages, downloadurl }]: any[], index) => (
               <tr key={source} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
                 <td className="border px-4 py-2 text-gray-900 text-left flex">
-                  <a href={`https://www.tenderned.nl/aankondigingen/overzicht/${tenderId}`} target="_blank">{source} <IconExternalLink className='inline-block' /></a>
+                  <a href={downloadurl} target="_blank">{source} <IconExternalLink className='inline-block' /></a>
                 </td>
                 <td className="border px-4 py-2 text-gray-900 text-left">
-                  {Array.from(pages).sort((a, b) => a - b).join(', ')}
+                  {Array.from(pages).sort((a: any, b: any) => a - b).join(', ')}
                 </td>
               </tr>
             ))}
@@ -116,10 +131,12 @@ const SourcesCollapsible = ({ sources }: { sources: Document[] }) => {
 export function BotMessage({
   content,
   sources,
+  tenderDocumentMetadata,
   className,
 }: {
   content: string | StreamableValue<string>
   sources: string | StreamableValue<string>
+  tenderDocumentMetadata?: any[]
   className?: string,
 }) {
   const text = useStreamableText(content)
@@ -128,9 +145,11 @@ export function BotMessage({
   return (
     <>
       <div className={cn('group relative flex items-start md:-ml-12', className)}>
-        <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm">
-          <IconOpenAI />
+        <div>
+          <IconTenderFlowFancy />
         </div>
+        {/* <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border text-primary-foreground shadow-sm"> */}
+        {/* </div> */}
         <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
           <MemoizedReactMarkdown
             className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
@@ -179,7 +198,7 @@ export function BotMessage({
         <div className="flex size-[24px] shrink-0 select-none items-center justify-center">
         </div>
         <div className='ml-4 flex-1 space-y-2 overflow-hidden px-1'>
-          <SourcesCollapsible sources={JSON.parse(sourceOutput)} />
+          <SourcesCollapsible sources={JSON.parse(sourceOutput)} tenderDocumentMetadata={tenderDocumentMetadata} />
         </div>
       </div>
       )}
@@ -200,11 +219,11 @@ export function BotCard({
     <div className="group relative flex items-start md:-ml-12">
       <div
         className={cn(
-          'flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm',
+          'flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border text-primary-foreground shadow-sm',
           !showAvatar && 'invisible'
         )}
       >
-        <IconOpenAI />
+        <IconTenderFlow />
       </div>
       <div className="ml-4 flex-1 pl-2">{children}</div>
     </div>
@@ -227,8 +246,8 @@ export function SystemMessage({ children }: { children: React.ReactNode }) {
 export function SpinnerMessage() {
   return (
     <div className="group relative flex items-start md:-ml-12">
-      <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm">
-        <IconOpenAI />
+      <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border text-primary-foreground shadow-sm">
+        <IconTenderFlow />
       </div>
       <div className="ml-4 h-[24px] flex flex-row items-center flex-1 space-y-2 overflow-hidden px-1">
         {spinner}

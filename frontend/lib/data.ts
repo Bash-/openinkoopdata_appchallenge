@@ -1,3 +1,5 @@
+'use server'
+
 import { sql } from '@vercel/postgres';
 
 import {
@@ -81,8 +83,6 @@ export async function fetchTenderById(id: string) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch tender.');
   }
-<<<<<<< Updated upstream
-=======
 }
 
 export async function fetchTenderDocuments(id: string): Promise<any> {
@@ -91,7 +91,7 @@ export async function fetchTenderDocuments(id: string): Promise<any> {
       SELECT
         *
       FROM tenderdocuments
-      WHERE tenderid LIKE %${id}%
+      WHERE tenderid = ${id}
     `;
 
     return data.rows;
@@ -99,5 +99,4 @@ export async function fetchTenderDocuments(id: string): Promise<any> {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch tender documents.');
   }
->>>>>>> Stashed changes
 }

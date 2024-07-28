@@ -14,7 +14,7 @@ export async function getChats(userId?: string | null) {
 
   try {
     const pipeline = kv.pipeline()
-    const chats: string[] = await kv.zrange(`user:chat:${userId}`, 0, -1, {
+    const chats: string[] = await kv.zrange(`user:chat:${userId}`, 0, 6, {
       rev: true
     })
 

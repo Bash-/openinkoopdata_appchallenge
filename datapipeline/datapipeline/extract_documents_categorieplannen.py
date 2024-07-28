@@ -1,5 +1,6 @@
 import requests
 import os
+from datapipeline.insert_documents_vectordb import insert_other_documents_postgres, insert_to_vectordb
 
 urls: list = [
     {
@@ -16,7 +17,7 @@ urls: list = [
     },
     {
         "categorie": "Consumptieve Dienstverlening",
-        "url": "https://www.rijksoverheid.nl/onderwerpen/zakendoen-met-het-rijk/documenten/rapporten/2022/06/30/strategisch-categorieplan-consumptieve-dienstverlening"
+        "url": "https://www.rijksoverheid.nl/binaries/rijksoverheid/documenten/rapporten/2022/06/30/strategisch-categorieplan-consumptieve-dienstverlening/Strategisch+Categorieplan+Consumptieve+Dienstverlening+toegankelijk.pdf"
     },
     {
         "categorie": "Duurzame Inzetbaarheid",
@@ -44,24 +45,50 @@ urls: list = [
     }
 ]
 
+tenderId = "categorieplannen"
 
 def extract_documents_categorieplannen():
     # Make directory if it does not exist
     if not os.path.exists("data_local/raw/categorieplannen"):
         os.makedirs("data_local/raw/categorieplannen")
     
-    for url in urls:
-        response = requests.get(url["url"])
-        # Check if contents of response is a pdf
-        if response.headers["Content-Type"] != "application/pdf":
-            print(f"Could not extract pdf for Categorieplan {url['categorie']} from {url['url']}")
-            continue
-        
-        # Replace spaces with underscores and replace & with 'en'
+    documents = []
+    for i, url in enumerate(urls):
         filename = url["categorie"].replace(" ", "_").replace("&", "en") + ".pdf"
         
-        with open(f"data_local/raw/categorieplannen/{filename}", "wb") as f:
-            f.write(response.content)
+        # Check if categorieplan already exists
+        if not os.path.exists(f"data_local/raw/categorieplannen/{filename}"):
+            print(f"Extracting pdf for Categorieplan {url['categorie']} from {url['url']}")
+            response = requests.get(url["url"])
+            # Check if contents of response is a pdf
+            if "application/pdf" not in response.headers["Content-Type"]:
+                print(f"Could not extract pdf for Categorieplan {url['categorie']} from {url['url']}")
+                print(f"Content-Type: {response.headers['Content-Type']}")
+                continue
+            
+            # Replace spaces with underscores and replace & with 'en'
+            
+            with open(f"data_local/raw/categorieplannen/{filename}", "wb") as f:
+                f.write(response.content)
+    
+        else:
+            print(f"Pdf for Categorieplan {url['categorie']} already exists")
+            
+        documents.append({
+            "tenderid": tenderId,
+            "documentid": f"DOC_ID_{i}",
+            "documentnaam": filename,
+            "typedocument": "pdf",
+            "datumpublicatie": "",
+            "gepubliceerddoor": "PUBLISHER_NAME",
+            "publicatiecategorie": "CATEGORY",
+            "virusindicatie": False,
+            "grootte": -1,
+            "downloadurl": url["url"]}
+        )
+    
+    insert_to_vectordb('data_local/raw/categorieplannen', 'categorieplannen')
+    insert_other_documents_postgres(documents)
             
 
 extract_documents_categorieplannen()

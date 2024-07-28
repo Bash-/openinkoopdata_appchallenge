@@ -69,5 +69,10 @@ for publicatie_id in publicatie_ids:
             destination_blob_name = os.path.join(directory, file)
             upload_file_to_gcp(file_path, 'aitenderportaal-storage', destination_blob_name)
     
-    insert_to_vectordb(local_directory, publicatie_id)
-    insert_document_metadata_to_postgres(publicatie_id)
+    print("files", files)
+    if not files:
+        print("No files found in the directory")
+        continue
+    else:
+        insert_to_vectordb(local_directory, publicatie_id)
+        insert_document_metadata_to_postgres(publicatie_id)

@@ -13,3 +13,7 @@ This folder contains files to perform Extract, Load, and Transform (ELT) tasks f
 1. Save your GCP Service Account Credentials in this folder and name it "gcp_serviceaccount.json"
 1. Build the Docker file, e.g. `docker build -t aitenderportaal-datapipeline .`
 1. Run the Docker file, e.g. `docker run --rm aitenderportaal-datapipeline`
+
+## Deploy
+1. `docker tag aitenderportaal-datapipeline europe-west9-docker.pkg.dev/ai-tenderportaal/aitenderportaal-registry/aitenderportaal-datapipeline:latest`
+1. `docker push europe-west9-docker.pkg.dev/ai-tenderportaal/aitenderportaal-registry/aitenderportaal-datapipeline:latest`

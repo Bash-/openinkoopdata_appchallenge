@@ -597,6 +597,16 @@ files = [
 ]
 
 [[package]]
+name = "docx2txt"
+version = "0.8"
+description = "A pure python-based utility to extract text and images from docx files."
+optional = false
+python-versions = "*"
+files = [
+    {file = "docx2txt-0.8.tar.gz", hash = "sha256:2c06d98d7cfe2d3947e5760a57d924e3ff07745b379c8737723922e7009236e5"},
+]
+
+[[package]]
 name = "executing"
 version = "2.0.1"
 description = "Get the currently executing AST node of a frame, and other information"
@@ -3098,4 +3108,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "c75b3529b2544b76a70e2d5af0899a94ae21f120b9bf0d487f6c34d3405e0eab"
+content-hash = "45a9a25dc196c497a16f3791faac3175a9b58d0962d18c8804781cdacc137b7f"
