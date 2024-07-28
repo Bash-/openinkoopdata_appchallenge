@@ -14,6 +14,49 @@ export async function MainMenu() {
         <h4 className="text-sm font-medium">Menu</h4>
       </div>
       <div className="mb-2 px-2">
+<<<<<<< Updated upstream
+=======
+        <Link
+          href="/"
+          className={cn(
+            buttonVariants({ variant: 'outline' }),
+            buttonClassname
+          )}
+        >
+          <HomeIcon className="-translate-x-2 stroke-2" />
+          Hoofdpagina
+        </Link>
+        <Link
+          href="/rijksvoorwaarden"
+          className={cn(
+            buttonVariants({ variant: 'outline' }),
+            buttonClassname
+          )}
+        >
+          <IconMessage className="-translate-x-2 stroke-2" />
+          Chat met Rijksvoorwaarden
+        </Link>
+        <Link
+          href="/categorieplannen"
+          className={cn(
+            buttonVariants({ variant: 'outline' }),
+            buttonClassname
+          )}
+        >
+          <IconMessage className="-translate-x-2 stroke-2" />
+          Chat met Categorieplannen
+        </Link>
+>>>>>>> Stashed changes
+        <Link
+          href="/pianoo"
+          className={cn(
+            buttonVariants({ variant: 'outline' }),
+            buttonClassname
+          )}
+        >
+          <IconMessage className="-translate-x-2 stroke-2" />
+          Chat met Pianoo
+        </Link>
         <Link
           href="/tenders"
           className={cn(

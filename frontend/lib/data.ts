@@ -81,4 +81,23 @@ export async function fetchTenderById(id: string) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch tender.');
   }
+<<<<<<< Updated upstream
+=======
+}
+
+export async function fetchTenderDocuments(id: string): Promise<any> {
+  try {
+    const data = await sql`
+      SELECT
+        *
+      FROM tenderdocuments
+      WHERE tenderid LIKE %${id}%
+    `;
+
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch tender documents.');
+  }
+>>>>>>> Stashed changes
 }
