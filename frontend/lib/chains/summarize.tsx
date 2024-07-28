@@ -60,7 +60,12 @@ export const summarize = async (docs: Document[]) => {
   });
 
   const summary = await summarizeChain.invoke({
-    input_documents: docsSummary
+    input_documents: docsSummary,
+    metadata: {
+      refinePrompt: SUMMARY_REFINE_PROMPT,
+      questionPrompt: SUMMARY_PROMPT,
+      docs: docs.map((d) => d.metadata?.id),
+    }
   });
 
   return summary["output_text"]
