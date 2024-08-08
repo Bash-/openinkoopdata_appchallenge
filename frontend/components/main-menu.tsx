@@ -14,7 +14,7 @@ export async function MainMenu() {
         <h4 className="text-sm font-medium">Menu</h4>
       </div>
       <div className="mb-2 px-2">
-      <Link
+        <Link
           href="/"
           className={cn(
             buttonVariants({ variant: 'outline' }),
@@ -43,6 +43,16 @@ export async function MainMenu() {
         >
           <IconMessage className="-translate-x-2 stroke-2" />
           Chat met Categorieplannen
+        </Link>
+        <Link
+          href="/pianoo"
+          className={cn(
+            buttonVariants({ variant: 'outline' }),
+            buttonClassname
+          )}
+        >
+          <IconMessage className="-translate-x-2 stroke-2" />
+          Chat met Pianoo
         </Link>
         <Link
           href="/tenders"

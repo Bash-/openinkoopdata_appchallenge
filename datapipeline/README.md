@@ -17,3 +17,7 @@ This folder contains files to perform Extract, Load, and Transform (ELT) tasks f
 ## Deploy
 1. `docker tag aitenderportaal-datapipeline europe-west9-docker.pkg.dev/ai-tenderportaal/aitenderportaal-registry/aitenderportaal-datapipeline:latest`
 1. `docker push europe-west9-docker.pkg.dev/ai-tenderportaal/aitenderportaal-registry/aitenderportaal-datapipeline:latest`
+
+## Pianoo
+1. Change the number of MAX documents you'd like to retrieve `python pianoo_scraper.py`
+2. Run `python extract_documents_pianoo.py` for inserting them into weaviate
