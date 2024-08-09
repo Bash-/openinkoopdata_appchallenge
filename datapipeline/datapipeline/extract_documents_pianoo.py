@@ -23,7 +23,7 @@ if __name__ == "__main__":
                     print(filename)
                     documents.append(
                         {
-                            "tenderid": filename,
+                            "tenderid": "pianoo",
                             "documentid": f"pianoo_{filename}",
                             "documentnaam": data["title"],
                             "typedocument": "txt",
@@ -37,5 +37,5 @@ if __name__ == "__main__":
                     )
 
     print(documents[-1])
-    insert_to_vectordb(f"{PIANOO_SAVE_PATH}/txt/", "pianoo")
+    # insert_to_vectordb(f"{PIANOO_SAVE_PATH}/txt/", "pianoo")
     insert_other_documents_postgres(documents)

@@ -20,7 +20,7 @@ class PianooLink:
         return self.url == other.url
 
 
-PAGE_LIMIT = 10
+PAGE_LIMIT = 1000
 PIANOO_SITEMAP_URL = "https://www.pianoo.nl/nl/sitemap"
 PIANOO_SAVE_PATH = "./pianoo"
 
@@ -128,7 +128,7 @@ def scrape_links(
     if links_to_return is None:
         links_to_return = []
 
-    if link.startswith("/nl"):
+    if link.startswith("/"):
         link = f"https://www.pianoo.nl{link}"
 
     if len(links_to_return) >= PAGE_LIMIT:
@@ -182,7 +182,7 @@ def scrape_links(
     # Filter and scrape links found on the current page
     found_links = [l["href"] for l in links if not is_ignored(l["href"])]
     for new_link in found_links:
-        if new_link.startswith("/nl"):
+        if new_link.startswith("/"):
             new_link = f"https://www.pianoo.nl{new_link}"
 
         if new_link not in visited_links:
