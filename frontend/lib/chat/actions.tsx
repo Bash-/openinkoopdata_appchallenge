@@ -4,11 +4,8 @@ import {
   BotCard,
   BotMessage,
   Purchase,
-  Stock,
-  SystemMessage,
-  spinner
+  Stock
 } from '@/components/stocks';
-import { Document } from "@langchain/core/documents";
 import {
   createAI,
   createStreamableValue,
@@ -21,18 +18,15 @@ import { saveChat } from '@/app/actions';
 import { auth } from '@/auth';
 import { Events } from '@/components/stocks/events';
 import { UserMessage } from '@/components/stocks/message';
-import { AIMessage, HumanMessage } from "@langchain/core/messages";
 import { Stocks } from '@/components/stocks/stocks';
-import { Chat } from '@/lib/types';
+import { Chat, Message } from '@/lib/types';
 import {
-  formatNumber,
   nanoid,
-  runAsyncFnWithoutBlocking,
-  sleep
+  runAsyncFnWithoutBlocking
 } from '@/lib/utils';
+import { AIMessage, HumanMessage } from "@langchain/core/messages";
 import React from 'react';
 import { rag } from '../chains/rag';
-import { Message } from '@/lib/types';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || ''
@@ -81,8 +75,6 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
       // TODO this seems to be not working, cannot pass an object here? Not sure how to pass chat_history then to RAG function and these message templates
       const response = chain.streamEvents({ question: content, chat_history: historicalMessages }, { version: "v1" })
       for await (const event of response) {
-        // console.log(event)
-        // console.log("==================")
         const eventType = event.event;
 
         if (eventType === "on_llm_stream" && chainCounter > 0) {

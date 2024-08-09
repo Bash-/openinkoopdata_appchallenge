@@ -37,5 +37,5 @@ if __name__ == "__main__":
                     )
 
     print(documents[-1])
-    # insert_to_vectordb(f"{PIANOO_SAVE_PATH}/txt/", "pianoo")
+    insert_to_vectordb(f"{PIANOO_SAVE_PATH}/txt/", "pianoo")
     insert_other_documents_postgres(documents)
