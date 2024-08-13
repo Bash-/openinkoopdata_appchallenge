@@ -23,14 +23,14 @@ const weaviateClient = (weaviate as any).client({
  */
 const formatDocs = (docs: Document[]): string => {
   const uniqueDocs = [...new Map(docs.map(d =>
-    [`${d.metadata.page_number}-${d.metadata.tenderId}-${d.metadata.source}`, d])).values()];
+    [`${d.metadata?.page_number}-${d.metadata?.tenderId}-${d.metadata?.source}`, d])).values()];
 
   const context =
     "\n\n" +
     uniqueDocs
       .map(
         (doc: Document) =>
-          `Tender titel: ${doc.metadata.tenderId}, bron: ${doc.metadata.source}, pagina: ${doc.metadata.page_number}\nTender tekst:\n ${doc.metadata.page_content}`
+          `Tender titel: ${doc.metadata?.tenderId}, bron: ${doc.metadata?.source}, pagina: ${doc.metadata?.page_number}\nTender tekst:\n ${doc.metadata?.page_content}`
       )
       .join("\n\n")
 
@@ -68,11 +68,10 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
 
   const qaSystemPrompt = `
       ${tenderId ? `Dit is een vraag van de gebruiker over een specifieke tender of over rijksdocumenten die gaan over aanbestedingen van het rijk, het heeft het id ${tenderId}.`
-         : `U bent een QA bot voor Tender aanvragen voor de nederlandse markt. Dit is een vraag van de gebruiker over een specifieke tender of over rijksdocumenten die gaan over aanbestedingen van het rijk`}.
+      : `U bent een QA bot voor Tender aanvragen voor de nederlandse markt. Dit is een vraag van de gebruiker over een specifieke tender of over rijksdocumenten die gaan over aanbestedingen van het rijk`}.
       Beantwoord deze vraag met de context die hieronder gegeven wordt, dit zijn teksten uit de documenten.
       
       \n\n
-
       Dit is relevante informatie: {context}.
       \n\n
       Als je het antwoord niet weet, vraag de gebruiker dan om de vraag te herformuleren.
@@ -108,42 +107,63 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
 
   // // only do rag for docs with this tender
   // // https://weaviate.io/developers/weaviate/api/graphql/filters
-  let filters: any = {
-    where: {
-      operator: 'And',
-      operands: [
-        {
-          operator: "Or",
-          operands: []
-        }
-      ]
-    },
-  }
+
+  
+
+  let sourcedocs = []
 
   if (tenderId) {
-    filters.where.operands[0].operands.push({
-      operator: "Equal",
-      path: ["tenderId"],
-      valueText: tenderId,
+    let filter: any = {
+      where: {
+        operator: "Equal",
+        path: ["tenderId"],
+        valueText: tenderId,
+      }
+    }
+
+    let retriever = store.asRetriever({
+      k: documentId ? 1 : tenderId ? 25 : 12,
+      filter: filter,
+      verbose: true
     })
+    let docs = await retriever._getRelevantDocuments(question)
+    console.log("docs=========")
+    console.log(docs)
+    sourcedocs.push(docs)
   }
 
   if (question && typeof question === 'string' && question.toLowerCase().includes("rijksvoorwaarden")) {
-    filters.where.operands[0].operands.push({
-      operator: "Equal",
-      path: ["tenderId"],
-      valueText: "rijksvoorwaarden",
+    let filter: any = {
+      where: {
+        operator: "Equal",
+        path: ["tenderId"],
+        valueText: "rijksvoorwaarden",
+      }
+    }
+
+    const retriever = store.asRetriever({
+      k: documentId ? 1 : tenderId ? 25 : 12,
+      filter: filter,
+      verbose: true
     })
+    let docs = await retriever._getRelevantDocuments(question)
+    console.log("docs=========")
+    console.log(docs)
+    sourcedocs.push(docs)
   }
 
-  if (question && typeof question === 'string' && question.toLowerCase().includes("categorie")) {
-    filters.where.operands[0].operands.push({
-      operator: "Equal",
-      path: ["tenderId"],
-      valueText: "categorieplannen",
-    })
-  }
+  console.log("sourcedocs=========")
+  console.log(sourcedocs)
+  
+  // if (question && typeof question === 'string' && question.toLowerCase().includes("categorie")) {
+  //   filters.where.operands[0].operands.push({
+  //     operator: "Equal",
+  //     path: ["tenderId"],
+  //     valueText: "categorieplannen",
+  //   })
+  // }
 
+  let filters
   if (documentId) {
     filters = {
       operator: 'And',
@@ -186,7 +206,7 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
 
   let retrieverRunnable = RunnablePassthrough.assign({
     sourceDocuments: (input: Record<string, unknown>) => {
-      return retriever._getRelevantDocuments(input.question)
+      return sourcedocs;
     }
   })
 
