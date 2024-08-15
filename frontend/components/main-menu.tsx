@@ -52,7 +52,7 @@ export async function MainMenu() {
           )}
         >
           <IconMessage className="-translate-x-2 stroke-2" />
-          Chat met Pianoo
+          Chat met PIANOo
         </Link>
         <Link
           href="/tenders"

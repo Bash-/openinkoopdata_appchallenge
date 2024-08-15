@@ -30,8 +30,8 @@ export default async function Page() {
       }}>
         <Chat
           showEmptyScreen={true}
-          emptyScreenHeader={"Chat met Pianoo"}
-          emptyScreenBody={"U kunt hier chatten met Pianoo."}
+          emptyScreenHeader={"Chat met PIANOo"}
+          emptyScreenBody={"U kunt hier chatten met PIANOo."}
           tenderId={"pianoo"}
           id={chatId}
           session={session}
