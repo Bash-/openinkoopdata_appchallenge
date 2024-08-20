@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Card } from "../card";
 
 const lineclamp = (n) => ({
-  overflow: "hidden",
+  overflow: "none",
   display: "-webkit-box",
   WebkitLineClamp: n,
   lineClamp: n,

@@ -31,7 +31,7 @@ import { rag } from '../chains/rag';
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || ''
 })
-async function submitUserMessage(content: string, tenderId: string | undefined, documentId: string | undefined) {
+async function submitUserMessage(content: string, tenderId: string | undefined, documentIds: string[] | undefined) {
   'use server'
 
   const aiState = getMutableAIState<typeof AI>()
@@ -70,7 +70,7 @@ async function submitUserMessage(content: string, tenderId: string | undefined, 
 
     let chainCounter = 0;
     try {
-      const chain = await rag([], tenderId, documentId)
+      const chain = await rag([], tenderId, documentIds)
 
       // TODO this seems to be not working, cannot pass an object here? Not sure how to pass chat_history then to RAG function and these message templates
       const response = chain.streamEvents({ question: content, chat_history: historicalMessages }, { version: "v1" })

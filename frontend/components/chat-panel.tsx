@@ -11,6 +11,7 @@ import type { AI } from '@/lib/chat/actions'
 import { useAIState, useActions, useUIState } from 'ai/rsc'
 import { nanoid } from 'nanoid'
 import { UserMessage } from './stocks/message'
+import TenderDocumentListModal from './tender/TenderDocumentListModal'
 
 export interface ChatPanelProps {
   id?: string
@@ -40,6 +41,11 @@ export function ChatPanel({
   const { submitUserMessage } = useActions()
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
 
+  const [selectedDocuments, setSelectedDocuments] = React.useState<string[]>(null)
+
+  const updateSelectedDocuments = React.useCallback((selectedDocuments: string[]) => {
+    setSelectedDocuments(selectedDocuments)
+  }, [])
 
   const normalExampleMessages = [
     {
@@ -131,10 +137,11 @@ export function ChatPanel({
                     }
                   ])
 
+                  console.log('beforesubmit', selectedDocuments)
                   const responseMessage = await submitUserMessage(
                     example.message,
                     tenderId,
-                    documentId
+                    selectedDocuments
                   )
 
                   setMessages(currentMessages => [
@@ -181,7 +188,14 @@ export function ChatPanel({
         ) : null}
 
         <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-          <PromptForm input={input} setInput={setInput} documentId={documentId} tenderId={tenderId} />
+        {tenderId && (
+            <TenderDocumentListModal
+              tenderId={tenderId}
+              documents={aiState?.tenderDocumentMetadata}
+              onSelectionChange={updateSelectedDocuments}
+            />
+          )}
+          <PromptForm input={input} setInput={setInput} documentIds={selectedDocuments} tenderId={tenderId} />
           <FooterText className="hidden sm:block" />
         </div>
       </div>

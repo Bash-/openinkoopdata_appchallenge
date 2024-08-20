@@ -22,12 +22,12 @@ export function PromptForm({
   input,
   setInput,
   tenderId,
-  documentId,
+  documentIds,
 }: {
   input: string
   setInput: (value: string) => void
   tenderId: string | number | undefined
-  documentId: string | undefined
+  documentIds: string[] | undefined
 }) {
   const router = useRouter()
   const { formRef, onKeyDown } = useEnterSubmit()
@@ -66,7 +66,7 @@ export function PromptForm({
         ])
 
         // Submit and get response message
-        const responseMessage = await submitUserMessage(value, tenderId, documentId)
+        const responseMessage = await submitUserMessage(value, tenderId, documentIds)
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }}
     >
