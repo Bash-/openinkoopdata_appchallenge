@@ -32,7 +32,7 @@ export async function MainMenu() {
           )}
         >
           <IconMessage className="-translate-x-2 stroke-2" />
-          Chat met Rijksvoorwaarden
+          Chat over Rijksvoorwaarden
         </Link>
         <Link
           href="/categorieplannen"
@@ -42,7 +42,7 @@ export async function MainMenu() {
           )}
         >
           <IconMessage className="-translate-x-2 stroke-2" />
-          Chat met Categorieplannen
+          Chat over Categorieplannen
         </Link>
         <Link
           href="/pianoo"
@@ -52,7 +52,7 @@ export async function MainMenu() {
           )}
         >
           <IconMessage className="-translate-x-2 stroke-2" />
-          Chat met PIANOo
+          Chat over PIANOo documenten
         </Link>
         <Link
           href="/tenders"

@@ -40,14 +40,14 @@ export default async function IndexPage() {
                   href="/rijksvoorwaarden"
                   className={cn(buttonVariants({ variant: 'outline' }), "mt-2", 'w-full', 'justify-between')}
                 >
-                  <span className="hidden ml-2 mt-1 md:flex">Chat met Rijksvoorwaarden</span>
+                  <span className="hidden ml-2 mt-1 md:flex">Chat over Rijksvoorwaarden</span>
                   <IconArrowRight className="ml-2" />
                 </Link>
                 <Link
                   href="/categorieplannen"
                   className={cn(buttonVariants({ variant: 'outline' }), "mt-2", 'w-full', 'justify-between')}
                 >
-                  <span className="hidden ml-2 md:flex">Chat met Categorieplannen</span>
+                  <span className="hidden ml-2 md:flex">Chat over Categorieplannen</span>
                   <IconArrowRight className="ml-2" />
                 </Link>
               </div>
@@ -64,14 +64,14 @@ export default async function IndexPage() {
                   href="/tenders"
                   className={cn(buttonVariants({ variant: 'outline' }), 'mt-2', 'w-full', 'justify-between')}
                 >
-                  <span className="hidden ml-2 md:flex">Zoek en chat met Tenders</span>
+                  <span className="hidden ml-2 md:flex">Zoek en chat over Tenders</span>
                   <IconArrowRight className="ml-2" />
                 </Link>
                 <Link
                   href="/pianoo"
                   className={cn(buttonVariants({ variant: 'outline' }), 'mt-2', 'w-full', 'justify-between')}
                 >
-                  <span className="hidden ml-2 md:flex">Chat met PIANOo</span>
+                  <span className="hidden ml-2 md:flex">Chat met PIANOo documenten</span>
                   <IconArrowRight className="ml-2" />
                 </Link>
               </div>
