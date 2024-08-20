@@ -71,7 +71,7 @@ export default async function IndexPage() {
                   href="/pianoo"
                   className={cn(buttonVariants({ variant: 'outline' }), 'mt-2', 'w-full', 'justify-between')}
                 >
-                  <span className="hidden ml-2 md:flex">Chat met Pianoo</span>
+                  <span className="hidden ml-2 md:flex">Chat met PIANOo</span>
                   <IconArrowRight className="ml-2" />
                 </Link>
               </div>
