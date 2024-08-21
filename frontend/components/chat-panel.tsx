@@ -20,7 +20,7 @@ export interface ChatPanelProps {
   setInput: (value: string) => void
   isAtBottom: boolean
   scrollToBottom: () => void
-  tenderId: string | number | undefined
+  tenderId: string | undefined
   documentId: string | undefined
   genericExamples?: boolean
 }
@@ -41,7 +41,7 @@ export function ChatPanel({
   const { submitUserMessage } = useActions()
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
 
-  const [selectedDocuments, setSelectedDocuments] = React.useState<string[]>(null)
+  const [selectedDocuments, setSelectedDocuments] = React.useState<string[]>([])
 
   const updateSelectedDocuments = React.useCallback((selectedDocuments: string[]) => {
     setSelectedDocuments(selectedDocuments)
