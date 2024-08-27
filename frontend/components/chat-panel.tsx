@@ -196,7 +196,7 @@ export function ChatPanel({
             />
           )}
           <div className="text-xs text-zinc-500 dark:text-zinc-400 text-center">
-          Antwoorden op basis van brondata gegenereerd met OpenAI's gpt-4o-2024-08-06 taalmodel.
+          Antwoorden op basis van brondata gegenereerd met OpenAI&apos;s gpt-4o-2024-08-06 taalmodel.
           <br />
           Controleer altijd de gegeven antwoorden en brondocumenten om de juistheid te verifiëren.
         </div>
