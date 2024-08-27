@@ -127,4 +127,6 @@ const TenderDocumentListModal = memo((
   );
 }, (prevProps, nextProps) => prevProps.tenderId === nextProps.tenderId && prevProps.documents.length === nextProps.documents.length);
 
+TenderDocumentListModal.displayName = 'TenderDocumentListModal';
+
 export default TenderDocumentListModal;
