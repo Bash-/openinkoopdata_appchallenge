@@ -1,12 +1,13 @@
-from langchain_community.document_loaders import PyPDFLoader, TextLoader, Docx2txtLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-import weaviate
+import json
 import os
-from dotenv import load_dotenv
+
 import psycopg2
 import requests
+import weaviate
+from dotenv import load_dotenv
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import Docx2txtLoader, PyPDFLoader, TextLoader
 from weaviate.classes.query import Filter
-import json
 
 load_dotenv()
 
@@ -40,7 +41,10 @@ def insert_to_vectordb(folder_path, tenderId: str) -> None:
     # Check if the tenderId already exists in Weaviate, if so delete the existing documents first
     collection = client.collections.get("Tender_documents")
     deleted = collection.data.delete_many(
-        where=(Filter.by_property("tenderId").equal(tenderId) & Filter.by_property("source").not_equal("metadata"))
+        where=(
+            Filter.by_property("tenderId").equal(tenderId)
+            & Filter.by_property("source").not_equal("metadata")
+        )
     )
     print("Deleted existing documents")
     print(deleted)
@@ -133,7 +137,7 @@ def insert_document_metadata_to_postgres(tenderId: str) -> None:
         for document in document_info["documenten"]:
             cursor.execute(
                 f"""
-                INSERT INTO tenderdocuments (tenderid, documentid, documentnaam, typedocument, datumpublicatie, gepubliceerddoor, publicatiecategorie, virusindicatie, grootte, downloadurl) 
+                INSERT INTO tenderdocuments (tenderid, documentid, documentnaam, typedocument, datumpublicatie, gepubliceerddoor, publicatiecategorie, virusindicatie, grootte, downloadurl)
                 VALUES ('{tenderId}', '{document['documentId']}', '{document['documentNaam']}', '{document['typeDocument']['omschrijving']}', '{document['datumPublicatie']}', '{document['gepubliceerdDoor']}', '{document['publicatieCategorie']['omschrijving']}', {document['virusIndicatie']}, {document['grootte']}, '{document['links']['download']['href']}')
                 ON CONFLICT (tenderid, documentid) DO UPDATE SET
                 documentnaam = EXCLUDED.documentnaam,
@@ -155,16 +159,21 @@ def insert_document_metadata_to_postgres(tenderId: str) -> None:
 
     print("Document ids inserted to Postgres")
 
+
 def insert_other_documents_postgres(documents) -> None:
     try:
         conn = psycopg2.connect(os.getenv("POSTGRES_CONNECTION_STRING"))
         cursor = conn.cursor()
         for document in documents:
-            print('Inserting document to Postgres', document['tenderid'], document['documentnaam'])
+            print(
+                "Inserting document to Postgres",
+                document["tenderid"],
+                document["documentnaam"],
+            )
             cursor.execute(
-                    f"""
-                    INSERT INTO tenderdocuments (tenderid, documentid, documentnaam, typedocument, datumpublicatie, gepubliceerddoor, publicatiecategorie, virusindicatie, grootte, downloadurl) 
-                    VALUES ('{document['tenderid']}', '{document['documentid']}', '{document['documentnaam']}', '{document['typedocument']}', '{document['datumpublicatie']}', '{document['gepubliceerddoor']}', '{document['publicatiecategorie']}', '{document['virusindicatie']}', '{document['grootte']}', '{document['downloadurl']}')
+                f"""
+                    INSERT INTO tenderdocuments (tenderid, documentid, documentnaam, typedocument, datumpublicatie, gepubliceerddoor, publicatiecategorie, virusindicatie, grootte, downloadurl)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     ON CONFLICT (tenderid, documentid) DO UPDATE SET
                     documentnaam = EXCLUDED.documentnaam,
                     typedocument = EXCLUDED.typedocument,
@@ -174,23 +183,37 @@ def insert_other_documents_postgres(documents) -> None:
                     virusindicatie = EXCLUDED.virusindicatie,
                     grootte = EXCLUDED.grootte,
                     downloadurl = EXCLUDED.downloadurl
-                    """
-                )
+                    """,
+                (
+                    document["tenderid"],
+                    document["documentid"],
+                    document["documentnaam"],
+                    document["typedocument"],
+                    document["datumpublicatie"],
+                    document["gepubliceerddoor"],
+                    document["publicatiecategorie"],
+                    document["virusindicatie"],
+                    document["grootte"],
+                    document["downloadurl"],
+                ),
+            )
         conn.commit()
-    except Exception as e: 
+    except Exception as e:
         print(e)
         print("I am unable to connect to the database")
     finally:
         conn.close()
 
-    
 
 def insert_tender_metadata_to_vectordb(tenderId: str, metadata: dict) -> None:
     print(f"Inserting tender metadata to Weaviate for tenderId: {tenderId}")
 
     collection = client.collections.get("Tender_documents")
     deleted = collection.data.delete_many(
-        where=(Filter.by_property("tenderId").equal(tenderId) & Filter.by_property("source").equal("metadata"))
+        where=(
+            Filter.by_property("tenderId").equal(tenderId)
+            & Filter.by_property("source").equal("metadata")
+        )
     )
     print("Deleted existing metadata")
     print(deleted)
@@ -203,10 +226,9 @@ def insert_tender_metadata_to_vectordb(tenderId: str, metadata: dict) -> None:
             "page_content": json.dumps(metadata),
         }
         batch.add_object(properties=properties)
-    
+
     if len(collection.batch.failed_objects) > 0:
         print("Batch failed")
         print(collection.batch.failed_objects[0].message)
     else:
         print("Tender metadata uploaded to Weaviate for tenderId:", tenderId)
-

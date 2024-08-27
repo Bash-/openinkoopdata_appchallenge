@@ -23,6 +23,7 @@ pandas = "^2.2.2"
 psycopg2-binary = "^2.9.9"
 connectorx = "^0.3.3"
 docx2txt = "^0.8"
+bs4 = "^0.0.2"
 
 
 [build-system]
