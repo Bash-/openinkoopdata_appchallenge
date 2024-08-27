@@ -44,7 +44,7 @@ const formatDocs = (docs: Document[]): string => {
 export const rag = async (question: string, chat_history: Message[], tenderId: string | undefined = undefined, documentIds: string[] | undefined, company_data: boolean = false) => {
 
   const llm = new ChatOpenAI({
-    modelName: "gpt-3.5-turbo",
+    modelName: "gpt-4o-2024-08-06",
     streaming: true,
   });
 

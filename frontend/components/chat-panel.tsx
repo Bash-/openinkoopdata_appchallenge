@@ -186,18 +186,23 @@ export function ChatPanel({
             </div>
           </div>
         ) : null}
-
+        
         <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-        {tenderId && (
+          {tenderId && (
             <TenderDocumentListModal
               tenderId={tenderId}
               documents={aiState?.tenderDocumentMetadata}
               onSelectionChange={updateSelectedDocuments}
             />
           )}
+          <div className="text-xs text-zinc-500 dark:text-zinc-400 text-center">
+          Antwoorden op basis van brondata gegenereerd met OpenAI's gpt-4o-2024-08-06 taalmodel.
+          <br />
+          Controleer altijd de gegeven antwoorden en brondocumenten om de juistheid te verifiëren.
+        </div>
           <PromptForm input={input} setInput={setInput} documentIds={selectedDocuments} tenderId={tenderId} />
           <FooterText className="hidden sm:block" />
-        </div>
+        </div>        
       </div>
     </div>
   )

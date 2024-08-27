@@ -37,7 +37,7 @@ export function SourcesMessage({
     <div className="mt-2 flex items-center justify-center gap-2 text-xs text-gray-500">
       <div className="max-w-[600px] flex-initial p-2">
         <div className="flex items-center gap-2">
-          <p className="text-muted-foreground">Sources:</p>
+          <p className="text-muted-foreground">Brondocumenten:</p>
           <ul className="flex flex-wrap gap-2">
             {sources.map((source, index) => (
               <li key={index}>
