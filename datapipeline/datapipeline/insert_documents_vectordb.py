@@ -86,6 +86,10 @@ def insert_to_vectordb(folder_path, tenderId: str) -> None:
 
             if document.metadata.get("page"):
                 properties["page_number"] = str(document.metadata.get("page"))
+                
+            # If properties["page_number"] contains number, then add 1 to it
+            if properties.get("page_number") and properties["page_number"].isdigit():
+                properties["page_number"] = str(int(properties["page_number"]) + 1)
 
             batch.add_object(properties=properties)
     if len(collection.batch.failed_objects) > 0:
