@@ -62,12 +62,12 @@ import * as Collapsible from '@radix-ui/react-collapsible'
 import { ArrowDownIcon, Cross1Icon } from '@radix-ui/react-icons'
 import React from 'react'
 
-const SourcesCollapsible = ({sources, tenderDocumentMetadata}: any) => {
+const SourcesCollapsible = ({ sources, tenderDocumentMetadata }: any) => {
   const [open, setOpen] = React.useState(false);
 
   const groupedBySource = sources.reduce((acc: any, doc: Document) => {
     const source = doc.metadata.source;
-    let sourceClean = source.replace('.pdf','').replace('.docx','');
+    let sourceClean = source.replace('.pdf', '').replace('.docx', '');
 
     const pageNumber = doc.metadata.page_number;
     if (!acc[source]) {
@@ -100,7 +100,7 @@ const SourcesCollapsible = ({sources, tenderDocumentMetadata}: any) => {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Collapsible.Trigger asChild>
           <button className="w-full flex items-center justify-between text-left text-blue-500 hover:text-blue-700 focus:outline-none">
-            Bekijk bronnen {open ? <Cross1Icon /> : <ArrowDownIcon />}
+            Bekijk bronnen ({Object.keys(groupedBySource).length}) {open ? <Cross1Icon /> : <ArrowDownIcon />}
           </button>
         </Collapsible.Trigger>
       </div>
@@ -198,7 +198,7 @@ export function BotMessage({
         </div>
       </div>
       {sourceOutput && (<div className={cn('group relative flex items-start md:-ml-12', className)}>
-        <div className="flex size-[24px] shrink-0 select-none items-center justify-center">
+        <div className="flex size-[24px] shrink-0 select-none items-center justify-center mb-4">
         </div>
         <div className='ml-4 flex-1 space-y-2 overflow-hidden px-1'>
           <SourcesCollapsible sources={JSON.parse(sourceOutput)} tenderDocumentMetadata={tenderDocumentMetadata} />
