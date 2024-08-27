@@ -158,46 +158,22 @@ export function ChatPanel({
             ))}
         </div>
 
-        {messages?.length >= 2 ? (
-          <div className="flex h-12 items-center justify-center">
-            <div className="flex space-x-2">
-              {id && title ? (
-                <>
-                  <Button
-                    variant="outline"
-                    onClick={() => setShareDialogOpen(true)}
-                  >
-                    <IconShare className="mr-2" />
-                    Share
-                  </Button>
-                  <ChatShareDialog
-                    open={shareDialogOpen}
-                    onOpenChange={setShareDialogOpen}
-                    onCopy={() => setShareDialogOpen(false)}
-                    shareChat={shareChat}
-                    chat={{
-                      id,
-                      title,
-                      messages: aiState.messages
-                    }}
-                  />
-                </>
-              ) : null}
-            </div>
-          </div>
-        ) : null}
-
         <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-        {tenderId && (
+          {tenderId && (
             <TenderDocumentListModal
               tenderId={tenderId}
               documents={aiState?.tenderDocumentMetadata}
               onSelectionChange={updateSelectedDocuments}
             />
           )}
+          <div className="text-xs text-zinc-500 dark:text-zinc-400 text-center">
+          Antwoorden op basis van brondata gegenereerd met OpenAI&apos;s gpt-4o-2024-08-06 taalmodel.
+          <br />
+          Controleer altijd de gegeven antwoorden en brondocumenten om de juistheid te verifiëren.
+        </div>
           <PromptForm input={input} setInput={setInput} documentIds={selectedDocuments} tenderId={tenderId} />
           <FooterText className="hidden sm:block" />
-        </div>
+        </div>        
       </div>
     </div>
   )

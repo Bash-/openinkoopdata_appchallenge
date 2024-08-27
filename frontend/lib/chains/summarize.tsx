@@ -42,7 +42,7 @@ const SUMMARY_REFINE_PROMPT = PromptTemplate.fromTemplate(
 
 export const summarize = async (docs: Document[]) => {
   const model = new OpenAI({
-    model: "gpt-3.5-turbo-instruct",
+    model: "gpt-4o-2024-08-06",
     temperature: 0.9,
   });
 
