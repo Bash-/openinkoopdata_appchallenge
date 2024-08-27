@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Card } from "../card";
 
 const lineclamp = (n) => ({
-  overflow: "none",
+  overflow: "hidden",
   display: "-webkit-box",
   WebkitLineClamp: n,
   lineClamp: n,
@@ -22,19 +22,24 @@ export default function SearchResultCard({
       <Link className="absolute inset-0 z-10" href={`/tenders/${tender.publicatieid}`}>
         <span className="sr-only">Bekijk tender</span>
       </Link>
+      {/* Card title */}
       <div className="p-4">
-        <p style={{ ...lineclamp(2) }}
+        <h3 className="text-xl font-semibold">{tender.aanbestedingnaam}</h3>
+        <b className="text italic font-light">{tender.aanbestedendedienstnaam}</b>
+      </div>
+      <div className="p-4">
+        <p style={{ ...lineclamp(5) }}
         >{tender.opdrachtbeschrijving}</p>
         <hr className="my-3" />
-
-        <b className="text">{tender.aanbestedendedienstnaam}</b>
         <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-          <span>Geplaatst: {tender.publicatiedatum?.toLocaleDateString()}</span>
+        <span>Publicatiedatum: {tender.publicatiedatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
           {/* <span className="bg-primary-100 text-primary-600 dark:bg-primary-900 dark:text-primary-400 px-2 py-1 rounded-full">
             Construction
           </span> */}
         </div>
-        <p className="text-gray-500">{tender.aanbestedingnaam}</p>
+        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+        <span>Sluitingsdatum: {tender.sluitingsdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
+        </div>
       </div>
     </Card >
   )
