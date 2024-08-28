@@ -24,6 +24,9 @@ const formatDocs = (docs: Document[]): string => {
   const uniqueDocs = [...new Map(docs.map(d =>
     [`${d.metadata.page_number}-${d.metadata.tenderId}-${d.metadata.source}`, d])).values()];
 
+
+  console.log(uniqueDocs)
+
   const context =
     "\n\n" +
     uniqueDocs
@@ -38,7 +41,7 @@ const formatDocs = (docs: Document[]): string => {
 
 // TODO: implement citations https://js.langchain.com/docs/use_cases/question_answering/citations
 // TODO: chat history https://langchain.com/docs/use_cases/question_answering/chat_history/
-export const rag = async (question: string, chat_history: Message[], tenderId: string | undefined = undefined, documentId: string | undefined, company_data: boolean = false) => {
+export const rag = async (question: string, chat_history: Message[], tenderId: string | undefined = undefined, documentIds: string[] | undefined, company_data: boolean = false) => {
 
   let tags = []
   if (documentId) {
@@ -49,7 +52,7 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
   }
 
   const llm = new ChatOpenAI({
-    modelName: "gpt-3.5-turbo",
+    modelName: "gpt-4o-2024-08-06",
     streaming: true,
   }).withConfig({
     tags: tags,
@@ -96,8 +99,6 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
     ["system", qaSystemPrompt],
     ["human", "{contextualizedQuestion}"],
   ]);
-
-  console.error(tenderId, documentId)
 
   // ============ RAG Chain ============
 
@@ -149,6 +150,7 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
     })
   }
 
+
   if (question && typeof question === 'string' && question.toLowerCase().includes("categorie")) {
     filters.where.operands[0].operands.push({
       operator: "Equal",
@@ -157,35 +159,38 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
     })
   }
 
-  if (documentId) {
+  if (documentIds && documentIds.length > 0) {
     filters = {
-      operator: 'And',
-      operands: [
-        {
-          operator: "Equal",
-          path: ["tenderId"],
-          valueText: tenderId,
-        },
-        {
-          operator: "Equal",
-          path: ["source"],
-          valueText: documentId
-        }
-      ]
+      where: {
+        operator: 'And',
+        operands: [
+          {
+            operator: "Equal",
+            path: ["tenderId"],
+            valueText: tenderId,
+          },
+          {
+            operator: 'Or', // Use 'Or' to match any of the documentIds
+            operands: documentIds.map((docId) => ({
+              operator: "Equal",
+              path: ["source"],
+              valueText: docId,
+            })),
+          },
+        ]
+      }
     }
   }
 
   // TODO multiple RAG runs based on keywords
 
   const retriever = store.asRetriever({
-    k: documentId ? 1 : tenderId ? 12 : 12,
+    // tenderId && documentIds?.length > 0 ? documentIds?.length : 
+    k: 12,
     filter: filters,
-    verbose: true,
-    // verbose: true,
-    // searchKwargs: {
-    //   lambda: 1,
-    //   fetchK: documentId ? 1 : tenderId ? 10 : 10,
-    // },
+    searchKwargs: {
+      lambda: 0,
+    },
   })
 
   let contextualizedQuestionRunnable = RunnablePassthrough.assign({

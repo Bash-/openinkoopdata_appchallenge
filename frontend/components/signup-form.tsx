@@ -1,13 +1,13 @@
 'use client'
 
-import { useFormState, useFormStatus } from 'react-dom'
 import { signup } from '@/app/signup/actions'
+import { getMessageFromCode } from '@/lib/utils'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import { useFormState, useFormStatus } from 'react-dom'
 import { toast } from 'sonner'
 import { IconSpinner } from './ui/icons'
-import { getMessageFromCode } from '@/lib/utils'
-import { useRouter } from 'next/navigation'
 
 export default function SignupForm() {
   const router = useRouter()
@@ -45,7 +45,7 @@ export default function SignupForm() {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="Enter your email address"
+                placeholder="Voer uw emailadres in"
                 required
               />
             </div>
@@ -55,7 +55,7 @@ export default function SignupForm() {
               className="mb-3 mt-5 block text-xs font-medium text-zinc-400"
               htmlFor="password"
             >
-              Password
+              Wachtwoord
             </label>
             <div className="relative">
               <input
@@ -63,7 +63,7 @@ export default function SignupForm() {
                 id="password"
                 type="password"
                 name="password"
-                placeholder="Enter password"
+                placeholder="Voer wachtwoord in"
                 required
                 minLength={6}
               />
@@ -75,7 +75,7 @@ export default function SignupForm() {
 
       <Link href="/login" className="flex flex-row gap-1 text-sm text-zinc-400">
         Already have an account?
-        <div className="font-semibold underline">Log in</div>
+        <div className="font-semibold underline">Inloggen</div>
       </Link>
     </form>
   )

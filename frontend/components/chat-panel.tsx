@@ -1,16 +1,11 @@
 import * as React from 'react'
 
-import { shareChat } from '@/app/actions'
 import { ButtonScrollToBottom } from '@/components/button-scroll-to-bottom'
-import { ChatShareDialog } from '@/components/chat-share-dialog'
 import { FooterText } from '@/components/footer'
 import { PromptForm } from '@/components/prompt-form'
-import { Button } from '@/components/ui/button'
-import { IconShare } from '@/components/ui/icons'
 import type { AI } from '@/lib/chat/actions'
 import { useAIState, useActions, useUIState } from 'ai/rsc'
-import { nanoid } from 'nanoid'
-import { UserMessage } from './stocks/message'
+import TenderDocumentListModal from './tender/TenderDocumentListModal'
 
 export interface ChatPanelProps {
   id?: string
@@ -19,7 +14,7 @@ export interface ChatPanelProps {
   setInput: (value: string) => void
   isAtBottom: boolean
   scrollToBottom: () => void
-  tenderId: string | number | undefined
+  tenderId: string | undefined
   documentId: string | undefined
   genericExamples?: boolean
 }
@@ -40,6 +35,11 @@ export function ChatPanel({
   const { submitUserMessage } = useActions()
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
 
+  const [selectedDocuments, setSelectedDocuments] = React.useState<string[]>([])
+
+  const updateSelectedDocuments = React.useCallback((selectedDocuments: string[]) => {
+    setSelectedDocuments(selectedDocuments)
+  }, [])
 
   const normalExampleMessages = [
     {
@@ -115,7 +115,7 @@ export function ChatPanel({
       />
 
       <div className="mx-auto sm:max-w-2xl sm:px-4">
-        <div className="mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
+        {/* <div className="mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
           {messages.length === 0 &&
             exampleMessages.map((example, index) => (
               <div
@@ -131,10 +131,11 @@ export function ChatPanel({
                     }
                   ])
 
+                  console.log('beforesubmit', selectedDocuments)
                   const responseMessage = await submitUserMessage(
                     example.message,
                     tenderId,
-                    documentId
+                    selectedDocuments
                   )
 
                   setMessages(currentMessages => [
@@ -149,41 +150,25 @@ export function ChatPanel({
                 </div>
               </div>
             ))}
-        </div>
-
-        {messages?.length >= 2 ? (
-          <div className="flex h-12 items-center justify-center">
-            <div className="flex space-x-2">
-              {id && title ? (
-                <>
-                  <Button
-                    variant="outline"
-                    onClick={() => setShareDialogOpen(true)}
-                  >
-                    <IconShare className="mr-2" />
-                    Share
-                  </Button>
-                  <ChatShareDialog
-                    open={shareDialogOpen}
-                    onOpenChange={setShareDialogOpen}
-                    onCopy={() => setShareDialogOpen(false)}
-                    shareChat={shareChat}
-                    chat={{
-                      id,
-                      title,
-                      messages: aiState.messages
-                    }}
-                  />
-                </>
-              ) : null}
-            </div>
-          </div>
-        ) : null}
+        </div> */}
+        
 
         <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-          <PromptForm input={input} setInput={setInput} documentId={documentId} tenderId={tenderId} />
-          <FooterText className="hidden sm:block" />
+          {tenderId && (
+            <TenderDocumentListModal
+              tenderId={tenderId}
+              documents={aiState?.tenderDocumentMetadata}
+              onSelectionChange={updateSelectedDocuments}
+            />
+          )}
+          <div className="text-xs text-zinc-500 dark:text-zinc-400 text-center">
+          Antwoorden op basis van brondata gegenereerd met OpenAI&apos;s gpt-4o-2024-08-06 taalmodel.
+          <br />
+          Controleer altijd de gegeven antwoorden en brondocumenten om de juistheid te verifiëren.
         </div>
+          <PromptForm input={input} setInput={setInput} documentIds={selectedDocuments} tenderId={tenderId} />
+          <FooterText className="hidden sm:block" />
+        </div>        
       </div>
     </div>
   )

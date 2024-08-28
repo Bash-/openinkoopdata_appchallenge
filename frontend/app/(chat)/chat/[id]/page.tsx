@@ -1,12 +1,13 @@
 import { type Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 
-import { auth } from '@/auth'
 import { getChat, getMissingKeys } from '@/app/actions'
+import { auth } from '@/auth'
 import { Chat } from '@/components/chat'
 import { AI } from '@/lib/chat/actions'
+import { fetchTenderById, fetchTenderDocuments } from '@/lib/data'
 import { Session } from '@/lib/types'
-import { fetchTenderDocuments } from '@/lib/data'
+import Link from 'next/link'
 
 export interface ChatPageProps {
   params: {
@@ -49,20 +50,45 @@ export default async function ChatPage({ params }: ChatPageProps) {
   }
 
   let tenderDocumentMetadata
+  let tender
+  let emptyScreenBody
   if (chat.tenderId) {
     tenderDocumentMetadata = await fetchTenderDocuments(chat.tenderId)
+    tender = await fetchTenderById(chat.tenderId)
+
+    emptyScreenBody = (
+      <>
+        <div><strong>Aanbestedende dienst:</strong> {tender.aanbestedendedienstnaam}</div>
+        <div><strong>Publicatiedatum:</strong> {tender.publicatiedatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
+        <div><strong>Sluitingsdatum:</strong> {tender.sluitingsdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
+        <div><strong>Opdrachtbeschrijving:</strong> {tender.opdrachtbeschrijving}</div>
+        <div><strong>Publicatie ID:</strong> {tender.publicatieid}</div>
+  
+        {/* Link to Tenderned */}
+        <a className="text-blue-500 hover:underline">
+          <Link href={`https://www.tenderned.nl/tenderned-tap/aankondigingen/${tender.publicatieid}`} passHref>
+            Bekijk op Tenderned
+          </Link>
+        </a>
+  
+      </>)
   }
 
+
+
   return (
-    <AI initialAIState={{ 
-      chatId: chat.id, 
-      messages: chat.messages, 
-      tenderId: chat.tenderId, 
-      tenderDocumentMetadata: tenderDocumentMetadata 
-      }}>
+    <AI initialAIState={{
+      chatId: chat.id,
+      messages: chat.messages,
+      tenderId: chat.tenderId,
+      tenderDocumentMetadata: tenderDocumentMetadata
+    }}>
       <Chat
         id={chat.id}
         session={session}
+        showEmptyScreen={true}
+        emptyScreenHeader={tender?.aanbestedingnaam}
+        emptyScreenBody={emptyScreenBody}
         tenderId={chat.tenderId}
         initialMessages={chat.messages}
         missingKeys={missingKeys}

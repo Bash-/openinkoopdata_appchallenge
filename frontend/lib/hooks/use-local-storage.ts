@@ -9,8 +9,6 @@ export const useLocalStorage = <T>(
   useEffect(() => {
     // Retrieve from localStorage
     const item = window.localStorage.getItem(key)
-    console.log(item, key)
-
 
     if (typeof (item) !== 'undefined') {
       setStoredValue(JSON.parse(item))

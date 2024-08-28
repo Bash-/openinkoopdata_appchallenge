@@ -1,12 +1,11 @@
-import { getChat, getMissingKeys } from "@/app/actions";
+import { getMissingKeys } from "@/app/actions";
 import { auth } from "@/auth";
 import { Chat } from "@/components/chat";
 import { AI } from "@/lib/chat/actions";
-import { fetchTenderById, fetchTenderDocuments } from "@/lib/data";
-import { Session, Tender } from '@/lib/types';
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { nanoid } from '@/lib/utils'
+import { fetchTenderDocuments } from "@/lib/data";
+import { Session } from '@/lib/types';
+import { nanoid } from '@/lib/utils';
+import { redirect } from "next/navigation";
 
 export default async function RijksvoorwaardenPage() {
   // const tender: Tender = await fetchTenderById('rijksdocumenten')
@@ -25,7 +24,7 @@ export default async function RijksvoorwaardenPage() {
 
   return (
     <>
-      {!session && <p><Link href={`/login`}>Login to chat</Link></p>}
+      {!session && redirect(`/login?next=/rijksvoorwaarden`)}
       {session && <AI initialAIState={{
         chatId: chatId,
         messages:

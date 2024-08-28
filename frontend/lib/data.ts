@@ -28,7 +28,7 @@ const textFilter = (query: string) => {
 }
 
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 8;
 export async function fetchFilteredTenders(
   query: string,
   min_date: string,

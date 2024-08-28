@@ -7,8 +7,7 @@ import { Session } from '@/lib/types';
 import { nanoid } from '@/lib/utils';
 import { redirect } from "next/navigation";
 
-export default async function CategorieplannenPage() {
-  // const tender: Tender = await fetchTenderById('rijksdocumenten')
+export default async function Page() {
   const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
   // if (!tender) return notFound();
@@ -16,35 +15,31 @@ export default async function CategorieplannenPage() {
   const chatId = `${nid}`
   // const chat = await getChat(chatId, session?.user.id)
 
-  // if we have a chat, but this user is not the one chatting, return not found
-  // if (chat && (chat?.userId !== session?.user?.id)) {
-  //   notFound()
-  // }
-  let tenderDocumentMetadata = await fetchTenderDocuments("categorieplannen")
+  let tenderDocumentMetadata = await fetchTenderDocuments("pianoo")
 
   return (
     <>
-      {!session && redirect(`/login?next=/categorieplannen`)}
+      {!session && redirect(`/login?next=/pianoo`)}
       {session && <AI initialAIState={{
         chatId: chatId,
         messages:
-          //  chat?.messages ?? 
+          //  chat?.messages ??
           [],
-        tenderId: "categorieplannen",
+        tenderId: "pianoo",
         tenderDocumentMetadata
       }}>
         <Chat
           showEmptyScreen={true}
-          emptyScreenHeader={"Chat met Categorieplannen"}
-          emptyScreenBody={"U kunt hier chatten met de Categorieplannen."}
-          tenderId={"categorieplannen"}
+          emptyScreenHeader={"Chat met PIANOo"}
+          emptyScreenBody={"U kunt hier chatten met PIANOo."}
+          tenderId={"pianoo"}
           id={chatId}
           session={session}
-          genericExamples={true}
           // initialMessages={chat?.messages ?? []}
           missingKeys={missingKeys}
+          genericExamples={true}
         />
-      </AI >}
+      </AI>}
 
     </>)
 }

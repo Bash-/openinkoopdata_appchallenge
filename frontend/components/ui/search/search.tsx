@@ -61,7 +61,7 @@ export default function Search({ }) {
           <PopoverTrigger asChild>
             <Button className="flex items-center gap-2" variant="outline">
               <CalendarDaysIcon className="size-5" />
-              <span>Filter by date</span>
+              <span>Filter op sluitingsdatum</span>
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[300px] p-4">
@@ -81,7 +81,7 @@ export default function Search({ }) {
           />
         </div>
       </div>
-      <div className="flex flex-wrap gap-2">
+      {/* <div className="flex flex-wrap gap-2">
         <Button className="rounded-full" size="sm" variant="ghost">
           Construction
         </Button>
@@ -94,7 +94,7 @@ export default function Search({ }) {
         <Button className="rounded-full" size="sm" variant="ghost">
           Logistics
         </Button>
-      </div>
+      </div> */}
     </div>
   )
 
