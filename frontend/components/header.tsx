@@ -1,27 +1,20 @@
-import * as React from 'react'
 import Link from 'next/link'
+import * as React from 'react'
 
-import { cn } from '@/lib/utils'
 import { auth } from '@/auth'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
-  IconArrowElbow,
-  IconCheck,
-  IconGitHub,
   IconMessage,
-  IconNextChat,
-  IconOpenAI,
   IconSeparator,
-  IconVercel
+  IconTenderFlow
 } from '@/components/ui/icons'
 import { UserMenu } from '@/components/user-menu'
+import { Session } from '@/lib/types'
+import { cn } from '@/lib/utils'
+import { ChatHistory } from './chat-history'
+import { MainMenu } from './main-menu'
 import { SidebarMobile } from './sidebar-mobile'
 import { SidebarToggle } from './sidebar-toggle'
-import { ChatHistory } from './chat-history'
-import { Session } from '@/lib/types'
-import { IconJarLogoIcon } from '@radix-ui/react-icons'
-import { Icon } from '@radix-ui/react-select'
-import { MainMenu } from './main-menu'
 
 async function UserOrLogin() {
   const session = (await auth()) as Session
@@ -37,8 +30,8 @@ async function UserOrLogin() {
         </>
       ) : (
         <Link href="/new" rel="nofollow">
-          <IconNextChat className="size-6 mr-2 dark:hidden" inverted />
-          <IconNextChat className="hidden size-6 mr-2 dark:block" />
+          <IconTenderFlow className="size-6 mr-2 dark:hidden" />
+          <IconTenderFlow className="hidden size-6 mr-2 dark:block" />
         </Link>
       )}
       <div className="flex items-center">
@@ -47,7 +40,7 @@ async function UserOrLogin() {
           <UserMenu user={session.user} />
         ) : (
           <Button variant="link" asChild className="-ml-2">
-            <Link href="/login">Login</Link>
+            <Link href="/login">Inloggen</Link>
           </Button>
         )}
       </div>
