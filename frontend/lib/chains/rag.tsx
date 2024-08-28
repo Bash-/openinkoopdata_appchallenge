@@ -43,9 +43,23 @@ const formatDocs = (docs: Document[]): string => {
 // TODO: chat history https://langchain.com/docs/use_cases/question_answering/chat_history/
 export const rag = async (question: string, chat_history: Message[], tenderId: string | undefined = undefined, documentIds: string[] | undefined, company_data: boolean = false) => {
 
+  let tags = []
+  if (documentId) {
+    tags = [...tags, "document", documentId]
+  }
+  if (tenderId) {
+    tags = [...tags, "tender", tenderId]
+  }
+
   const llm = new ChatOpenAI({
     modelName: "gpt-4o-2024-08-06",
     streaming: true,
+  }).withConfig({
+    tags: tags,
+    metadata: {
+      tenderId,
+      documentId,
+    }
   });
 
   // ============ Chat History Chain ============
@@ -190,7 +204,7 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
 
   let retrieverRunnable = RunnablePassthrough.assign({
     sourceDocuments: (input: Record<string, unknown>) => {
-      return retriever._getRelevantDocuments(input.question)
+      return process.env.NODE_ENV === 'development' ? [] : retriever._getRelevantDocuments(input.question)
     }
   })
 
@@ -207,7 +221,13 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
     docRunnable,
     qaPrompt,
     llm
-  ])
+  ]).withConfig({
+    tags: tags,
+    metadata: {
+      tenderId,
+      documentId,
+    }
+  })
 
   let ragChainWithSource = contextualizedQuestionRunnable.pipe(retrieverRunnable).assign({ answer: answerChain });
 
