@@ -22,7 +22,7 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   documentId?: string | undefined
   showEmptyScreen?: boolean;
   emptyScreenHeader?: string;
-  emptyScreenBody?: string;
+  emptyScreenBody?: string | JSX.Element | undefined;
   genericExamples?: boolean
 }
 
@@ -83,11 +83,8 @@ export function Chat({ id, tenderId, documentId, className, session, missingKeys
         className={cn('pb-[200px] pt-4 md:pt-10', className)}
         // ref={messagesRef}
       >
-        {messages.length ? (
-          <ChatList messages={messages} isShared={false} session={session} />
-        ) : (showEmptyScreen ?
-          <EmptyScreen emptyScreenHeader={emptyScreenHeader} emptyScreenBody={emptyScreenBody} /> : null
-        )}
+        <EmptyScreen emptyScreenHeader={emptyScreenHeader} emptyScreenBody={emptyScreenBody} collapsed={messages.length > 0}/>
+        <ChatList messages={messages} isShared={false} session={session} />
         <div className="h-px w-full" ref={visibilityRef} />
       </div>
       <ChatPanel

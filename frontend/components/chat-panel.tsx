@@ -1,16 +1,10 @@
 import * as React from 'react'
 
-import { shareChat } from '@/app/actions'
 import { ButtonScrollToBottom } from '@/components/button-scroll-to-bottom'
-import { ChatShareDialog } from '@/components/chat-share-dialog'
 import { FooterText } from '@/components/footer'
 import { PromptForm } from '@/components/prompt-form'
-import { Button } from '@/components/ui/button'
-import { IconShare } from '@/components/ui/icons'
 import type { AI } from '@/lib/chat/actions'
 import { useAIState, useActions, useUIState } from 'ai/rsc'
-import { nanoid } from 'nanoid'
-import { UserMessage } from './stocks/message'
 import TenderDocumentListModal from './tender/TenderDocumentListModal'
 
 export interface ChatPanelProps {
@@ -121,7 +115,7 @@ export function ChatPanel({
       />
 
       <div className="mx-auto sm:max-w-2xl sm:px-4">
-        <div className="mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
+        {/* <div className="mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
           {messages.length === 0 &&
             exampleMessages.map((example, index) => (
               <div
@@ -156,7 +150,8 @@ export function ChatPanel({
                 </div>
               </div>
             ))}
-        </div>
+        </div> */}
+        
 
         <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
           {tenderId && (

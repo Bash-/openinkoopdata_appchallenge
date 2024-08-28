@@ -5,7 +5,7 @@ import { AI } from "@/lib/chat/actions";
 import { fetchTenderDocuments } from "@/lib/data";
 import { Session } from '@/lib/types';
 import { nanoid } from '@/lib/utils';
-import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = (await auth()) as Session
@@ -19,7 +19,7 @@ export default async function Page() {
 
   return (
     <>
-      {!session && <p><Link href={`/login`}>Login to chat</Link></p>}
+      {!session && redirect(`/login?next=/pianoo`)}
       {session && <AI initialAIState={{
         chatId: chatId,
         messages:
