@@ -109,7 +109,7 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
   //   .withFields('page_content tenderId _additional { score }')
   //   .withHybrid({ query: '335932', targetVectors: ['tenderId', 'page_content',] })
   //   .withLimit(2)
-  //   .do();WAar moet ik op letten als ik zaken wil doen met het rijk?
+  //   .do();
 
   // console.log(JSON.stringify(response, null, 2)); -> map to docs interface
 
