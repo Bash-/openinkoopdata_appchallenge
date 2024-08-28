@@ -4,4 +4,5 @@ data_local
 gcp_serviceaccount.json
 __pycache__
 publications.json
+data_local
 datapipeline/pianoo/*
