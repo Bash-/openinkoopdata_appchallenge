@@ -5,6 +5,7 @@ import { AI } from "@/lib/chat/actions";
 import { fetchTenderDocuments } from "@/lib/data";
 import { Session } from '@/lib/types';
 import { nanoid } from '@/lib/utils';
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function CategorieplannenPage() {
@@ -22,6 +23,37 @@ export default async function CategorieplannenPage() {
   // }
   let tenderDocumentMetadata = await fetchTenderDocuments("categorieplannen")
 
+  const emptyScreenBody = (
+    <>
+      <div>
+        Inkopen met impact is dé standaard voor duurzaam, sociaal en innovatief inkopen bij het Rijk.
+        In de categorieplannen staat welke inkoopdoelen en -acties er zijn voor de verschillende categorieën.
+        Bedrijven kunnen zich met categorieplannen voorbereiden op aanbestedingen.
+      </div>
+      <div >
+        U kunt hieronder chatten met de verschillende Categorieplannen. Stel bijvoorbeeld een vraag over een van de volgende categorieën:
+        <ul className="pl-5">
+          <li>- Bedrijfskleding</li>
+          <li>- Beveiliging & Bedrijfshulpverlening</li>
+          <li>- Connectiviteit</li>
+          <li>- Consumptieve Dienstverlening</li>
+          <li>- Duurzame Inzetbaarheid</li>
+          <li>- ICT Werkomgeving Rijk</li>
+          <li>- Laboratorium</li>
+          <li>- Logistiek</li>
+          <li>- Vervoer en Verblijf</li>
+          <li>- Werkplekomgeving</li>
+        </ul>
+      </div>
+      <br />
+      <a className="text-blue-500 hover:underline">
+        <Link href={`https://www.rijksoverheid.nl/onderwerpen/zakendoen-met-het-rijk/inkoopcategorieen`} passHref>
+          Klink hier om alle Inkoopcategorieën en Categorieplannen op Rijksoverheid.nl te bekijken
+        </Link>
+      </a>
+    </>
+  )
+
   return (
     <>
       {!session && redirect(`/login?next=/categorieplannen`)}
@@ -36,7 +68,7 @@ export default async function CategorieplannenPage() {
         <Chat
           showEmptyScreen={true}
           emptyScreenHeader={"Chat met Categorieplannen"}
-          emptyScreenBody={"U kunt hier chatten met de Categorieplannen."}
+          emptyScreenBody={emptyScreenBody}
           tenderId={"categorieplannen"}
           id={chatId}
           session={session}

@@ -5,6 +5,7 @@ import { AI } from "@/lib/chat/actions";
 import { fetchTenderDocuments } from "@/lib/data";
 import { Session } from '@/lib/types';
 import { nanoid } from '@/lib/utils';
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
@@ -17,6 +18,18 @@ export default async function Page() {
 
   let tenderDocumentMetadata = await fetchTenderDocuments("pianoo")
 
+  const emptyScreenBody = (
+    <>
+      <div>U kunt hier chatten met de gehele inhoud van de site van PIANOo Expertisecentrum Aanbesteden. </div>
+      <div>Stel hieronder een vraag, bijvoorbeeld over Maatschappelijk Verantwoord Inkopen, over de Aanbestedingswet, of ieder ander onderwerp dat uw interesse heeft.</div>
+      <br />
+      <a className="text-blue-500 hover:underline">
+        <Link href={`https://www.pianoo.nl/nl`} passHref>
+          Klink hier om de site van PIANOo te bekijken
+        </Link>
+      </a>
+    </>)
+    
   return (
     <>
       {!session && redirect(`/login?next=/pianoo`)}
@@ -30,8 +43,8 @@ export default async function Page() {
       }}>
         <Chat
           showEmptyScreen={true}
-          emptyScreenHeader={"Chat met PIANOo"}
-          emptyScreenBody={"U kunt hier chatten met PIANOo."}
+          emptyScreenHeader={"Chat over de inhoud van de site van PIANOo Expertisecentrum Aanbesteden"}
+          emptyScreenBody={emptyScreenBody}
           tenderId={"pianoo"}
           id={chatId}
           session={session}

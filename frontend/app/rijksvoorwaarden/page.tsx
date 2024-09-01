@@ -5,6 +5,7 @@ import { AI } from "@/lib/chat/actions";
 import { fetchTenderDocuments } from "@/lib/data";
 import { Session } from '@/lib/types';
 import { nanoid } from '@/lib/utils';
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function RijksvoorwaardenPage() {
@@ -22,6 +23,19 @@ export default async function RijksvoorwaardenPage() {
   // }
   let tenderDocumentMetadata = await fetchTenderDocuments("rijksvoorwaarden")
 
+  const emptyScreenBody = (
+    <>
+      <div>Bij opdrachten van het Rijk gelden regels voor bijvoorbeeld aansprakelijkheid, facturering en levering. Deze regels staan in verschillende voorwaarden. De voorwaarden gelden voor het Rijk en de leverancier. Er zijn algemene voorwaarden en specifieke voorwaarden voor dienstverlening, IT en de bouw.</div>
+      <div>Stel hieronder een vraag, bijvoorbeeld over de Voorwaarden inkoop diensten, of Voorwaarden inkoop Informatietechnologie.</div>
+      <br />
+      <a className="text-blue-500 hover:underline">
+        <Link href={`https://www.rijksoverheid.nl/onderwerpen/zakendoen-met-het-rijk/voorwaarden-voor-rijksopdrachten`} passHref>
+          Klink hier de voorwaarden voor inkoop bij Rijksopdrachten te bekijken
+        </Link>
+      </a>
+    </>)
+
+
   return (
     <>
       {!session && redirect(`/login?next=/rijksvoorwaarden`)}
@@ -36,7 +50,7 @@ export default async function RijksvoorwaardenPage() {
         <Chat
           showEmptyScreen={true}
           emptyScreenHeader={"Chat met Rijksvoorwaarden"}
-          emptyScreenBody={"U kunt hier chatten met de Rijksvoorwaarden."}
+          emptyScreenBody={emptyScreenBody}
           tenderId={"rijksvoorwaarden"}
           id={chatId}
           session={session}
