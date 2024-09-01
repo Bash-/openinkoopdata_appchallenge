@@ -99,7 +99,6 @@ const SourcesCollapsible = ({ sources, tenderDocumentMetadata }: any) => {
   return (
 
     (Object.keys(groupedBySource).length) === 0 ?
-      // add warning button that no sources were used in the analysis
       <Card className="bg-yellow-100 text-yellow-800 px-5 py-4 mt-4">
         <div className="flex items-center justify-between">
           <p className="text-sm">Let op, bovenstaand antwoord heeft geen bronnen gebruikt en is daarom puur gegenereerd door de AI. Mogelijk omdat er geen documenten beschikbaar zijn, of omdat het algoritme geen relevante documenten kon vinden bij uw vraag.
