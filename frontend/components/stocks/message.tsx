@@ -101,7 +101,7 @@ const SourcesCollapsible = ({ sources, tenderDocumentMetadata }: any) => {
     (Object.keys(groupedBySource).length) === 0 ?
       <Card className="bg-yellow-100 text-yellow-800 px-5 py-4 mt-4">
         <div className="flex items-center justify-between">
-          <p className="text-sm">Let op, bovenstaand antwoord heeft geen bronnen gebruikt en is daarom puur gegenereerd door de AI. Mogelijk omdat er geen documenten beschikbaar zijn, of omdat het algoritme geen relevante documenten kon vinden bij uw vraag.
+          <p className="text-sm">Let op, bovenstaand antwoord heeft geen bronnen gebruikt en is daarom puur gegenereerd door het taalmodel. Mogelijk omdat er geen documenten beschikbaar zijn, of omdat het algoritme geen relevante documenten kon vinden bij uw vraag.
             Controleer hieronder op &#39;Selecteer subset van documenten&#39; om te controleren of er documenten beschikbaar zijn, of probeer opnieuw.
           </p>
         </div>

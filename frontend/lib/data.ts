@@ -58,10 +58,6 @@ export async function fetchFilteredTenders(
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
   `;
 
-  console.log('Fetching tenders...');
-  console.log(fullQuery);
-
-
   try {
     const tenders = await sql.query(fullQuery);
     return tenders.rows;

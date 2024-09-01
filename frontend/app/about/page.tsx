@@ -49,6 +49,14 @@ export default async function AboutPage() {
         De OpenAI API genereert een antwoord en stuurt dit terug naar de gebruiker.
       </p>
 
+      <br></br>
+      <p>
+        Vragen of opmerkingen? Neem contact op via <a className="underline" href="mailto:info@tenderflow.eu">info@tenderflow.eu</a>
+      </p>
+      <p className="leading-normal text-muted-foreground">
+        Ook als u geinteresseerd bent in het gebruik van deze technologie voor uw eigen organisatie, dan horen we graag van u.
+      </p>
+
     </div>
   )
 }
