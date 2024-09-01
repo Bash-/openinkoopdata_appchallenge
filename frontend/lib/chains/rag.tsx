@@ -7,6 +7,8 @@ import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { WeaviateStore } from "@langchain/weaviate";
 import weaviate, { ApiKey } from "weaviate-ts-client";
 import { Message } from "../chat/actions";
+import { wrapAISDKModel } from "langsmith/wrappers/vercel";
+import { openai } from "@ai-sdk/openai";
 
 const weaviateClient = (weaviate as any).client({
   scheme: process.env.WEAVIATE_SCHEME || "https",
@@ -51,8 +53,11 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
     tags = [...tags, "tender", tenderId]
   }
 
+  const vercelModel = openai("gpt-4o-2024-08-06");
+  const modelWithTracing = wrapAISDKModel(vercelModel);
+
   const llm = new ChatOpenAI({
-    modelName: "gpt-4o-2024-08-06",
+    model: modelWithTracing,
     streaming: true,
   }).withConfig({
     tags: tags,
