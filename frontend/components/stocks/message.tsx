@@ -61,6 +61,7 @@ export function SourcesMessage({
 import * as Collapsible from '@radix-ui/react-collapsible'
 import { ArrowDownIcon, Cross1Icon } from '@radix-ui/react-icons'
 import React from 'react'
+import { Card } from '../ui/card'
 
 const SourcesCollapsible = ({ sources, tenderDocumentMetadata }: any) => {
   const [open, setOpen] = React.useState(false);
@@ -96,37 +97,48 @@ const SourcesCollapsible = ({ sources, tenderDocumentMetadata }: any) => {
   }, {});
 
   return (
-    <Collapsible.Root className="CollapsibleRoot" open={open} onOpenChange={setOpen}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Collapsible.Trigger asChild>
-          <button className="w-full flex items-center justify-between text-left text-blue-500 hover:text-blue-700 focus:outline-none">
-            Bekijk bronnen ({Object.keys(groupedBySource).length}) {open ? <Cross1Icon /> : <ArrowDownIcon />}
-          </button>
-        </Collapsible.Trigger>
-      </div>
-      <Collapsible.Content>
-        <table className="table-auto w-full mt-4 bg-white shadow-md rounded-lg overflow-hidden">
-          <thead className="bg-gray-300 text-white">
-            <tr>
-              <th className="px-4 text-gray-900 text-left py-2">Bron</th>
-              <th className="px-4 text-gray-900 text-left py-2">Pagina</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(groupedBySource).map(([source, { pages, downloadurl }]: any[], index) => (
-              <tr key={source} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
-                <td className="border px-4 py-2 text-gray-900 text-left flex">
-                  <a href={downloadurl} target="_blank">{source} <IconExternalLink className='inline-block' /></a>
-                </td>
-                <td className="border px-4 py-2 text-gray-900 text-left">
-                  {Array.from(pages).sort((a: any, b: any) => a - b).join(', ')}
-                </td>
+
+    (Object.keys(groupedBySource).length) === 0 ?
+      // add warning button that no sources were used in the analysis
+      <Card className="bg-yellow-100 text-yellow-800 px-5 py-4 mt-4">
+        <div className="flex items-center justify-between">
+          <p className="text-sm">Let op, bovenstaand antwoord heeft geen bronnen gebruikt en is daarom puur gegenereerd door de AI. Mogelijk omdat er geen documenten beschikbaar zijn, of omdat het algoritme geen relevante documenten kon vinden bij uw vraag.
+            Controleer hieronder op &#39;Selecteer subset van documenten&#39; om te controleren of er documenten beschikbaar zijn, of probeer opnieuw.
+          </p>
+        </div>
+      </Card> :
+      <Collapsible.Root className="CollapsibleRoot" open={open} onOpenChange={setOpen}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Collapsible.Trigger asChild>
+            <button className="w-full flex items-center justify-between text-left text-blue-500 hover:text-blue-700 focus:outline-none">
+              Bekijk bronnen ({Object.keys(groupedBySource).length}) {open ? <Cross1Icon /> : <ArrowDownIcon />}
+            </button>
+          </Collapsible.Trigger>
+        </div>
+        <Collapsible.Content>
+          <table className="table-auto w-full mt-4 bg-white shadow-md rounded-lg overflow-hidden">
+            <thead className="bg-gray-300 text-white">
+              <tr>
+                <th className="px-4 text-gray-900 text-left py-2">Bron</th>
+                <th className="px-4 text-gray-900 text-left py-2">Pagina</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </Collapsible.Content>
-    </Collapsible.Root>
+            </thead>
+            <tbody>
+              {Object.entries(groupedBySource).map(([source, { pages, downloadurl }]: any[], index) => (
+                <tr key={source} className={index % 2 === 0 ? 'bg-gray-100' : ''}>
+                  <td className="border px-4 py-2 text-gray-900 text-left flex">
+                    <a href={downloadurl} target="_blank">{source} <IconExternalLink className='inline-block' /></a>
+                  </td>
+                  <td className="border px-4 py-2 text-gray-900 text-left">
+                    {Array.from(pages).sort((a: any, b: any) => a - b).join(', ')}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Collapsible.Content>
+      </Collapsible.Root>
+
   );
 };
 

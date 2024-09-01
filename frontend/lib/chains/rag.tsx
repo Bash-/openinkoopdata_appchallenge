@@ -93,6 +93,7 @@ export const rag = async (question: string, chat_history: Message[], tenderId: s
       \n\n
       Als je het antwoord niet weet, vraag de gebruiker dan om de vraag te herformuleren.
       Probeer het antwoord zo uitgebreid mogelijk te geven en verwijs naar de bronbestanden met pagina nummers waar dat kan.
+      Geef geen antwoord als het niet binnen de context past.
     `
 
   const qaPrompt = ChatPromptTemplate.fromMessages([
