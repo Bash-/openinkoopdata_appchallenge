@@ -15,6 +15,7 @@ import { ChatHistory } from './chat-history'
 import { MainMenu } from './main-menu'
 import { SidebarMobile } from './sidebar-mobile'
 import { SidebarToggle } from './sidebar-toggle'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
 
 async function UserOrLogin() {
   const session = (await auth()) as Session
@@ -79,7 +80,7 @@ export function Header() {
           href="/about"
           className={cn(buttonVariants({ variant: 'outline' }))}
         >
-          <IconMessage />
+          <InfoCircledIcon />
           <span className="hidden ml-2 md:flex">Over deze app</span>
         </Link>
       </div>
