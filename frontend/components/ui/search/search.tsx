@@ -37,7 +37,6 @@ export default function Search({ }) {
     };
 
     if (dates?.from) {
-
       params.set('min_date', urlFormatDate(dates.from));
     } else {
       params.delete('min_date');
@@ -49,10 +48,8 @@ export default function Search({ }) {
       params.delete('max_date');
     }
 
-    replace(`${pathname}?${params.toString()}`);
-
+    replace(`${pathname}?${params.toString()}`);  
   }
-
 
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
@@ -80,6 +77,19 @@ export default function Search({ }) {
             type="search"
           />
         </div>
+        <Button
+          onClick={() => {
+            const params = new URLSearchParams(searchParams);
+            params.delete('q');
+            params.delete('min_date');
+            params.delete('max_date');
+            replace(`${pathname}?${params.toString()}`);            
+          }}
+          variant="outline"
+          className="flex items-center gap-2"
+        >
+          Filters resetten
+        </Button>
       </div>
       {/* <div className="flex flex-wrap gap-2">
         <Button className="rounded-full" size="sm" variant="ghost">

@@ -9,24 +9,23 @@ import {
 const datefilter = (min_date: string, max_date: string) => {
   let whereClause = '';
   if (min_date) {
-    whereClause += `publicatiedatum >= '${min_date}' `;
+    whereClause += `sluitingsdatum >= '${min_date}' `;
   }
   if (max_date) {
     if (whereClause.length > 0) {
       whereClause += 'AND ';
     }
-    whereClause += `publicatiedatum <= '${max_date}' `;
+    whereClause += `sluitingsdatum <= '${max_date}' `;
   }
 
   return whereClause
 }
 
 const textFilter = (query: string) => {
-  return `tenders.aanbestedendeDienstNaam ILIKE ${`%${query}%`} OR
-  tenders.opdrachtgevermaam ILIKE ${`%${query}%`} OR
-  tenders.opdrachtbeschrijving ILIKE ${`%${query}%`}`
+  return `aanbestedendedienstnaam ILIKE '%${query}%' OR
+  aanbestedingnaam ILIKE '%${query}%' OR
+  opdrachtbeschrijving ILIKE '%${query}%'`
 }
-
 
 const ITEMS_PER_PAGE = 8;
 export async function fetchFilteredTenders(
@@ -35,19 +34,29 @@ export async function fetchFilteredTenders(
   max_date: string,
   currentPage: number,
 ) {
-  let whereClause = datefilter(min_date, max_date)
+  let whereClause = 'WHERE 1=1 '
+  const dateWhere = datefilter(min_date, max_date);
+  if (dateWhere.length > 0) {
+    whereClause += 'AND (' + dateWhere + ') ';
+  }
+  if (query) {
+    whereClause += 'AND (' + textFilter(query) + ') ';
+  }
 
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  try {
-
-    const tenders = await sql<Tender>`
-      SELECT
-        *
-      FROM publications
+  let fullQuery = `
+      SELECT *
+      FROM publications ${whereClause}
       ORDER BY publicatiedatum DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-    `;
+  `;
 
+  console.log('Fetching tenders...');
+  console.log(fullQuery);
+
+
+  try {
+    const tenders = await sql.query(fullQuery);
     return tenders.rows;
   } catch (error) {
     console.error('Database Error:', error)
