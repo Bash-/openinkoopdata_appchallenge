@@ -24,16 +24,11 @@ const datefilter = (min_date: string, max_date: string) => {
 const textFilter = (query: string) => {
   return `aanbestedendedienstnaam ILIKE '%${query}%' OR
   aanbestedingnaam ILIKE '%${query}%' OR
-  opdrachtbeschrijving ILIKE '%${query}%'`
+  opdrachtbeschrijving ILIKE '%${query}%' OR
+  publicatieid ILIKE '%${query}%'`
 }
 
-const ITEMS_PER_PAGE = 8;
-export async function fetchFilteredTenders(
-  query: string,
-  min_date: string,
-  max_date: string,
-  currentPage: number,
-) {
+const getQueryWhereStatement = (query: string, min_date: string, max_date: string) => {
   let whereClause = 'WHERE 1=1 '
   const dateWhere = datefilter(min_date, max_date);
   if (dateWhere.length > 0) {
@@ -42,6 +37,18 @@ export async function fetchFilteredTenders(
   if (query) {
     whereClause += 'AND (' + textFilter(query) + ') ';
   }
+  return whereClause;
+}
+
+
+const ITEMS_PER_PAGE = 8;
+export async function fetchFilteredTenders(
+  query: string,
+  min_date: string,
+  max_date: string,
+  currentPage: number,
+) {  
+  const whereClause = getQueryWhereStatement(query, min_date, max_date);
 
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   let fullQuery = `
@@ -66,7 +73,9 @@ export async function fetchFilteredTenders(
 
 export async function fetchTendersPages(query: string, min_date: string, max_date: string) {
   try {
-    const count = await sql`SELECT COUNT(*) FROM publications -- INCLUDE WHERE FILTERS`;
+    const whereClause = getQueryWhereStatement(query, min_date, max_date);
+    
+    const count = await sql.query(`SELECT COUNT(*) FROM publications ${whereClause}`)
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
