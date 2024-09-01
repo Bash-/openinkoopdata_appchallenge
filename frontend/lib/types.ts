@@ -57,6 +57,7 @@ export type Tender = {
   aanbestedendedienstnaam: string
   opdrachtgevernaam: string
   sluitingsdatum: Date
+  aanvangopdrachtdatum: Date
   numberofdaysbeforeaanmeldeninschrijven: number;
   voltooiingopdrachtdatum: Date;
   digitaal: boolean

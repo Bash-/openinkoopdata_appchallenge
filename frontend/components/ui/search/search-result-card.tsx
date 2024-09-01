@@ -32,14 +32,21 @@ export default function SearchResultCard({
         >{tender.opdrachtbeschrijving}</p>
         <hr className="my-3" />
         <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-        <span>Publicatiedatum: {tender.publicatiedatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
+          <span>Publicatiedatum: {tender.publicatiedatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
           {/* <span className="bg-primary-100 text-primary-600 dark:bg-primary-900 dark:text-primary-400 px-2 py-1 rounded-full">
             Construction
           </span> */}
         </div>
         <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-        <span>Sluitingsdatum: {tender.sluitingsdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
+          <span>Sluitingsdatum: {tender.sluitingsdatum ? tender.sluitingsdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'onbekend'}</span>
         </div>
+        {
+          tender.aanvangopdrachtdatum && (
+            <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+              <span>Aanvang opdracht: {tender.aanvangopdrachtdatum ? tender.aanvangopdrachtdatum.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'onbekend'}</span>
+            </div>
+          )
+        }
       </div>
     </Card >
   )

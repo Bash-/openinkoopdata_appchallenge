@@ -36,6 +36,7 @@ export default async function TenderDetailPage({
       <div><strong>Aanbestedende dienst:</strong> {tender.aanbestedendedienstnaam}</div>
       <div><strong>Publicatiedatum:</strong> {tender.publicatiedatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
       <div><strong>Sluitingsdatum:</strong> {tender.sluitingsdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
+      <div><strong>Aanvang opdracht:</strong> {tender.aanvangopdrachtdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
       <div><strong>Opdrachtbeschrijving:</strong> {tender.opdrachtbeschrijving}</div>
       <div><strong>Publicatie ID:</strong> {tender.publicatieid}</div>
 

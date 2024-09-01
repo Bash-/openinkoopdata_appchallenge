@@ -56,25 +56,29 @@ export default async function ChatPage({ params }: ChatPageProps) {
     tenderDocumentMetadata = await fetchTenderDocuments(chat.tenderId)
     tender = await fetchTenderById(chat.tenderId)
 
-    emptyScreenBody = (
-      <>
-        <div><strong>Aanbestedende dienst:</strong> {tender.aanbestedendedienstnaam}</div>
-        <div><strong>Publicatiedatum:</strong> {tender.publicatiedatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
-        <div><strong>Sluitingsdatum:</strong> {tender.sluitingsdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
-        <div><strong>Opdrachtbeschrijving:</strong> {tender.opdrachtbeschrijving}</div>
-        <div><strong>Publicatie ID:</strong> {tender.publicatieid}</div>
-  
-        {/* Link to Tenderned */}
-        <a className="text-blue-500 hover:underline">
-          <Link href={`https://www.tenderned.nl/tenderned-tap/aankondigingen/${tender.publicatieid}`} passHref>
-            Bekijk op Tenderned
-          </Link>
-        </a>
-  
-      </>)
+    if (tender) {
+      emptyScreenBody = (
+        <>
+          <div><strong>Aanbestedende dienst:</strong> {tender.aanbestedendedienstnaam}</div>
+          <div><strong>Publicatiedatum:</strong> {tender.publicatiedatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
+          <div><strong>Sluitingsdatum:</strong> {tender.sluitingsdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
+          <div><strong>Aanvang opdracht:</strong> {tender.aanvangopdrachtdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
+          <div><strong>Opdrachtbeschrijving:</strong> {tender.opdrachtbeschrijving}</div>
+          <div><strong>Publicatie ID:</strong> {tender.publicatieid}</div>
+
+          {/* Link to Tenderned */}
+          <a className="text-blue-500 hover:underline">
+            <Link href={`https://www.tenderned.nl/tenderned-tap/aankondigingen/${tender.publicatieid}`} passHref>
+              Bekijk op Tenderned
+            </Link>
+          </a>
+
+        </>)
+
+    }
+
+
   }
-
-
 
   return (
     <AI initialAIState={{
