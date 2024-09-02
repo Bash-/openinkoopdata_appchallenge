@@ -48,7 +48,7 @@ export default async function CategorieplannenPage() {
       <br />
       <a className="text-blue-500 hover:underline">
         <Link href={`https://www.rijksoverheid.nl/onderwerpen/zakendoen-met-het-rijk/inkoopcategorieen`} passHref>
-          Klink hier om alle Inkoopcategorieën en Categorieplannen op Rijksoverheid.nl te bekijken
+          Klik hier om alle Inkoopcategorieën en Categorieplannen op Rijksoverheid.nl te bekijken
         </Link>
       </a>
     </>
