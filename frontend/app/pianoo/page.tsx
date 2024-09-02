@@ -25,7 +25,7 @@ export default async function Page() {
       <br />
       <a className="text-blue-500 hover:underline">
         <Link href={`https://www.pianoo.nl/nl`} passHref>
-          Klink hier om de site van PIANOo te bekijken
+          Klik hier om de site van PIANOo te bekijken
         </Link>
       </a>
     </>)

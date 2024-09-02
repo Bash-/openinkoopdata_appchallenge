@@ -30,7 +30,7 @@ export default async function RijksvoorwaardenPage() {
       <br />
       <a className="text-blue-500 hover:underline">
         <Link href={`https://www.rijksoverheid.nl/onderwerpen/zakendoen-met-het-rijk/voorwaarden-voor-rijksopdrachten`} passHref>
-          Klink hier de voorwaarden voor inkoop bij Rijksopdrachten te bekijken
+          Klik hier om de voorwaarden voor inkoop bij Rijksopdrachten te bekijken
         </Link>
       </a>
     </>)
