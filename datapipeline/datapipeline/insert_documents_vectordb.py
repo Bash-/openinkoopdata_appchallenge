@@ -54,7 +54,7 @@ def insert_to_vectordb(folder_path, tenderId: str) -> None:
         print(f"Found directory: {dirName}")
         for fname in fileList:
             print(f" \t Found file {fname}")
-            file_path = os.path.join(folder_path, fname)
+            file_path = os.path.join(dirName, fname)
             if fname.endswith(".pdf"):
                 loader = PyPDFLoader(file_path)
                 documents.extend(loader.load())
