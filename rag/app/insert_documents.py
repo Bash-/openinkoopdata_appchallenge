@@ -8,8 +8,9 @@ import chromadb
 
 _ = load_dotenv()
 
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-DB_DIR = os.getenv('DB_DIR')
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+DB_DIR = os.getenv("DB_DIR")
+
 
 def load_chunk_persist_pdf(pdf_folder_path) -> Chroma:
     """
@@ -24,7 +25,7 @@ def load_chunk_persist_pdf(pdf_folder_path) -> Chroma:
     for dirName, subdirList, fileList in os.walk(pdf_folder_path):
         print(f"Found directory: {dirName}")
         for fname in fileList:
-            if fname.endswith('.pdf'):
+            if fname.endswith(".pdf"):
                 print(f" \t Save {fname} with embedding to vectorstore")
                 pdf_path = os.path.join(pdf_folder_path, fname)
                 loader = PyPDFLoader(pdf_path)
@@ -39,9 +40,10 @@ def load_chunk_persist_pdf(pdf_folder_path) -> Chroma:
     vectordb = Chroma.from_documents(
         documents=chunked_documents,
         embedding=OpenAIEmbeddings(),
-        persist_directory="./rag/data_local/chroma/"
+        persist_directory="./rag/data_local/chroma/",
     )
     vectordb.persist()
     return None
+
 
 load_chunk_persist_pdf("./datapipeline/data_local/raw/documents/332427/")
