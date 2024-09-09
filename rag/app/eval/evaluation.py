@@ -1,19 +1,91 @@
+import os
+from typing import Any
+
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import weaviate
+from langchain_openai import ChatOpenAI
 
-from pipeline import get_rag_chain, get_eval_llm
-
+from rag import get_rag_chain
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from generator import QuestionGenerator
+from prompts import qa_eval_prompt
 
 class RAGEvaluator:
-    def __init__(self, rag_chain, tender_id):
+    def __init__(self, rag_chain: Any, llm, tender_id: str):
         self.rag_chain = rag_chain
+        self.llm = llm
         self.tender_id = tender_id
+        self.eval_chain = self.setup_eval_chain()
 
-    def llm_eval(self, pred, truth):
-        pass
+    def setup_eval_chain(self):
+        """
+        Create an evaluation model for the LLM
+        :return:
 
-    def f1(self, pred, truth):
+        Use like this
+        prompt_value = eval_model.invoke(
+        {
+            "vraag": "What is your name?",
+            "echt_antwoord": "Bob",
+            "gegenereerd_antwoord": "Bart",
+        })
+
+        """
+
+        prompt_template = ChatPromptTemplate.from_messages(
+            [
+                ("system", qa_eval_prompt),
+                ("human", "De originele vraag is: {vraag}"),
+                ("human", "Het echte antwoord is: {echt_antwoord}"),
+                ("human", "Het gegenereerde antwoord is: {gegenereerd_antwoord}"),
+            ]
+        )
+
+        # Use runnablesequence instead of LLMChain
+        chain = prompt_template | self.llm | StrOutputParser()
+
+        return chain
+
+    def llm_eval(self, question: str, pred: str, truth: str) -> float:
+        """
+        Evaluate the LLM model.
+        :param pred: str - The generated answer.
+        :param truth: str - The correct answer.
+        :return: float - The average score (0 if parsing fails).
+        """
+        # Attempt to get a valid score
+        score = None
+        for attempt in range(6):  # Try the initial attempt + 5 retries
+            if attempt > 0:
+                score = self.eval_chain.invoke(
+                    {
+                        "vraag": question,
+                        "echt_antwoord": truth,
+                        "gegenereerd_antwoord": pred,
+                    }
+                )
+
+            try:
+                score_int = int(score)
+                return score_int / 5  # Return the score as a float divided by 5
+            except (ValueError, TypeError):
+                score = None  # Reset score in case of failure
+
+        # If all attempts fail, return 0
+        return 0.0
+
+
+
+    def f1(self, pred: str, truth: str):
+        """
+        Calculate the F1 score
+        :param pred: str
+        :param truth: str
+        :return: float score
+        """
         pred_tokens = pred.split()
         truth_tokens = truth.split()
         common_tokens = set(pred_tokens) & set(truth_tokens)
@@ -23,12 +95,23 @@ class RAGEvaluator:
         rec = len(common_tokens) / len(truth_tokens)
         return 2 * (prec * rec) / (prec + rec)
 
-    def cosine_similarity(self, pred, truth):
+    def cosine_similarity(self, pred: str, truth: str):
+        """
+        Calculate the cosine similarity
+        :param pred: str
+        :param truth: str
+        :return: float score
+        """
         vectorizer = TfidfVectorizer().fit([pred, truth])
         vectors = vectorizer.transform([pred, truth]).toarray()
         return cosine_similarity(vectors)[0, 1]
 
     def evaluate(self, qa_pairs):
+        """
+        Evaluate rag chain
+        :param qa_pairs:
+        :return: score dictionary
+        """
         results = {"f1_score": [], "cosine_similarity": [], "llm_eval": []}
 
         for qa in qa_pairs:
@@ -36,23 +119,27 @@ class RAGEvaluator:
 
             generated_response = self.rag_chain.invoke({"input": question, "chat_history": [], "tenderId": self.tender_id})
             generated_answer = generated_response.get("answer")
-            print(generated_answer)
 
             # Scoring
             f1 = self.f1(generated_answer, truth_answer)
             cosine_sim = self.cosine_similarity(generated_answer, truth_answer)
+            llm_score = self.llm_eval(question, generated_answer, truth_answer)
 
             # Collect results
             results["f1_score"].append(f1)
             results["cosine_similarity"].append(cosine_sim)
+            results["llm_eval"].append(llm_score)
 
         # Aggregate results
         avg_f1 = np.mean(results["f1_score"])
         avg_cosine = np.mean(results["cosine_similarity"])
+        avg_llm = np.mean(results["llm_eval"])
+        print(results)
 
         return {
             "avg_f1_score": avg_f1,
             "avg_cosine_similarity": avg_cosine,
+            "avg_llm_eval": avg_llm,
         }
 
 
@@ -69,20 +156,26 @@ qa_pairs = [
     # {"vraag": "Wat is het verschil tussen een raamovereenkomst en een raamcontract?", "antwoord": "In het Nederlandse taalgebied worden de termen (raam)overeenkomst en (raam)contract als synoniemen gebruikt, maar het kan verwarrend zijn om ze door elkaar te gebruiken. In het Engels is er een subtiel verschil tussen een contract en een agreement: een contract is juridisch bindend en afdwingbaar, terwijl een agreement minder formeel is en minder concreet de afspraken tussen partijen vastlegt."},
 ]
 
-eval_model = get_eval_llm()
-prompt_value = eval_model.run(
-    {
-        "vraag": "Wat is de maximale duur van een raamovereenkomst?",
-        "echt_antwoord": "De maximale duur van een raamovereenkomst is doorgaans 4 jaar. In bijzondere omstandigheden, waarbij dit goed gemotiveerd wordt, kan de looptijd langer zijn. Voor speciale sectoropdrachten kan de looptijd maximaal 8 jaar zijn, met uitzondering van goed gemotiveerde gevallen. Gedurende de hele looptijd van de raamovereenkomst kunnen opdrachten worden verstrekt.",
-        "gegenereerd_antwoord": "De maximale duur van een raamovereenkomst, zoals beschreven in de context, is vier (4) jaar. Dit omvat de initiële looptijd en eventuele verlengingsopties. De raamovereenkomst kan worden verlengd met twee (2) keer één (1) jaar, afhankelijk van een positieve contractevaluatie en de beslissing van de opdrachtgever om van deze verlengingsopties gebruik te maken. De totale maximale duur van de raamovereenkomst kan dus vier (4) jaar bedragen, inclusief verlengingsopties. Indien de opdrachtgever geen gebruik wenst te maken van een verlengingsoptie, moet dit uiterlijk drie (3) maanden voor het verstrijken van de huidige looptijd schriftelijk aan de opdrachtnemer worden medegedeeld. Bij het uitblijven van een dergelijk bericht treedt een optie tot verlenging automatisch in, indien deze nog openstaat.",
-    })
-
-print(prompt_value)
-
-
-
 rag_chain = get_rag_chain()
-tender_id = "pianoo"
-evaluator = RAGEvaluator(rag_chain, tender_id)
+tender_id = "345519"
+
+# Generate questions pairs
+WEAVIATE_URL = os.getenv("WEAVIATE_HOST")
+WEAVIATE_API_KEY = os.getenv("WEAVIATE_API_KEY")
+OPENAI_APIKEY = os.getenv("OPENAI_API_KEY")
+
+weaviate_client = weaviate.Client(
+    url=WEAVIATE_URL,
+    auth_client_secret=weaviate.AuthApiKey(WEAVIATE_API_KEY),
+    additional_headers={"X-OpenAI-Api-Key": OPENAI_APIKEY},
+)
+
+llm = ChatOpenAI(
+    temperature=0.2, openai_api_key=OPENAI_APIKEY, model="gpt-4o-2024-08-06"
+)
+qa_pairs = QuestionGenerator(weaviate_client, llm).generate_questions(tender_id)
+
+# # Evaluate
+evaluator = RAGEvaluator(rag_chain, llm, tender_id)
 results = evaluator.evaluate(qa_pairs)
 print(results)
