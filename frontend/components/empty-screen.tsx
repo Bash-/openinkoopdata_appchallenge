@@ -45,19 +45,13 @@ export function EmptyScreen({ emptyScreenHeader, emptyScreenBody, collapsed = fa
             ) : (
               <>
                 <div className="leading-normal text-muted-foreground">
-                  Dit is een open source chatbot dat vragen kan beantwoorden over aanbestedingen van het Rijk.
-                  {/* Stel gerust een vraag of probeer een van de voorbeelden hieronder. */}
+                  Dit is een open source chatbot dat vragen kan beantwoorden over aanbestedingen van de overheid.
                 </div>
                 <div className="leading-normal text-muted-foreground">
-                  Klik hieronder om relevante Tenders en Rijksdocumenten te bekijken en vragen over te stellen.
+                  Klik hieronder om vragen te stellen over recent aangekondigde Tenders en andere Rijksdocumenten die relevant zijn voor marktpartijen. Doordat de chatbot alleen vragen kan beantwoorden op basis van geselecteerde documenten die door onze applicatie zijn ingeladen, zou de chatbot geen antwoorden moeten verzinnen, maar altijd het antwoord baseren op de onderliggende bron.
                 </div>
                 <div className="leading-normal text-muted-foreground">
-                  Het AI model beantwoord vragen op basis van een onderliggende dataset met actuele aanbestedingsdata van het Rijk,
-                  en kan vragen beantwoorden over onderwerpen zoals categorieplannen, inkoopstrategieën en tenderdocumenten.
-                </div>
-                <div className="leading-normal text-muted-foreground">
-                  Doordat de chatbot alleen vragen kan beantwoorden op basis van geselecteerde documenten die door onze applicatie
-                  zijn ingeladen, zou de chatbot geen antwoorden moeten verzinnen, maar altijd het antwoord baseren op de onderliggende bron.
+                  Vragen over deze applicatie? Stel ze op info@tenderflow.eu
                 </div>
               </>
             )}
