@@ -45,7 +45,7 @@ export function EmptyScreen({ emptyScreenHeader, emptyScreenBody, collapsed = fa
             ) : (
               <>
                 <div className="leading-normal text-muted-foreground">
-                  Dit is een open source chatbot dat vragen kan beantwoorden over aanbestedingen van de overheid.
+                  Dit is een open source chatbot dat met behulp van AI vragen kan beantwoorden over aanbestedingen van de overheid.
                 </div>
                 <div className="leading-normal text-muted-foreground">
                   Klik hieronder om vragen te stellen over recent aangekondigde Tenders en andere Rijksdocumenten die relevant zijn voor marktpartijen. Doordat de chatbot alleen vragen kan beantwoorden op basis van geselecteerde documenten die door onze applicatie zijn ingeladen, zou de chatbot geen antwoorden moeten verzinnen, maar altijd het antwoord baseren op de onderliggende bron.
