@@ -1,4 +1,5 @@
 // import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
+import { LogoOpenStateFoundation } from '@/components/ui/icons'
 
 import Link from 'next/link'
 
@@ -21,7 +22,7 @@ export default async function AboutPage() {
       <p className="leading-normal text-muted-foreground">
         Ook als u geinteresseerd bent in het gebruik van deze technologie voor uw eigen organisatie, dan horen we graag van u.
       </p>
-      
+
       <br></br>
       <p className="leading-normal text-muted-foreground">
         Deze webapplicatie wordt ontwikkeld naar aanleiding van de <Link className="underline" href="https://www.rijksoverheid.nl/onderwerpen/zakendoen-met-het-rijk/kick-off-open-inkoopdata-app-challenge"> Open Inkoopdata App Challenge</Link>.
@@ -56,7 +57,21 @@ export default async function AboutPage() {
         De vragen worden met behulp van Retrieval Augmented Generation (RAG) beantwoord.
         Ons programma zoekt in de documenten naar relevante stukken tekst, dit wordt samen met de vraag naar de OpenAI API gestuurd (van dezelfde maker als ChatGPT).
         De OpenAI API genereert een antwoord en stuurt dit terug naar de gebruiker.
-      </p>    
+      </p>
+
+      <br></br>
+
+      <h2 className="text-md font-semibold">De initiatiefnemers van dit project</h2>
+      <p className="leading-normal text-muted-foreground">
+        Open State Foundation is een non-profit organisatie die zich inzet voor een transparante overheid en zijn de organisatoren van de Open Inkoopdata App Challenge. Vind meer informatie op <Link className="underline" href="https://openstate.eu/">openstate.eu</Link>.
+      </p>
+      <br></br>
+      <br></br>
+      <LogoOpenStateFoundation className="w-24 h-24" />
+
+
+
+
     </div>
   )
 }
