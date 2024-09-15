@@ -1,0 +1,44 @@
+{
+  "pairs": [
+    {
+      "context": "toezicht of leiding van Opdrachtgever. Opdrachtgever kan wel aanwijzingen en instructies geven \nomtrent het resultaat van de opdracht . In het geval van lesgevende werkzaamheden betekent het \ndat de Opdrachtnemer vrij is om zelfstandig invulling te geven aan de  inhoud van de  les.   \n \nArtikel 3  Duur en einde van de overeenkomst \n3.1 De opdracht vangt aan op <DATUM> en wordt aangegaan tot <EINDDATUM> . \n3.2 Daarnaast eindigt de overeenkomst:  \n - door het overlijden van opdrachtnemer;  \n - ingeval van schuldsanering bij opdrachtnemer, een onderhands akkoord met schuldeisers \nof liquidatie dan wel staking van de onderneming van opdrachtnemer;  \n - in geval van  het door \u00e9\u00e9n der partijen toerekenbaar niet nakomen van de in deze \novereenkomst aangegane verplichtingen, na schriftelijke ingebrekestelling.  \n3.3 Opdrachtgever verklaart zich er uitdrukkelijk mee akkoord dat Opdrachtnemer ook ten  \n behoeve van andere opdrachtgevers werkzaamheden verricht.",
+      "vraag": "Wat gebeurt er met de overeenkomst als de opdrachtnemer overlijdt?  \n",
+      "antwoord": "De overeenkomst eindigt door het overlijden van de opdrachtnemer.",
+      "tender_id": "341298",
+      "document": "Modelovereenkomst geen gezag.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context biedt een duidelijk antwoord op de vraag wat er gebeurt met de overeenkomst als de opdrachtnemer overlijdt. In artikel 3.2 van de context staat expliciet vermeld dat de overeenkomst eindigt door het overlijden van de opdrachtnemer. Dit geeft een ondubbelzinnig en direct antwoord op de gestelde vraag.\n\n",
+      "relevance_score": 4,
+      "relevance_eval": "Deze vraag is nuttig voor partijen die betrokken zijn bij het opstellen of beoordelen van contracten binnen tenders. Het overlijden van een opdrachtnemer kan aanzienlijke gevolgen hebben voor de uitvoering van een overeenkomst, en het is belangrijk om te weten hoe dit juridisch en praktisch wordt afgehandeld. Het kan invloed hebben op de continu\u00efteit van het project en de verplichtingen van de betrokken partijen. Daarom is het relevant om deze vraag te stellen bij het opvragen van informatie over tenders.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "Deze vraag is redelijk context-onafhankelijk omdat het een algemene vraag is over de gevolgen van het overlijden van een opdrachtnemer in een overeenkomst. Het vereist geen specifieke informatie over een bepaalde tender of contract en kan in veel situaties van toepassing zijn. Echter, de exacte gevolgen kunnen vari\u00ebren afhankelijk van de specifieke voorwaarden van een contract, wat enige contextuele afhankelijkheid introduceert.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "Als de opdrachtnemer overlijdt of anderszins in de (fysieke) onmogelijkheid komt te verkeren om de overeenkomst uit te voeren, kan dit leiden tot het be\u00ebindigen van de overeenkomst. Dit is een van de omstandigheden waarin de overeenkomst mogelijk niet kan worden voortgezet. Dit is te vinden in de context van de aanbestedingsdocumenten (zie bijvoorbeeld bronpagina's die deze voorwaarden beschrijven)."
+    },
+    {
+      "context": "Artikel 4  Nakoming  en vervanging \n4.1 Indien de Opdrachtnemer op enig moment voorziet dat hij de verplichtingen in verband met een \ngeaccepteerde opdracht niet, niet tijdig of niet naar behoren kan nakomen, dan dient de \nOpdrachtnemer hierover onmiddellijk in overleg te treden met Opdrac htgever.  \n4.2 Opdrachtgever en Opdrachtnemer zullen in het onder lid 1 genoemde overleg bezien of en in \nhoeverre de werkzaamheden van Opdrachtnemer aan een derde zullen en/of kunnen worden \novergedragen en onder welke voorwaarden.  \n \nArtikel 5  Opzegging overeenkomst \n5.1 De opdracht wordt aangegaan voor de overeengekomen duur als vastgelegd in artikel 3 van \nonderhavige overeenkomst. De opdracht eindigt automatisch door het enkele verstrijken van de \novereengekomen duur of zoveel eerder op grond van tussentijdse  be\u00ebindiging, zoals hierna \nomschreven.  \n5.2  Opzegging van de opdracht op grond van niet -nakoming, kan eerst plaatsvinden nadat een",
+      "vraag": "Wat moet de opdrachtnemer doen als hij voorziet dat hij zijn verplichtingen niet kan nakomen?\n\n",
+      "antwoord": "De opdrachtnemer moet onmiddellijk in overleg treden met de opdrachtgever.",
+      "tender_id": "341298",
+      "document": "Modelovereenkomst geen gezag.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context biedt een duidelijk antwoord op de vraag. Artikel 4.1 specificeert dat de opdrachtnemer onmiddellijk in overleg moet treden met de opdrachtgever als hij voorziet dat hij zijn verplichtingen niet kan nakomen. Dit overleg is bedoeld om te bepalen of en hoe de werkzaamheden aan een derde kunnen worden overgedragen, zoals beschreven in artikel 4.2. De context geeft dus een ondubbelzinnig antwoord op de vraag.\n\n",
+      "relevance_score": 5,
+      "relevance_eval": "Deze vraag is zeer nuttig voor partijen die betrokken zijn bij tenders, omdat het belangrijk is om te weten hoe om te gaan met situaties waarin een opdrachtnemer zijn verplichtingen mogelijk niet kan nakomen. Het begrijpen van de procedures en verantwoordelijkheden in dergelijke gevallen kan helpen bij het minimaliseren van risico's en het waarborgen van een goede relatie tussen opdrachtgever en opdrachtnemer. Het is cruciaal voor het opstellen van contracten en het managen van projecten.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "Deze vraag is redelijk context-onafhankelijk omdat het een algemeen probleem adresseert dat in veel contractuele situaties kan voorkomen. Het vraagt naar de stappen die een opdrachtnemer moet nemen bij het niet kunnen nakomen van verplichtingen, wat een veelvoorkomend onderwerp is in contracten en tenders. Er is geen specifieke verwijzing naar een bepaalde context of document, waardoor de vraag op zichzelf logisch is.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "Als de opdrachtnemer voorziet dat hij zijn verplichtingen niet kan nakomen, is het belangrijk dat hij de opdrachtgever hiervan op de hoogte stelt. Volgens de context uit de documenten, zal de opdrachtgever de opdrachtnemer schriftelijk in gebreke stellen en een redelijke termijn geven om alsnog aan zijn verplichtingen te voldoen. Indien de opdrachtnemer nalatig blijft, is de opdrachtgever gerechtigd om in dringende gevallen maatregelen te nemen voor rekening van de opdrachtnemer, die hij nuttig acht voor het werk of het meerjarig onderhoud (bron: contextinformatie)."
+    }
+  ]
+}

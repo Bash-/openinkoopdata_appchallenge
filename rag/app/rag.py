@@ -9,8 +9,9 @@ from langchain_community.vectorstores import Chroma
 
 _ = load_dotenv()
 
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 DB_DIR = os.getenv("DB_DIR")
+
 
 def create_agent_chain(model_name: str = "gpt-3.5-turbo") -> BaseCombineDocumentsChain:
     """

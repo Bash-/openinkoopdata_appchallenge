@@ -1,0 +1,24 @@
+{
+  "pairs": [
+    {
+      "context": "Questions \n Please answer the following questions: \n 1.  Would y ou be interested in submitting a proposal for the aforementioned assignment \n considering the description and planning of the assignment? \n 2.  Which of the 17 UN sustainable goals (  https://sdgs.un.org/goals  )  are you currently \n contributing to with y our plush animals? \n 3.  Which of the 17 UN sustainable goals will y ou be contributing to in the next 3 y ears? \n 4.  Are y ou able to handle orders of EUR 20,000? I.e. deliv er them quickly , and finance them? \n 5.  What is y our average deliv ery time for an order? \n 6.  Please send us y our most current catalog with plush animals and dinosaurs, including \n purchasing prices. \n 7.  Do you ha ve a representativ e for the Dutch mark et? And if y ou do , is he/she fluent in \n Dutch? \n 8.  Do you ha ve any comments or suggestions for impro vement of the tendering procedure or \n the contr act? If so , please list them accordingly . \n Application",
+      "vraag": "Heeft u een vertegenwoordiger voor de Nederlandse markt en spreekt hij/zij vloeiend Nederlands?  \n",
+      "antwoord": "Ja, we hebben een vertegenwoordiger voor de Nederlandse markt en hij/zij spreekt vloeiend Nederlands.",
+      "tender_id": "342902",
+      "document": "RfI Plush animals for museum shop.pdf",
+      "groundedness_score": 4,
+      "groundedness_eval": "De context bevat een vraag die direct overeenkomt met de gegeven vraag, namelijk vraag 7: \"Do you have a representative for the Dutch market? And if you do, is he/she fluent in Dutch?\" Dit betekent dat de context expliciet vraagt naar de aanwezigheid van een vertegenwoordiger voor de Nederlandse markt en of deze persoon vloeiend Nederlands spreekt. Hoewel het antwoord op deze vraag niet in de context zelf wordt gegeven, is de vraag wel duidelijk en ondubbelzinnig gesteld binnen de context. Daarom kan de vraag goed worden beantwoord als de informatie beschikbaar is.\n\n",
+      "relevance_score": 4,
+      "relevance_eval": "Deze vraag is nuttig voor partijen die willen deelnemen aan tenders op de Nederlandse markt, omdat het belangrijk is om te weten of er een lokale vertegenwoordiger is die de taal spreekt en de markt begrijpt. Dit kan van invloed zijn op de communicatie en de effectiviteit van het tenderproces. Een vertegenwoordiger die vloeiend Nederlands spreekt, kan helpen bij het navigeren door lokale regelgeving en het opbouwen van relaties met lokale stakeholders.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "Deze vraag is redelijk context-onafhankelijk omdat het een algemene vraag is over de aanwezigheid van een vertegenwoordiger voor de Nederlandse markt en hun taalvaardigheid. Er is geen specifieke verwijzing naar een document, setting of andere contextuele informatie die nodig is om de vraag te begrijpen. De vraag kan in verschillende situaties worden gesteld zonder dat er aanvullende informatie nodig is.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "De informatie over vertegenwoordigers in het Uniform Europees Aanbestedingsdocument (UEA) bevat geen specifieke details over de taalvaardigheid van de vertegenwoordigers. Het document vraagt om informatie zoals de volledige naam, geboortedatum, functie, adres, telefoonnummer en e-mailadres van de vertegenwoordiger, maar vermeldt niets over de taalvaardigheid. Voor specifieke vragen over de taalvaardigheid van een vertegenwoordiger zou u direct contact moeten opnemen met de betreffende organisatie of vertegenwoordiger. Raadpleeg de relevante pagina's in het UEA voor meer informatie over de vertegenwoordigers (bijvoorbeeld pagina 6 van de verschillende versies van het document)."
+    }
+  ]
+}

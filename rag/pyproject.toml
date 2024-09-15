@@ -1,9 +1,11 @@
 [tool.poetry]
-name = "openinkoopdata_appchallenge"
+name = "rag"
 version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
+package-mode = false
+
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -15,12 +17,15 @@ python-dotenv = "^1.0.1"
 openai = "^1.14.3"
 chromadb = "^0.4.24"
 tiktoken = "^0.6.0"
-langchain-openai = "^0.1.1"
+    langchain-openai = "^0.1.1"
 polars = "^0.20.21"
 deltalake = "^0.16.4"
 fitz = "^0.0.1.dev2"
 frontend = "^0.0.3"
 pymupdf = "^1.24.2"
+weaviate-client = "^4.7.1"
+scikit-learn = "^1.5.1"
+ruff = "^0.6.4"
 
 
 [build-system]

@@ -1,0 +1,44 @@
+{
+  "pairs": [
+    {
+      "context": "Uniform Europees Aanbestedingsdocument (UEA)\nPagina 32 van 34 TN-474393 - 27 jun. 2024\na.  \nb.  Deel IV: Selectiecriteria\nAlgemene aanwijzing voor alle selectiecriteria\nBedoeld worden geschiktheidseisen zoals vermeld in de Aanbestedingswet 2012.\n\uf071 De ondernemer hoeft uitsluitend informatie te verstrekken wanneer de betreffende selectiecriteria door de \naanbestedende dienst of aanbestedende entiteit in de betreffende aankondiging of in de in die \naankondiging bedoelde aanbestedingsstukken zijn voorgeschreven.\nDe ondernemer verklaart \nmet betrekking tot de \nselectiecriteria dat, hij \nvoldoet aan de \nvoorgeschreven \nselectiecriteria. Ja\n Nee\nDeel VI: Slotopmerkingen\nOndergetekende(n) verklaart/verklaren formeel dat de door hem/haar/hen hiervoor in de delen II\u2013V verstrekte informatie \naccuraat en correct is en dat hij/zij zich volledig bewust is/zijn van de consequenties van het afleggen van een valse \nverklaring.",
+      "vraag": "Moet een ondernemer informatie verstrekken over selectiecriteria als deze niet zijn voorgeschreven in de aankondiging of aanbestedingsstukken?  \n",
+      "antwoord": "Nee, de ondernemer hoeft uitsluitend informatie te verstrekken wanneer de betreffende selectiecriteria zijn voorgeschreven in de aankondiging of aanbestedingsstukken.",
+      "tender_id": "344061",
+      "document": "uea_474393_20240627152839.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context biedt een duidelijk antwoord op de vraag. Het stelt expliciet dat een ondernemer alleen informatie hoeft te verstrekken over selectiecriteria als deze zijn voorgeschreven in de aankondiging of aanbestedingsstukken. Dit betekent dat als de selectiecriteria niet zijn voorgeschreven, de ondernemer geen informatie hoeft te verstrekken. De context verwijst naar de relevante wetgeving en biedt een ondubbelzinnige richtlijn voor de ondernemer.\n\n",
+      "relevance_score": 4,
+      "relevance_eval": "Deze vraag is nuttig voor partijen die betrokken zijn bij het opstellen of beoordelen van aanbestedingen, omdat het inzicht geeft in de verplichtingen van ondernemers met betrekking tot het verstrekken van informatie. Het verduidelijkt of ondernemers proactief informatie moeten geven over selectiecriteria die niet expliciet zijn vermeld, wat belangrijk kan zijn voor het voldoen aan de eisen van een aanbestedingsprocedure. Het helpt ook bij het begrijpen van de verantwoordelijkheden en verwachtingen binnen het aanbestedingsproces.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "Deze vraag is redelijk context-onafhankelijk omdat het een algemene vraag is over de verplichtingen van een ondernemer in het kader van een aanbestedingsprocedure. Het vraagt niet om specifieke details uit een bepaalde aankondiging of aanbestedingsdocumenten, maar eerder om een algemene regel of praktijk. Echter, de vraag zou nog steeds kunnen profiteren van enige context over de specifieke aanbestedingsprocedure of wettelijke vereisten, maar het is niet strikt noodzakelijk voor het begrijpen van de vraag.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "Nee, een ondernemer hoeft uitsluitend informatie te verstrekken over selectiecriteria wanneer deze door de aanbestedende dienst of entiteit in de betreffende aankondiging of in de aanbestedingsstukken zijn voorgeschreven. Als de selectiecriteria niet zijn voorgeschreven, is het niet nodig om daarover informatie te verstrekken. Dit is in overeenstemming met de geschiktheidseisen zoals vermeld in de Aanbestedingswet 2012."
+    },
+    {
+      "context": "aan een wachtkamerconstructie sluit een inschrijver niet uit van eventuele gunning van de opdracht.",
+      "vraag": "Wordt een inschrijver uitgesloten van de gunning van de opdracht als deze deelneemt aan een wachtkamerconstructie?  \n",
+      "antwoord": "Nee, een inschrijver wordt niet uitgesloten van de gunning van de opdracht als deze deelneemt aan een wachtkamerconstructie.",
+      "tender_id": "344061",
+      "document": "240719 EA Groenonderhoud OOZ.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context geeft duidelijk aan dat deelname aan een wachtkamerconstructie een inschrijver niet uitsluit van de gunning van de opdracht. De vraag kan dus ondubbelzinnig beantwoord worden met de gegeven context.\n\n",
+      "relevance_score": 5,
+      "relevance_eval": "Deze vraag is zeer relevant voor partijen die betrokken zijn bij het inschrijvingsproces voor tenders. Het betreft een belangrijk aspect van de aanbestedingsregels en compliance, namelijk de mogelijke uitsluiting van inschrijvers die deelnemen aan een wachtkamerconstructie. Het begrijpen van de regels rondom uitsluiting kan cruciaal zijn voor inschrijvers om te bepalen of hun deelname aan een dergelijke constructie hen kan diskwalificeren. Dit kan hen helpen bij het maken van strategische beslissingen en het waarborgen van hun naleving van de aanbestedingsregels.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "De vraag is redelijk context-onafhankelijk omdat het een algemene vraag stelt over de uitsluiting van een inschrijver in het geval van deelname aan een wachtkamerconstructie. Er is geen specifieke verwijzing naar een bepaald document, aanbesteding of context die nodig is om de vraag te begrijpen. Echter, om een volledig antwoord te geven, zou men wel specifieke regels of voorwaarden van de aanbesteding moeten kennen, maar de vraag zelf is duidelijk en logisch zonder verdere context.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "Nee, een inschrijver wordt niet uitgesloten van deelname aan de gunningfase van de opdracht als deze deelneemt aan een wachtkamerconstructie. Het niet willen meewerken aan een wachtkamerconstructie sluit een inschrijver niet uit van deelname aan de gunningfase van de opdracht (zie pagina 13 van de aanbestedingsdocumenten)."
+    }
+  ]
+}

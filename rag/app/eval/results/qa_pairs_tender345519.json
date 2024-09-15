@@ -1,0 +1,24 @@
+{
+  "pairs": [
+    {
+      "context": "Het informatiesysteem is het eerste loket om te achterhalen waar actuele groeilocaties zijn, als \nvoorbereiding op werkzaamheden zoals grondverzet en maaien. Onder meer voor grondverzet in de \nwinter is ee n actueel overzicht van groeilocaties van grote waarde, omdat duizendknopen dan \nbovengronds afsterven en groeilocaties in het veld minder goed te herkennen zijn.",
+      "vraag": "Waarom is een actueel overzicht van groeilocaties van grote waarde voor grondverzet in de winter?  \n",
+      "antwoord": "Een actueel overzicht van groeilocaties is van grote waarde voor grondverzet in de winter omdat duizendknopen dan bovengronds afsterven en groeilocaties in het veld minder goed te herkennen zijn.",
+      "tender_id": "345519",
+      "document": "TI23167.RO.by.0801 Landelijk protocol omgaan met Aziatische duizendknopen.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context geeft een duidelijke reden waarom een actueel overzicht van groeilocaties van grote waarde is voor grondverzet in de winter. Het legt uit dat duizendknopen bovengronds afsterven in de winter, waardoor groeilocaties minder goed herkenbaar zijn in het veld. Dit maakt een actueel overzicht essentieel voor het plannen en uitvoeren van grondverzetwerkzaamheden. De vraag kan dus ondubbelzinnig beantwoord worden met de gegeven context.\n\n",
+      "relevance_score": 4,
+      "relevance_eval": "Deze vraag is nuttig voor partijen die betrokken zijn bij tenders in de grondverzetsector, vooral in de wintermaanden. Een actueel overzicht van groeilocaties kan helpen bij het plannen en optimaliseren van werkzaamheden, het minimaliseren van stilstand en het effici\u00ebnt inzetten van middelen. Het kan ook invloed hebben op de kosten en de haalbaarheid van projecten. Daarom is deze vraag relevant voor het verkrijgen van strategische informatie die kan bijdragen aan een succesvolle tenderaanbieding.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "Deze vraag is redelijk context-onafhankelijk omdat het een algemene vraag stelt over de waarde van een actueel overzicht van groeilocaties voor grondverzet in de winter. De vraag vereist geen specifieke context of aanvullende informatie om begrepen te worden. Het onderwerp is breed genoeg om zonder specifieke achtergrondinformatie te beantwoorden, hoewel enige kennis van grondverzet en seizoensgebonden factoren nuttig kan zijn voor een volledig antwoord.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "Een actueel overzicht van groeilocaties is van grote waarde voor grondverzet in de winter omdat duizendknopen, een invasieve plantensoort, in deze periode bovengronds afsterven. Hierdoor zijn de groeilocaties in het veld minder goed te herkennen. Het informatiesysteem fungeert als het eerste loket om te achterhalen waar deze actuele groeilocaties zich bevinden, wat cruciaal is voor de voorbereiding op werkzaamheden zoals grondverzet en maaien. Dit helpt om onbedoelde verspreiding van de plant te voorkomen en om effectief beheer en verwijdering te plannen (Bron: contextinformatie)."
+    }
+  ]
+}

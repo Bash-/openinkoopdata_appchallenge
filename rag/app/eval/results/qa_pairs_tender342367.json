@@ -1,0 +1,24 @@
+{
+  "pairs": [
+    {
+      "context": "{\"publicatieid\": 342367, \"kenmerk\": 476151, \"aanbestedingnaam\": \"Nieuwbouw Kleed/Clubgebouw Sportpad deel 2 Roelofarendsveen, Elektrotechnische en Werktuigbouwkundige installaties\", \"aanbestedendedienstnaam\": \"Eendracht Maakt Macht '21\", \"numberofdaysbeforeaanmeldeninschrijven\": 79, \"opdrachtbeschrijving\": \"De realisatie van de Elektrotechnische en Werktuigbouwkundige installatie werkzaamheden voor het project Kleed-Clubgebouw EMM\\u201921 te Roelofarendsveen.\", \"publicatiedatum\": \"2024-07-07T13:37:53.906583\", \"sluitingsdatum\": \"2024-09-25T10:00:00\", \"aanvangopdrachtdatum\": \"2025-01-30\", \"voltooiingopdrachtdatum\": \"2026-06-01\", \"typepublicatie\": \"Aankondiging van een opdracht - algemene richtlijn, standaardregeling\", \"publicatiecode\": \"EF16\", \"juridischkadercodecode\": \"ARW2012\", \"juridischkadercodeomschrijving\": \"ARW 2016 - Aanbestedingsreglement Werken 2016\", \"nationaalofeuropeescodecode\": \"EU\", \"nationaalofeuropeescodeomschrijving\": \"Europees\", \"typeopdrachtcodecode\": \"W\", \"typeopdrachtcodeomschrijving\": \"Werken\", \"procedurecodecode\": \"NOP\", \"procedurecodeomschrijving\": \"Niet-openbaar\", \"isdigitaalinschrijvenmogelijk\": true, \"afgerondeaanbesteding\": false, \"isgeimporteerd\": false, \"isvroegtijdigbeeindigd\": false, \"publicatiepdfid\": 11108940, \"onlygunningprocedure\": false, \"isgegund\": false, \"digitaalinschrijvencodecode\": \"TEN\", \"digitaalinschrijvencodeomschrijving\": \"TenderNed\", \"trefwoord1\": \"\\\"elektrotechniek\\\"\", \"trefwoord2\": \"\\\"werktuigbouw\\\"\", \"trefwoord3\": \"\\\"aannemer\\\"\", \"trefwoord4\": \"\\\"clubgebouw\\\"\", \"trefwoord5\": \"\\\"bouw\\\"\", \"aanbestedingstatus\": \"AAN\", \"aankondigingcodecode\": \"AAO\", \"aankondigingcodeomschrijving\": \"Aankondiging opdracht\", \"linkspdfhref\": \"/papi/tenderned-rs-tns/v2/publicaties/342367/pdf\", \"linkspdftitle\": \"pdf\", \"linkskeepinformedhref\": \"https://www.tenderned.nl/aanbestedende-dienst/aankondigingen/342367?keepInformed=true\", \"linkskeepinformedtitle\": \"keepInformed\", \"linksaddtotendershref\": \"https://www.tenderned.nl/ondernemersplatform/aankondigingen/342367?addToTenders=true\", \"linksaddtotenderstitle\": \"addToTenders\", \"linksshareonlinkedinhref\": \"https://www.linkedin.com/sharing/share-offsite/?url=https://www.tenderned.nl/aankondigingen/overzicht/342367\", \"linksshareonlinkedintitle\": \"shareOnLinkedIn\"}",
+      "vraag": "Wat is de sluitingsdatum voor de inschrijving van de tender \"Nieuwbouw Kleed/Clubgebouw Sportpad deel 2 Roelofarendsveen, Elektrotechnische en Werktuigbouwkundige installaties\"?  \n",
+      "antwoord": "De sluitingsdatum voor de inschrijving is 25 september 2024 om 10:00 uur.",
+      "tender_id": "342367",
+      "document": "metadata",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context biedt een duidelijke en specifieke datum voor de sluiting van de inschrijving van de tender, namelijk \"2024-09-25T10:00:00\". De vraag kan dus ondubbelzinnig worden beantwoord met de gegeven context.\n\n",
+      "relevance_score": 5,
+      "relevance_eval": "Deze vraag is zeer nuttig voor partijen die ge\u00efnteresseerd zijn in het indienen van een inschrijving voor de specifieke tender. Het kennen van de sluitingsdatum is cruciaal voor het plannen en indienen van een tijdige en geldige inschrijving. Zonder deze informatie kunnen potenti\u00eble inschrijvers belangrijke deadlines missen, wat kan resulteren in uitsluiting van de tenderprocedure.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "De vraag is redelijk specifiek en bevat voldoende informatie om begrepen te worden zonder aanvullende context. Het vermeldt de naam van de tender en het project, waardoor het duidelijk is waar de vraag over gaat. Echter, om de exacte sluitingsdatum te weten, zou men toegang moeten hebben tot de tenderdocumenten of aankondiging. Desondanks is de vraag zelf logisch en begrijpelijk zonder verdere context.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "De sluitingsdatum voor de inschrijving van de tender \"Nieuwbouw Kleed/Clubgebouw Sportpad deel 2 Roelofarendsveen, Elektrotechnische en Werktuigbouwkundige installaties\" is 5 juli 2024. Deze informatie is te vinden in de context van de aanbestedingsdocumenten."
+    }
+  ]
+}

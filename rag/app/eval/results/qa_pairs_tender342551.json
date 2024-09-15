@@ -1,0 +1,24 @@
+{
+  "pairs": [
+    {
+      "context": "6. Betrokken bij de voorbereiding\n 7. Prestaties uit het verleden\n 8. Valse verklaring\n 9. Onrechtmatige beinvloeding",
+      "vraag": "Wat kan leiden tot uitsluiting van deelname aan een tender?  \n",
+      "antwoord": "Een valse verklaring kan leiden tot uitsluiting van deelname aan een tender.",
+      "tender_id": "342551",
+      "document": "uea_463882_20240708135546.pdf",
+      "groundedness_score": 4,
+      "groundedness_eval": "De context biedt een lijst van factoren die kunnen leiden tot uitsluiting van deelname aan een tender, namelijk betrokkenheid bij de voorbereiding, prestaties uit het verleden, valse verklaringen en onrechtmatige be\u00efnvloeding. Deze factoren zijn direct gerelateerd aan de vraag en geven duidelijke redenen voor uitsluiting. De context is echter beknopt en biedt geen verdere uitleg of details over hoe deze factoren precies tot uitsluiting leiden, maar de vraag kan wel ondubbelzinnig worden beantwoord met de gegeven informatie.\n\n",
+      "relevance_score": 5,
+      "relevance_eval": "Deze vraag is zeer nuttig voor partijen die informatie willen opvragen over tenders, omdat het begrijpen van de uitsluitingsgronden essentieel is voor het succesvol deelnemen aan een tenderproces. Het kennen van de redenen voor uitsluiting kan bedrijven helpen om hun interne processen te verbeteren en ervoor te zorgen dat ze voldoen aan de eisen van de aanbestedende dienst. Dit kan uiteindelijk leiden tot een grotere kans op succes bij het indienen van een tender.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "Deze vraag is redelijk context-onafhankelijk omdat het een algemene vraag is over de voorwaarden die kunnen leiden tot uitsluiting van deelname aan een tender. Het vereist geen specifieke context of aanvullende informatie om begrepen te worden. De vraag kan in verschillende situaties worden gesteld en begrepen zonder dat er specifieke details nodig zijn over een bepaalde tender of document.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "Er zijn verschillende redenen die kunnen leiden tot uitsluiting van deelname aan een tender:\n\n1. **Voorwaardelijke Inschrijving**: Een inschrijving die voorwaardelijk is, kan leiden tot uitsluiting (Fase 2, pagina 6).\n\n2. **Onvolledige Beantwoording**: Het niet volledig beantwoorden van de vereiste vragen kan ook leiden tot uitsluiting (Fase 2, pagina 6).\n\n3. **Uitsluitingsgronden**: Een gegadigde kan worden uitgesloten als deze zich in een of meer van de omstandigheden bevindt zoals vermeld in deel III van de eigen verklaring. Dit geldt ook voor deelnemers uit een samenwerkingsverband of andere rechtspersonen waarop de gegadigde een beroep doet (Pagina 6).\n\n4. **Betrokkenheid in de Voorbereidingsfase**: Op grond van artikel 3.14 ARW 2016 kan een gegadigde worden uitgesloten vanwege betrokkenheid bij de voorbereiding van de aanbestedingsprocedure (Pagina 6).\n\n5. **Verplichte Uitsluitingsgronden**: Artikel 2.86 van de Aanbestedingswet 2012 verplicht uitsluiting van een onderneming die onherroepelijk is veroordeeld voor bepaalde strafbare feiten.\n\nEr zijn echter omstandigheden waarin kan worden afgezien van uitsluiting, zoals wanneer de uitsluiting kennelijk onredelijk zou zijn, als er voldoende maatregelen zijn genomen om betrouwbaarheid aan te tonen, om dwingende redenen van algemeen belang, of als uitsluiting niet proportioneel is gezien de verstreken tijd sinds de veroordeling (Pagina 6)."
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "pairs": [
+    {
+      "context": "Uniform Europees Aanbestedingsdocument (UEA)\nPagina 5 van 33 TN-474516 - 28 jun. 2024\nVertegenwoordiger 2\nVolledige naam:\nGeboortedatum:\nFunctie/optredend als:\nAdres:\nAdres (vervolg):\nPostcode / Plaats:\nLand:\nTelefoonnummer:\nE-mailadres:\nVermeld zo nodig \ngedetailleerde informatie \nover de vertegenwoordiging \n(vorm, reikwijdte, doel, enz.):",
+      "vraag": "Welke informatie moet worden verstrekt over de vertegenwoordiger in het Uniform Europees Aanbestedingsdocument?  \n",
+      "antwoord": "De volledige naam, geboortedatum, functie/optredend als, adres, postcode/plaats, land, telefoonnummer, en e-mailadres van de vertegenwoordiger moeten worden verstrekt.",
+      "tender_id": "341286",
+      "document": "uea_474516_20240628121146.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context biedt een gedetailleerde lijst van de informatie die moet worden verstrekt over de vertegenwoordiger in het Uniform Europees Aanbestedingsdocument. Het omvat persoonlijke gegevens zoals volledige naam, geboortedatum, functie, adres, contactinformatie en eventuele aanvullende details over de vertegenwoordiging. Deze informatie sluit direct aan bij de vraag, waardoor deze duidelijk en ondubbelzinnig beantwoord kan worden met de gegeven context.\n\n",
+      "relevance_score": 5,
+      "relevance_eval": "Deze vraag is zeer nuttig voor partijen die informatie willen opvragen over tenders, omdat het Uniform Europees Aanbestedingsdocument (UEA) een cruciaal onderdeel is van het aanbestedingsproces in de Europese Unie. Het correct invullen van het UEA, inclusief de informatie over de vertegenwoordiger, is essentieel voor de geldigheid van een inschrijving. Het begrijpen van welke specifieke informatie vereist is, helpt inschrijvers om aan de formele eisen te voldoen en vergroot hun kans op een succesvolle deelname aan de tender.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "Deze vraag is redelijk specifiek en vereist enige kennis van het Uniform Europees Aanbestedingsdocument (UEA). Echter, de vraag zelf is duidelijk en kan begrepen worden zonder aanvullende context, omdat het vraagt naar specifieke informatie die in een bekend document moet worden opgenomen. Het is niet afhankelijk van een specifieke setting of bijlage, maar wel van kennis over het UEA.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "In het Uniform Europees Aanbestedingsdocument (UEA) moet, indien van toepassing, informatie worden verstrekt over de vertegenwoordigers van de ondernemer. Dit is alleen nodig als er wordt afgeweken van de vertegenwoordigingsbevoegdheid zoals opgenomen in het KVK Handelsregister. De volgende gegevens moeten worden vermeld:\n\n1. Volledige naam van de vertegenwoordiger.\n2. Geboortedatum.\n3. Functie of de rol waarin de vertegenwoordiger optreedt.\n4. Adres en eventueel een vervolgadres.\n5. Postcode en plaats.\n6. Land.\n7. Telefoonnummer.\n8. E-mailadres.\n9. Eventueel gedetailleerde informatie over de vertegenwoordiging, zoals de vorm, reikwijdte en het doel.\n\nDeze informatie is te vinden in Deel II B van het UEA, zoals weergegeven op pagina 4 van de verschillende documenten (bijvoorbeeld pagina 4 van 25 van het document van 17 maart 2024, en pagina 4 van 33 van het document van 5 augustus 2024)."
+    },
+    {
+      "context": "Uniform Europees Aanbestedingsdocument (UEA)\nPagina 4 van 33 TN-474516 - 28 jun. 2024\nDeel II B: Informatie over de vertegenwoordigers van de ondernemer\nVermeld, indien van toepassing, naam/namen en adres/adressen van de persoon/personen die gemachtigd is/zijn om de \nondernemer bij deze aanbestedingsprocedure te vertegenwoordigen.\n\uf05a Alleen nodig indien afgeweken wordt van de vertegenwoordigingsbevoegdheid zoals opgenomen in het KVK \nHandelsregister.\nVertegenwoordiger 1\nVolledige naam:\nGeboortedatum:\nFunctie/optredend als:\nAdres:\nAdres (vervolg):\nPostcode / Plaats:\nLand:\nTelefoonnummer:\nE-mailadres:\nVermeld zo nodig \ngedetailleerde informatie \nover de vertegenwoordiging \n(vorm, reikwijdte, doel, enz.):",
+      "vraag": "Wanneer is het nodig om de informatie over de vertegenwoordigers van de ondernemer te vermelden in het Uniform Europees Aanbestedingsdocument?  \n",
+      "antwoord": "Het is alleen nodig om de informatie over de vertegenwoordigers van de ondernemer te vermelden indien afgeweken wordt van de vertegenwoordigingsbevoegdheid zoals opgenomen in het KVK Handelsregister.",
+      "tender_id": "341286",
+      "document": "uea_474516_20240628121146.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context biedt een duidelijke uitleg over wanneer het nodig is om de informatie over de vertegenwoordigers van de ondernemer te vermelden in het Uniform Europees Aanbestedingsdocument. Het vermeldt expliciet dat deze informatie alleen nodig is indien er wordt afgeweken van de vertegenwoordigingsbevoegdheid zoals opgenomen in het KVK Handelsregister. Deze informatie is direct en ondubbelzinnig te herleiden uit de context.\n\n",
+      "relevance_score": 5,
+      "relevance_eval": "Deze vraag is zeer nuttig voor partijen die informatie willen opvragen over tenders, omdat het Uniform Europees Aanbestedingsdocument (UEA) een cruciaal onderdeel is van het aanbestedingsproces in de Europese Unie, inclusief Nederland. Het correct invullen van het UEA is essentieel voor de geldigheid van een inschrijving. Het vermelden van de juiste informatie over de vertegenwoordigers van de ondernemer kan juridische en administratieve gevolgen hebben. Daarom is het belangrijk voor ondernemers om te weten wanneer en hoe deze informatie moet worden vermeld om aan de eisen van de aanbesteding te voldoen.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "De vraag is redelijk specifiek en vereist enige kennis van het Uniform Europees Aanbestedingsdocument (UEA) en de context waarin het wordt gebruikt. Echter, de vraag zelf is vrij duidelijk en kan begrepen worden zonder aanvullende context, omdat het vraagt naar een specifieke situatie waarin bepaalde informatie moet worden vermeld. Het is niet afhankelijk van een specifieke setting of document, maar eerder van een algemene regel of richtlijn binnen het aanbestedingsproces.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "In het Uniform Europees Aanbestedingsdocument (UEA) is het nodig om de informatie over de vertegenwoordigers van de ondernemer te vermelden indien er wordt afgeweken van de vertegenwoordigingsbevoegdheid zoals opgenomen in het KVK Handelsregister. Dit betekent dat als de personen die de ondernemer vertegenwoordigen in de aanbestedingsprocedure anders zijn dan die in het KVK Handelsregister staan vermeld, hun gegevens moeten worden opgegeven in het UEA. Dit is te vinden in de documenten op pagina 4 van de verschillende versies van het UEA, zoals vermeld op 17 maart 2024, 20 maart 2024, 7 augustus 2024, en 1 juli 2024."
+    }
+  ]
+}

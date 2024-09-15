@@ -1,0 +1,24 @@
+{
+  "pairs": [
+    {
+      "context": "een datum en/of tijdstip aan verbonden is op tijd uit te voeren . Informatie over de werking van TenderNed  of \ncontact  kan worden verkregen via TenderNed:  https://www.tenderned.nl/cms/nl/contact/servicedesk .  \n Nota van Inlichtingen  \nOm de Uitnodiging tot inschrijving en  bijlagen correct te interpreteren , word en Inschrijvers in de gelegenheid \ngesteld om vragen te stellen.  \nInstructie indienen vragen:  \n\u2022 Voor het indienen van vragen dient Inschrijver gebruik te maken van het document:  Annex VII Template \nvraag en antwoord ;  \n\u2022 Vragen worden uitsluitend ingediend via de berichtenmodule van TenderNed.  Inschrijver verstuurt de \nvan vragen voorziene Annex VII via de berichtenmodule toe aan Aanbestedende dienst ; \n\u2022 Vragen die te laat of op onjuiste wijze worden ingediend, worden niet in behandeling genomen ; \n\u2022 Vragen in de Nota van Inlichtingen worden uitsluitend in de Nederlandse taal gesteld ;",
+      "vraag": "Hoe moeten inschrijvers hun vragen indienen voor de tender?  \n",
+        "antwoord": "Inschrijvers moeten hun vragen indienen via de berichtenmodule van TenderNed, gebruikmakend van het document Annex VII Template vraag en antwoord.",
+      "tender_id": "341611",
+      "document": "Uitnodiging tot Inschrijving.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context biedt duidelijke instructies over hoe inschrijvers hun vragen moeten indienen voor de tender. Het vermeldt specifiek dat inschrijvers gebruik moeten maken van het document \"Annex VII Template vraag en antwoord\" en dat vragen uitsluitend via de berichtenmodule van TenderNed moeten worden ingediend. Daarnaast wordt benadrukt dat vragen die te laat of op onjuiste wijze worden ingediend, niet in behandeling worden genomen. Deze details maken het mogelijk om de vraag ondubbelzinnig te beantwoorden.\n\n",
+      "relevance_score": 5,
+      "relevance_eval": "Deze vraag is zeer nuttig voor partijen die informatie willen opvragen over tenders. Het indienen van vragen is een cruciaal onderdeel van het tenderproces, omdat het inschrijvers helpt om onduidelijkheden op te helderen en ervoor zorgt dat ze een goed ge\u00efnformeerd bod kunnen uitbrengen. Het begrijpen van de procedure voor het indienen van vragen kan inschrijvers helpen om effectief te communiceren met de aanbestedende dienst en om ervoor te zorgen dat hun vragen tijdig en op de juiste manier worden behandeld.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "Deze vraag is redelijk context-onafhankelijk omdat het een algemeen proces beschrijft dat vaak voorkomt bij tenders. Hoewel de specifieke methode voor het indienen van vragen kan vari\u00ebren per tender, is de vraag zelf duidelijk en begrijpelijk zonder aanvullende context. Het vraagt om een procedureel antwoord dat meestal in de tenderdocumentatie wordt gespecificeerd.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "Inschrijvers moeten hun vragen over de aanbestedingsprocedure, inclusief alle bijbehorende documenten, uitsluitend via de Vraag & Antwoord module op TenderNed indienen. De uiterste datum en het tijdstip voor het stellen van schriftelijke vragen zijn vermeld in de planning van de aanbesteding. Vragen moeten helder en eenduidig geformuleerd worden, en inschrijvers moeten duidelijk aangeven op welke paragraaf, artikel of onderdeel van het Beschrijvend Document of de Bijlage de vraag betrekking heeft. Er zijn twee inlichtingenrondes: de tweede ronde is bedoeld voor vervolgvragen naar aanleiding van de eerste nota van inlichtingen. Nieuwe vragen die geen betrekking hebben op eerder gestelde vragen of aanpassingen in de aanbestedingsleidraad worden in principe niet beantwoord (Bron: aanbestedingsdocumenten, zie secties over vragen en inlichtingenrondes)."
+    }
+  ]
+}
