@@ -1,0 +1,24 @@
+{
+  "pairs": [
+    {
+      "context": "Aanbestedingsdocument Inhuur derden- Broker    14 van 57 \n 3.4  Data \n \nGemeente Tilburg \nGemeente Tilburg kent binnen haar netwerkorganisati e 16 uiteenlopende organisatieonderdelen met allen een \nverschillende inhuurbehoefte. Er is sprake van een verschillende behoefte aan specialismen en capacite it per \nonderdeel. \n \nHieronder treft u een overzicht van de inhuur tijde lijke medewerkers vanaf schaal 9 zoals deze in 2022  en 2023 \nwerden ingehuurd door gemeente Tilburg. \n \nVanaf schaal 9 2022 2023 \nAantal nieuwe inhuur aanvragen geregistreerd door d e Inhuurdesk 197 211 \nAantal ingestroomde inhuurprofessionals per jaar 13 2 249 \nGemiddeld aantal uren per week opgenomen in de nade re overeenkomst 24,7 25,7 \nGemiddelde maximale contractduur inclusief verlengi ngen in maanden 20,05 16,6 \nGemiddeld tarief in Euro\u2019s per uur 87,08 92,30 \n \nAan deze data & ratio\u2019s kunnen geen rechten worden ontleend.",
+      "vraag": "Wat was het gemiddelde tarief in euro's per uur voor ingehuurde professionals in 2023 door de gemeente Tilburg?  \n",
+      "antwoord": "92,30 euro per uur.",
+      "tender_id": "341216",
+      "document": "Aanbestedingsdocument Europees Openbaar_Broker definitief.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context biedt specifieke informatie over het gemiddelde tarief in euro's per uur voor ingehuurde professionals door de gemeente Tilburg in 2023. Het gemiddelde tarief wordt expliciet vermeld als \u20ac92,30 per uur. Deze informatie is direct en ondubbelzinnig beschikbaar in de context, waardoor de vraag volledig en duidelijk beantwoord kan worden.\n\n",
+      "relevance_score": 4,
+      "relevance_eval": "Deze vraag is nuttig voor partijen die willen deelnemen aan tenders, omdat het inzicht biedt in de marktprijzen en concurrentiepositie. Het gemiddelde tarief kan helpen bij het bepalen van een concurrerende biedstrategie en het inschatten van de kostenstructuur. Bovendien kan het helpen bij het benchmarken van tarieven in vergelijkbare tenders of sectoren.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "Deze vraag is redelijk specifiek en vraagt om een concreet gegeven, namelijk het gemiddelde tarief in euro's per uur voor ingehuurde professionals door de gemeente Tilburg in 2023. Hoewel de vraag specifieke informatie zoekt, is er geen impliciete verwijzing naar een externe context of document. De vraag is op zichzelf begrijpelijk en logisch, maar vereist wel toegang tot specifieke gegevens om te kunnen beantwoorden.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "Het spijt me, maar ik heb geen specifieke informatie over de gemiddelde tarieven voor ingehuurde professionals in 2023 door de gemeente Tilburg. De context die ik heb, bevat richtlijntarieven voor verschillende inhuursegmenten en schalen, maar deze zijn niet specifiek voor de gemeente Tilburg. U kunt mogelijk contact opnemen met de gemeente Tilburg of hun openbare aanbestedingsdocumenten raadplegen voor gedetailleerde informatie."
+    }
+  ]
+}

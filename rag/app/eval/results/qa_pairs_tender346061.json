@@ -1,0 +1,24 @@
+{
+  "pairs": [
+    {
+      "context": "Aanbestedingsleidraad | Tweede Kamer der Staten -Generaal | 15 augustus 2024 | Versie 1.0DEF  \npagina 24/57 Indien en voor zover tijdens de Aanbestedingsprocedu re bekend is dat de \nInschrijver een onderaannemer zal inzetten voor extra menskracht, moet hij \nzijn voornemen in de Inschrijving kenbaar maken. Dat doet hij door Deel II D in \nte vullen in de Eigen Verklaring die hij bij zijn Inschrijving indient en die zij n \neigen onderneming betreft. Indien de Tweede Kamer de Opdracht aan de \nInschrijver beoogt te gunnen, moet de Inschrijver voor iedere onderaannemer \ndie hij wenst in te zetten het volgende indienen:  \na. een door de onderaannemer volledig ingevulde en rechtsgeld ig \nondertekende Eigen Verklaring;  \nb. de bewijsstukken die het verklaarde in de Eigen Verklaring bewijzen (zie in \ndit kader hoofdstuk \u2018 Uitsluitingsgronden en Geschiktheidseisen\u2019 ); en \nc. een door de onderaannemer volledig ingevulde en rechtsgeldig",
+      "vraag": "Wat moet een inschrijver indienen als hij een onderaannemer wil inzetten voor extra menskracht tijdens de aanbestedingsprocedure?  \n",
+      "antwoord": "De inschrijver moet een door de onderaannemer volledig ingevulde en rechtsgeldig ondertekende Eigen Verklaring indienen, samen met de bewijsstukken die het verklaarde in de Eigen Verklaring bewijzen.",
+      "tender_id": "346061",
+      "document": "20240815-Aanbestedingsleidraad-1.0DEF.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context biedt een duidelijke en gedetailleerde uitleg over wat een inschrijver moet indienen als hij een onderaannemer wil inzetten voor extra menskracht tijdens de aanbestedingsprocedure. Het vermeldt specifiek dat de inschrijver zijn voornemen kenbaar moet maken door Deel II D in te vullen in de Eigen Verklaring. Daarnaast worden de vereisten opgesomd die moeten worden ingediend als de opdracht aan de inschrijver wordt gegund, zoals een ingevulde en ondertekende Eigen Verklaring door de onderaannemer en de bijbehorende bewijsstukken. De vraag kan dus ondubbelzinnig worden beantwoord met de gegeven context.\n\n",
+      "relevance_score": 5,
+      "relevance_eval": "Deze vraag is zeer nuttig voor partijen die informatie willen opvragen over tenders, omdat het een specifiek aspect van het inschrijfproces behandelt dat vaak voorkomt in aanbestedingen. Het inzetten van onderaannemers kan invloed hebben op de beoordeling van een inschrijving en het is belangrijk voor inschrijvers om te weten welke documenten en informatie vereist zijn om aan de aanbestedingsvoorwaarden te voldoen. Het begrijpen van de vereisten voor het inzetten van onderaannemers kan inschrijvers helpen om hun inschrijving correct en volledig in te dienen, wat hun kansen op succes vergroot.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "Deze vraag is redelijk specifiek en vereist enige kennis van aanbestedingsprocedures, maar het is niet volledig afhankelijk van een specifieke context of document. Het vraagt om algemene informatie over wat er nodig is bij het inzetten van een onderaannemer, wat een vrij standaard onderdeel kan zijn van veel aanbestedingsprocedures. Er is geen directe verwijzing naar een specifieke setting of document, waardoor de vraag op zichzelf redelijk logisch is.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "Als een inschrijver een onderaannemer wil inzetten voor extra menskracht tijdens de aanbestedingsprocedure, moet hij zijn voornemen kenbaar maken in de inschrijving. Dit doet hij door Deel II D in te vullen in de Eigen Verklaring die hij bij zijn inschrijving indient en die zijn eigen onderneming betreft. Indien de Tweede Kamer de opdracht aan de inschrijver beoogt te gunnen, moet de inschrijver voor iedere onderaannemer die hij wenst in te zetten het volgende indienen:\n\na. Een door de onderaannemer volledig ingevulde en rechtsgeldig ondertekende Eigen Verklaring.\n\nb. De bewijsstukken die het verklaarde in de Eigen Verklaring bewijzen (zie in dit kader hoofdstuk \u2018Uitsluitingsgronden en Geschiktheidseisen\u2019).\n\nc. Een door de onderaannemer volledig ingevulde en rechtsgeldig ondertekende verklaring waarin deze aangeeft bereid te zijn de genoemde werkzaamheden uit te voeren.\n\nDaarnaast moet de inschrijver zijn voornemen om een onderaannemer van dit type in te zetten altijd melden bij de Tweede Kamer, ook gedurende de uitvoering van de opdracht (Aanbestedingsleidraad | Tweede Kamer der Staten-Generaal | 15 augustus 2024 | Versie 1.0DEF, pagina 24/57)."
+    }
+  ]
+}

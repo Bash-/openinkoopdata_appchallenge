@@ -1,6 +1,5 @@
 from langchain.chains import create_history_aware_retriever
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.output_parsers import StrOutputParser
 
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -9,7 +8,6 @@ import weaviate
 from langchain_community.vectorstores import Weaviate
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
-from weaviate.classes.init import Auth
 
 
 def get_rag_chain():
@@ -99,5 +97,3 @@ def get_rag_chain():
     rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
     return rag_chain
-
-

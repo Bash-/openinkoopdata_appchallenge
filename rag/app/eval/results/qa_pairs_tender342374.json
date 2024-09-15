@@ -1,0 +1,64 @@
+a{
+  "pairs": [
+    {
+      "context": "Uniform Europees Aanbestedingsdocument (UEA)\nPagina 3 van 31 TN-473797 - 3 jul. 2024\n\uf05a In de zin van de aanbeveling van de Commissie van 6 mei 2003 betreffende de definitie van micro-, kleine en \nmiddelgrote ondernemingen (PB L 124 van 20.5.2003, blz. 36). Deze informatie is uitsluitend vereist voor \nstatistische doeleinden. Micro-ondernemingen: een onderneming met minder dan 10 werknemers en met \neen jaaromzet en/of jaarlijks balanstotaal van niet meer dan 2 miljoen euro. Kleine ondernemingen: een \nonderneming met minder dan 50 werknemers en met een jaaromzet en/of jaarlijks balanstotaal van niet \nmeer dan 10 miljoen euro; middelgrote ondernemingen, ondernemingen die micro noch klein zijn en met \nminder dan 250 personen werknemers en een jaaromzet van niet meer dan 50 miljoen euro en/of een \njaarlijks balanstotaal van niet meer dan 43 miljoen euro.\nWijze van deelneming\nNeemt de ondernemer \nsamen met anderen deel aan \nde aanbestedingsprocedure? Ja\n Nee",
+      "vraag": "Wat is de maximale jaaromzet die een middelgrote onderneming mag hebben volgens de aanbeveling van de Commissie van 6 mei 2003?  \n",
+      "antwoord": "Een middelgrote onderneming mag een jaaromzet van niet meer dan 50 miljoen euro hebben.",
+      "tender_id": "342374",
+      "document": "uea_473797_20240703122913.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context biedt een duidelijke definitie van de maximale jaaromzet voor een middelgrote onderneming volgens de aanbeveling van de Commissie van 6 mei 2003. Het vermeldt expliciet dat middelgrote ondernemingen een jaaromzet van niet meer dan 50 miljoen euro mogen hebben. Deze informatie is direct en ondubbelzinnig te vinden in de context.\n\n",
+      "relevance_score": 4,
+      "relevance_eval": "Deze vraag is nuttig voor partijen die informatie willen opvragen over tenders, omdat het belangrijk is om te weten of een onderneming als middelgroot wordt geclassificeerd. Dit kan invloed hebben op de geschiktheid voor bepaalde tenders, aangezien sommige aanbestedingen specifieke eisen stellen aan de grootte van de deelnemende ondernemingen. Het kennen van de criteria voor een middelgrote onderneming kan helpen bij het bepalen van de geschiktheid en het strategisch plannen van deelname aan tenders.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "Deze vraag is redelijk context-onafhankelijk omdat het specifiek verwijst naar een aanbeveling van de Commissie van 6 mei 2003, wat een vaststaand document is. De vraag vereist geen aanvullende context om begrepen te worden, omdat het duidelijk is dat het gaat om een specifieke richtlijn met betrekking tot de jaaromzet van middelgrote ondernemingen. De vraag is feitelijk en vraagt om een specifiek gegeven dat in een bekend document te vinden is.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "Het spijt me, maar ik kan deze specifieke informatie niet vinden in de context van de documenten die je hebt verstrekt. Misschien kun je de vraag herformuleren of meer context geven?"
+    },
+    {
+      "context": "invullen.\n\uf071 Deze informatie hoeft niet te worden verstrekt indien de uitsluiting van ondernemers in een van de in de \njuridische beschrijving genoemde gevallen krachtens het toepasselijke nationale recht verplicht is zonder \nenige mogelijkheid tot afwijking wanneer de ondernemer desondanks in staat is de opdracht uit te voeren.\nOmschrijf dit nader:\n\uf071 Vermeld, indien de relevante stukken elektronisch beschikbaar zijn:\nInternetadres:\nAfgevende entiteit:\nPrecieze referentienummers \nvan de stukken:",
+      "vraag": "Wat moet worden vermeld als de relevante stukken elektronisch beschikbaar zijn voor een tender?  \n",
+      "antwoord": "Het internetadres, de afgevende entiteit, en de precieze referentienummers van de stukken moeten worden vermeld.",
+      "tender_id": "342374",
+      "document": "uea_473797_20240703122913.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context biedt duidelijke instructies over wat er moet worden vermeld als de relevante stukken elektronisch beschikbaar zijn voor een tender. Het geeft aan dat het internetadres, de afgevende entiteit en de precieze referentienummers van de stukken moeten worden vermeld. Dit beantwoordt de vraag ondubbelzinnig en volledig.\n\n",
+      "relevance_score": 5,
+      "relevance_eval": "Deze vraag is zeer nuttig voor partijen die informatie willen opvragen over tenders, omdat het betrekking heeft op de toegankelijkheid en beschikbaarheid van tenderdocumenten. Het is belangrijk voor inschrijvers om te weten waar en hoe ze de relevante stukken kunnen verkrijgen, aangezien dit een cruciale stap is in het voorbereidingsproces voor het indienen van een bieding. Het correct vermelden van de beschikbaarheid van documenten kan ook bijdragen aan een transparanter en effici\u00ebnter tenderproces.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "Deze vraag is redelijk context-onafhankelijk omdat het een algemeen aspect van het tenderproces betreft, namelijk de beschikbaarheid van relevante stukken. Het vraagt om informatie die in veel tenders van toepassing kan zijn, zonder te verwijzen naar een specifieke tender of document. Er is geen specifieke context of bijlage nodig om de vraag te begrijpen. \n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "Wanneer de relevante stukken elektronisch beschikbaar zijn voor een tender, moeten de volgende zaken worden vermeld:\n\n1. Internetadres: Het webadres waar de stukken te vinden zijn.\n2. Afgevende entiteit: De organisatie die de stukken heeft uitgegeven.\n3. Precieze referentienummers van de stukken: Specifieke referentienummers die aan de documenten zijn toegekend.\n\nDaarnaast, indien van toepassing, moet worden aangegeven of de ondernemer maatregelen heeft genomen om aan te tonen dat hij ondanks eventuele veroordelingen betrouwbaar is, ook wel bekend als \"Self-Cleaning\". Hierbij moet worden aangegeven of dit van toepassing is met een \"Ja\" of \"Nee\". \n\nDeze informatie is essentieel voor de transparantie en toegankelijkheid van de aanbestedingsdocumenten."
+    },
+    {
+      "context": "Uniform Europees Aanbestedingsdocument (UEA)\nPagina 4 van 31 TN-473797 - 3 jul. 2024\nDeel II B: Informatie over de vertegenwoordigers van de ondernemer\nVermeld, indien van toepassing, naam/namen en adres/adressen van de persoon/personen die gemachtigd is/zijn om de \nondernemer bij deze aanbestedingsprocedure te vertegenwoordigen.\n\uf05a Alleen nodig indien afgeweken wordt van de vertegenwoordigingsbevoegdheid zoals opgenomen in het KVK \nHandelsregister.\nVertegenwoordiger 1\nVolledige naam:\nGeboortedatum:\nFunctie/optredend als:\nAdres:\nAdres (vervolg):\nPostcode / Plaats:\nLand:\nTelefoonnummer:\nE-mailadres:\nVermeld zo nodig \ngedetailleerde informatie \nover de vertegenwoordiging \n(vorm, reikwijdte, doel, enz.):",
+      "vraag": "Wanneer is het nodig om de namen en adressen van de vertegenwoordigers van de ondernemer te vermelden in het Uniform Europees Aanbestedingsdocument?  \n",
+      "antwoord": "Het is nodig om de namen en adressen van de vertegenwoordigers van de ondernemer te vermelden indien afgeweken wordt van de vertegenwoordigingsbevoegdheid zoals opgenomen in het KVK Handelsregister.",
+      "tender_id": "342374",
+      "document": "uea_473797_20240703122913.pdf",
+      "groundedness_score": 5,
+      "groundedness_eval": "De context biedt een duidelijke uitleg over wanneer het noodzakelijk is om de namen en adressen van de vertegenwoordigers van de ondernemer te vermelden in het Uniform Europees Aanbestedingsdocument. Het document stelt dat deze informatie alleen nodig is indien er wordt afgeweken van de vertegenwoordigingsbevoegdheid zoals opgenomen in het KVK Handelsregister. Dit geeft een ondubbelzinnig antwoord op de vraag.\n\n",
+      "relevance_score": 4,
+      "relevance_eval": "Deze vraag is nuttig omdat het Uniform Europees Aanbestedingsdocument (UEA) een essentieel onderdeel is van het aanbestedingsproces in de Europese Unie, inclusief Nederland. Het correct invullen van het UEA is cruciaal voor ondernemers die willen deelnemen aan tenders. Het kennen van de vereisten, zoals wanneer de namen en adressen van vertegenwoordigers moeten worden vermeld, helpt bij het waarborgen van de naleving van de regels en kan het risico op uitsluiting verminderen. Daarom is deze vraag relevant voor partijen die betrokken zijn bij het opstellen of controleren van aanbestedingsdocumenten.\n\n",
+      "standalone_score": 4,
+      "standalone_eval": "De vraag is redelijk specifiek en verwijst naar een bepaald document, namelijk het Uniform Europees Aanbestedingsdocument (UEA). Hoewel het document zelf een context biedt, is de vraag op zichzelf begrijpelijk zonder verdere context. Het vraagt naar een specifieke situatie waarin bepaalde informatie vereist is, wat een algemeen toepasbare vraag is binnen het kader van het UEA. Daarom is de vraag niet volledig afhankelijk van een specifieke context buiten het UEA.\n\n",
+      "source_metadata": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "generated_answer": "Het is nodig om de namen en adressen van de vertegenwoordigers van de ondernemer te vermelden in het Uniform Europees Aanbestedingsdocument (UEA) indien er wordt afgeweken van de vertegenwoordigingsbevoegdheid zoals opgenomen in het KVK Handelsregister. Dit betekent dat als de standaard vertegenwoordigingsbevoegdheid niet van toepassing is, de details van de gemachtigde personen moeten worden vermeld. Dit is te vinden in de context van het UEA, zoals vermeld op pagina 4 van de documenten van 17 maart 2024, 20 maart 2024, en 4 juli 2024."
+    }
+  ]
+}

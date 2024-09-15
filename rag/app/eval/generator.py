@@ -3,44 +3,58 @@ import pandas as pd
 from langchain_core.output_parsers import StrOutputParser
 from langchain.prompts import PromptTemplate
 
-from prompts import contextualize_q_system_prompt, question_groundedness_critique_prompt, question_relevance_critique_prompt, question_standalone_critique_prompt, eval_prompt
+from prompts import (
+    contextualize_q_system_prompt,
+    question_groundedness_critique_prompt,
+    question_relevance_critique_prompt,
+    question_standalone_critique_prompt,
+)
 
 
 class QuestionGenerator:
     """Generates question answer pairs based on a given context"""
+
     def __init__(self, weaviate_client, llm):
         self.weaviate_client = weaviate_client
         self.llm = llm
         self.question_chain = self.setup_question_chain()
         self.critique_chains = self.setup_critique_chains()
 
-
     def setup_question_chain(self):
-        prompt_template = PromptTemplate(input_variables=["instruction", "response", "reference_answer"], template=eval_prompt)
-        chain = prompt_template | self.llm | StrOutputParser()
-        return chain
-
-    def setup_question_chain(self):
-        prompt_template = PromptTemplate(input_variables=["context"], template=contextualize_q_system_prompt)
+        prompt_template = PromptTemplate(
+            input_variables=["context"], template=contextualize_q_system_prompt
+        )
         chain = prompt_template | self.llm | StrOutputParser()
         return chain
 
     def setup_critique_chains(self):
-        prompt_groundness = PromptTemplate(input_variables=["question", "context"], template=question_groundedness_critique_prompt)
-        prompt_relevance = PromptTemplate(input_variables=["question"],
-                                           template=question_relevance_critique_prompt)
-        prompt_standalone = PromptTemplate(input_variables=["question"],
-                                          template=question_standalone_critique_prompt)
+        prompt_groundness = PromptTemplate(
+            input_variables=["question", "context"],
+            template=question_groundedness_critique_prompt,
+        )
+        prompt_relevance = PromptTemplate(
+            input_variables=["question"], template=question_relevance_critique_prompt
+        )
+        prompt_standalone = PromptTemplate(
+            input_variables=["question"], template=question_standalone_critique_prompt
+        )
         chain_groundness = prompt_groundness | self.llm | StrOutputParser()
         chain_relevance = prompt_relevance | self.llm | StrOutputParser()
         chain_standalone = prompt_standalone | self.llm | StrOutputParser()
-        return {"groundness": chain_groundness, "relevance": chain_relevance, "standalone": chain_standalone}
+        return {
+            "groundness": chain_groundness,
+            "relevance": chain_relevance,
+            "standalone": chain_standalone,
+        }
 
     def retrieve_context(self, tenderId: str):
         response = (
-            self.weaviate_client.query
-            .get("Tender_documents", ["tenderId", "source", "page_content"])
-            .with_where({"path": "tenderId", "operator": "Equal", "valueString": tenderId})
+            self.weaviate_client.query.get(
+                "Tender_documents", ["tenderId", "source", "page_content"]
+            )
+            .with_where(
+                {"path": "tenderId", "operator": "Equal", "valueString": tenderId}
+            )
             .do()
         )
 
@@ -52,13 +66,15 @@ class QuestionGenerator:
         for context in all_docs[:n_sample]:
             # Generate QA couple
             output_QA_couple = self.question_chain.invoke(
-                    {
-                        "context": context.get("page_content"),
-                    }
-                )
+                {
+                    "context": context.get("page_content"),
+                }
+            )
 
             try:
-                question = output_QA_couple.split("Feitelijke vraag: ")[-1].split("Antwoord: ")[0]
+                question = output_QA_couple.split("Feitelijke vraag: ")[-1].split(
+                    "Antwoord: "
+                )[0]
                 answer = output_QA_couple.split("Antwoord: ")[-1]
                 outputs.append(
                     {
@@ -69,7 +85,8 @@ class QuestionGenerator:
                         "document": context.get("source"),
                     }
                 )
-            except:
+            except Exception:
+                print("Format of chain was not correct, skip result")
                 continue
 
         return outputs
@@ -82,23 +99,25 @@ class QuestionGenerator:
                         "question": output["vraag"],
                         "context": output["context"],
                     }
-                    ),
+                ),
                 "relevance": self.critique_chains["relevance"].invoke(
                     {
                         "question": output["vraag"],
                     }
-                    ),
+                ),
                 "standalone": self.critique_chains["standalone"].invoke(
                     {
                         "question": output["vraag"],
                     }
-                    ),
+                ),
             }
             try:
                 for criterion, evaluation in evaluations.items():
                     score, eval = (
                         int(evaluation.split("Totale beoordeling: ")[-1].strip()),
-                        evaluation.split("Totale beoordeling: ")[-2].split("Evaluatie: ")[1],
+                        evaluation.split("Totale beoordeling: ")[-2].split(
+                            "Evaluatie: "
+                        )[1],
                     )
                     output.update(
                         {
@@ -106,7 +125,7 @@ class QuestionGenerator:
                             f"{criterion}_eval": eval,
                         }
                     )
-            except Exception as e:
+            except Exception:
                 continue
         return pd.DataFrame.from_dict(outputs)
 
@@ -115,7 +134,7 @@ class QuestionGenerator:
             (generated_questions["groundedness_score"] >= 4)
             & (generated_questions["relevance_score"] >= 4)
             & (generated_questions["standalone_score"] >= 4)
-            ].to_dict(orient="records")
+        ].to_dict(orient="records")
         return generated_questions
 
     def generate_questions(self, tender_id: str):
@@ -147,4 +166,3 @@ class QuestionGenerator:
 # questions = qc.generate(context)
 # scores = qc.critique_score(questions)
 # scores_filtered = qc.filter_critique(scores)
-
