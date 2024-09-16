@@ -1,5 +1,5 @@
 
-import Link from 'next/link'
+import { Link } from "@/lib/i18n"
 
 import { buttonVariants } from '@/components/ui/button'
 import { IconMessage, IconShare } from '@/components/ui/icons'

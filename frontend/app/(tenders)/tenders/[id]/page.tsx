@@ -5,7 +5,7 @@ import { AI } from "@/lib/chat/actions";
 import { fetchTenderById, fetchTenderDocuments } from "@/lib/data";
 import { Session, Tender } from '@/lib/types';
 import { nanoid } from '@/lib/utils';
-import Link from "next/link";
+import { Link } from "@/lib/i18n";
 import { notFound, redirect } from "next/navigation";
 
 export default async function TenderDetailPage({

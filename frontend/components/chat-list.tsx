@@ -2,7 +2,7 @@ import { Separator } from '@/components/ui/separator'
 import { UIState } from '@/lib/chat/actions'
 import { Session } from '@/lib/types'
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
-import Link from 'next/link'
+import { Link } from "@/lib/i18n"
 
 export interface ChatList {
   messages: UIState

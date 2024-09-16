@@ -1,7 +1,7 @@
 // import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { LogoOpenStateFoundation } from '@/components/ui/icons'
 
-import Link from 'next/link'
+import { Link } from "@/lib/i18n"
 
 export default async function AboutPage() {
 

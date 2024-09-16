@@ -1,5 +1,5 @@
 import { Tender } from "@/lib/types";
-import Link from "next/link";
+import { Link } from "@/lib/i18n";
 import { Card } from "../card";
 
 const lineclamp = (n) => ({

@@ -3,7 +3,7 @@
 import { generatePagination } from '@/lib/utils';
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 import clsx from 'clsx';
-import Link from 'next/link';
+import { Link } from "@/lib/i18n";
 import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function Pagination({ totalPages }: { totalPages: number }) {

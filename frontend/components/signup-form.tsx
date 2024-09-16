@@ -2,7 +2,7 @@
 
 import { signup } from '@/app/signup/actions'
 import { getMessageFromCode } from '@/lib/utils'
-import Link from 'next/link'
+import { Link } from "@/lib/i18n"
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'

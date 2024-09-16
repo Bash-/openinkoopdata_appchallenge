@@ -4,7 +4,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { IconArrowRight } from '@/components/ui/icons'
 import { Session } from '@/lib/types'
 import { cn, nanoid } from '@/lib/utils'
-import Link from 'next/link'
+import { Link } from "@/lib/i18n"
 import { getMissingKeys } from '../actions'
 
 export const metadata = {

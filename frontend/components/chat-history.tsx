@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import Link from 'next/link'
+import { Link } from "@/lib/i18n"
 
 import { cn } from '@/lib/utils'
 import { SidebarList } from '@/components/sidebar-list'

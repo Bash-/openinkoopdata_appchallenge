@@ -1,5 +1,7 @@
+import { paraglide } from '@inlang/paraglide-next/plugin'
+
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if
@@ -21,3 +23,11 @@ module.exports = {
     serverComponentsExternalPackages: ['@google-cloud/storage'],
   },
 }
+
+export default paraglide({
+  paraglide: {
+    project: './project.inlang',
+    outdir: './paraglide'
+  },
+  ...nextConfig
+})

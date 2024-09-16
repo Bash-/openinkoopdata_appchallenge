@@ -7,7 +7,7 @@ import { Chat } from '@/components/chat'
 import { AI } from '@/lib/chat/actions'
 import { fetchTenderById, fetchTenderDocuments } from '@/lib/data'
 import { Session } from '@/lib/types'
-import Link from 'next/link'
+import { Link } from "@/lib/i18n"
 
 export interface ChatPageProps {
   params: {

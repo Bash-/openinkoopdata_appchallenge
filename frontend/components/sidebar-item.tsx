@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 
-import Link from 'next/link'
+import { Link } from "@/lib/i18n"
 import { usePathname } from 'next/navigation'
 
 import { motion } from 'framer-motion'
