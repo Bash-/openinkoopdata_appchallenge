@@ -1,3 +1,4 @@
+import * as m from "@/paraglide/messages.js"
 import { auth } from '@/auth'
 import { EmptyScreen } from '@/components/empty-screen'
 import { buttonVariants } from '@/components/ui/button'
@@ -31,7 +32,7 @@ export default async function IndexPage() {
             <div className="w-full md:w-1/2 lg:mr-4 mb-4">
               <div className="bg-white shadow rounded-lg p-4">
                 <h1 className="text-md font-semibold">
-                  Ik overweeg zaken te doen met het Rijk
+                  {m.chat_indexPage_heading1()}
                 </h1>
                 <p className="leading-normal text-muted-foreground pb-4">
                   Kom meer te weten over categorieplannen, voorwaarden voor inkoop bij rijksopdrachten, de Rijksaanbestedingskalender en meer.
