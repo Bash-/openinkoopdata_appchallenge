@@ -35,20 +35,20 @@ export default async function IndexPage() {
                   {m.chat_indexPage_heading1()}
                 </h1>
                 <p className="leading-normal text-muted-foreground pb-4">
-                  Kom meer te weten over categorieplannen, voorwaarden voor inkoop bij rijksopdrachten, de Rijksaanbestedingskalender en meer.
+                  {m.chat_indexPage_subheading1()}
                 </p>
                 <Link
                   href="/rijksvoorwaarden"
                   className={cn(buttonVariants({ variant: 'outline' }), "mt-2", 'w-full', 'justify-between')}
                 >
-                  <span className="ml-2 mt-1 md:flex">Chat over Rijksvoorwaarden</span>
+                  <span className="ml-2 mt-1 md:flex">{m.chat_indexPage_button_rijksvoorwaarden()}</span>
                   <IconArrowRight className="ml-2" />
                 </Link>
                 <Link
                   href="/categorieplannen"
                   className={cn(buttonVariants({ variant: 'outline' }), "mt-2", 'w-full', 'justify-between')}
                 >
-                  <span className="ml-2 md:flex">Chat over Categorieplannen</span>
+                  <span className="ml-2 md:flex">{m.chat_indexPage_button_categorieplannen()}</span>
                   <IconArrowRight className="ml-2" />
                 </Link>
               </div>
@@ -56,23 +56,23 @@ export default async function IndexPage() {
             <div className="w-full md:w-1/2 mb-4">
               <div className="bg-white shadow rounded-lg p-4">
                 <h1 className="text-md font-semibold">
-                  Ik wil meedingen naar opdrachten van het Rijk
+                  {m.chat_indexPage_heading2()}
                 </h1>
                 <p className="leading-normal text-muted-foreground pb-4">
-                  Lees meer over gepubliceerde aanbestedingen, maatschappelijk verantwoord ondernemen, voorwaarden voor inkoop bij rijksopdrachten en meer.
+                  {m.chat_indexPage_subheading2()}
                 </p>
                 <Link
                   href="/tenders"
                   className={cn(buttonVariants({ variant: 'outline' }), 'mt-2', 'w-full', 'justify-between')}
                 >
-                  <span className="ml-2 md:flex">Zoek en chat over Tenders</span>
+                  <span className="ml-2 md:flex">{m.chat_indexPage_button_tenders()}</span>
                   <IconArrowRight className="ml-2" />
                 </Link>
                 <Link
                   href="/pianoo"
                   className={cn(buttonVariants({ variant: 'outline' }), 'mt-2', 'w-full', 'justify-between')}
                 >
-                  <span className="ml-2 md:flex">Chat met PIANOo documenten</span>
+                  <span className="ml-2 md:flex">{m.chat_indexPage_button_pianoo()}</span>
                   <IconArrowRight className="ml-2" />
                 </Link>
               </div>

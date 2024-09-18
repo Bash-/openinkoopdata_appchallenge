@@ -1,4 +1,11 @@
 {
     "$schema": "https://inlang.com/schema/inlang-message-format",
-    "chat_indexPage_heading1": "Ik overweeg zaken te doen met het Rijk"
+    "chat_indexPage_heading1": "Ik overweeg zaken te doen met het Rijk",
+    "chat_indexPage_subheading1": "Kom meer te weten over categorieplannen, voorwaarden voor inkoop bij rijksopdrachten, de Rijksaanbestedingskalender en meer.",
+    "chat_indexPage_button_rijksvoorwaarden": "Chat over Rijksvoorwaarden",
+    "chat_indexPage_button_categorieplannen": "Chat over Categorieplannen",
+    "chat_indexPage_heading2": "Ik wil meedingen naar opdrachten van het Rijk",
+    "chat_indexPage_subheading2": "Lees meer over gepubliceerde aanbestedingen, maatschappelijk verantwoord ondernemen, voorwaarden voor inkoop bij rijksopdrachten en meer.",
+    "chat_indexPage_button_tenders": "Zoek en chat over Tenders",
+    "chat_indexPage_button_pianoo": "Chat met PIANOo documenten"
 }
