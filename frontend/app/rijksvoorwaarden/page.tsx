@@ -1,3 +1,4 @@
+import * as m from "@/paraglide/messages";
 import { getMissingKeys } from "@/app/actions";
 import { auth } from "@/auth";
 import { Chat } from "@/components/chat";
@@ -25,12 +26,12 @@ export default async function RijksvoorwaardenPage() {
 
   const emptyScreenBody = (
     <>
-      <div>Bij opdrachten van het Rijk gelden regels voor bijvoorbeeld aansprakelijkheid, facturering en levering. Deze regels staan in verschillende voorwaarden. De voorwaarden gelden voor het Rijk en de leverancier. Er zijn algemene voorwaarden en specifieke voorwaarden voor dienstverlening, IT en de bouw.</div>
-      <div>Stel hieronder een vraag, bijvoorbeeld over de Voorwaarden inkoop diensten, of Voorwaarden inkoop Informatietechnologie.</div>
+      <div>{m.rijksvoorwaarden_emptyScreenBody_description_1()}</div>
+      <div>{m.rijksvoorwaarden_emptyScreenBody_description_2()}</div>
       <br />
       <a className="text-blue-500 hover:underline">
         <Link href={`https://www.rijksoverheid.nl/onderwerpen/zakendoen-met-het-rijk/voorwaarden-voor-rijksopdrachten`} passHref>
-          Klik hier om de voorwaarden voor inkoop bij Rijksopdrachten te bekijken
+          {m.rijksvoorwaarden_emptyScreenBody_link_text()}
         </Link>
       </a>
     </>)
@@ -49,7 +50,7 @@ export default async function RijksvoorwaardenPage() {
       }}>
         <Chat
           showEmptyScreen={true}
-          emptyScreenHeader={"Chat met Rijksvoorwaarden"}
+          emptyScreenHeader={m.rijksvoorwaarden_emptyScreenHeader()}
           emptyScreenBody={emptyScreenBody}
           tenderId={"rijksvoorwaarden"}
           id={chatId}

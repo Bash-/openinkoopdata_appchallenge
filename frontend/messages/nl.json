@@ -51,5 +51,18 @@
     "categorieplannen_emptyScreenBody_category_vervoer_en_verblijf": "Vervoer en Verblijf",
     "categorieplannen_emptyScreenBody_category_werkplekomgeving": "Werkplekomgeving",
     "categorieplannen_emptyScreenBody_link_text": "Klik hier om alle Inkoopcategorieën en Categorieplannen op Rijksoverheid.nl te bekijken",
-    "categorieplannen_emptyScreenHeader": "Chat met Categorieplannen"
+    "categorieplannen_emptyScreenHeader": "Chat met Categorieplannen",
+    "pianoo_emptyScreenBody_text1": "U kunt hier chatten met de gehele inhoud van de site van PIANOo Expertisecentrum Aanbesteden.",
+    "pianoo_emptyScreenBody_text2": "Stel hieronder een vraag, bijvoorbeeld over Maatschappelijk Verantwoord Inkopen, over de Aanbestedingswet, of ieder ander onderwerp dat uw interesse heeft.",
+    "pianoo_emptyScreenBody_linkText": "Klik hier om de site van PIANOo te bekijken",
+    "pianoo_emptyScreenHeader": "Chat over de inhoud van de site van PIANOo Expertisecentrum Aanbesteden",
+    "profileIndexPage_alert_title": "Let op",
+    "profileIndexPage_alert_message": "Deze functionaliteit is nog in ontwikkeling en doet verder nog niks!",
+    "profileIndexPage_header": "Uw documenten",
+    "profileIndexPage_description_1": "Hier kunt u uw bedrijfsdocumenten uploaden en beheren. Deze zullen worden gebruikt om persoonlijke vragen te beantwoorden in de chat functie en worden gebruikt voor periodieke aanbevelingen.",
+    "profileIndexPage_description_2": "Uw documenten worden niet gedeeld met derden, wel worden ze samen naar de OpenAI API gestuurd om vragen te beantwoorden. Let daarom op dat u geen gevoelige informatie uploadt.",
+    "rijksvoorwaarden_emptyScreenBody_description_1": "Bij opdrachten van het Rijk gelden regels voor bijvoorbeeld aansprakelijkheid, facturering en levering. Deze regels staan in verschillende voorwaarden. De voorwaarden gelden voor het Rijk en de leverancier. Er zijn algemene voorwaarden en specifieke voorwaarden voor dienstverlening, IT en de bouw.",
+    "rijksvoorwaarden_emptyScreenBody_description_2": "Stel hieronder een vraag, bijvoorbeeld over de Voorwaarden inkoop diensten, of Voorwaarden inkoop Informatietechnologie.",
+    "rijksvoorwaarden_emptyScreenBody_link_text": "Klik hier om de voorwaarden voor inkoop bij Rijksopdrachten te bekijken",
+    "rijksvoorwaarden_emptyScreenHeader": "Chat met Rijksvoorwaarden"
 }

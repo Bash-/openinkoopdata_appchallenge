@@ -1,3 +1,4 @@
+import * as m from "@/paraglide/messages";
 import { getMissingKeys } from "@/app/actions";
 import { auth } from "@/auth";
 import { Chat } from "@/components/chat";
@@ -8,7 +9,7 @@ import { nanoid } from '@/lib/utils';
 import { Link } from "@/lib/i18n";
 import { redirect } from "next/navigation";
 
-export default async function Page() {
+export default async function PianooPage() {
   const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
   // if (!tender) return notFound();
@@ -20,16 +21,16 @@ export default async function Page() {
 
   const emptyScreenBody = (
     <>
-      <div>U kunt hier chatten met de gehele inhoud van de site van PIANOo Expertisecentrum Aanbesteden. </div>
-      <div>Stel hieronder een vraag, bijvoorbeeld over Maatschappelijk Verantwoord Inkopen, over de Aanbestedingswet, of ieder ander onderwerp dat uw interesse heeft.</div>
+      <div>{m.pianoo_emptyScreenBody_text1()}</div>
+      <div>{m.pianoo_emptyScreenBody_text2()}</div>
       <br />
       <a className="text-blue-500 hover:underline">
         <Link href={`https://www.pianoo.nl/nl`} passHref>
-          Klik hier om de site van PIANOo te bekijken
+          {m.pianoo_emptyScreenBody_linkText()}
         </Link>
       </a>
     </>)
-    
+
   return (
     <>
       {!session && redirect(`/login?next=/pianoo`)}
@@ -43,7 +44,7 @@ export default async function Page() {
       }}>
         <Chat
           showEmptyScreen={true}
-          emptyScreenHeader={"Chat over de inhoud van de site van PIANOo Expertisecentrum Aanbesteden"}
+          emptyScreenHeader={m.pianoo_emptyScreenHeader()}
           emptyScreenBody={emptyScreenBody}
           tenderId={"pianoo"}
           id={chatId}
