@@ -17,6 +17,7 @@ import { SidebarMobile } from './sidebar-mobile'
 import { SidebarToggle } from './sidebar-toggle'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import * as m from "@/paraglide/messages";
+import { LanguageButton } from "./languageButton"
 
 async function UserOrLogin() {
   const session = (await auth()) as Session
@@ -77,6 +78,8 @@ export function Header() {
           <span className="hidden sm:block">Deploy to Vercel</span>
           <span className="sm:hidden">Deploy</span>
         </a> */}
+        {/* create language selection button */}
+        {/* <LanguageButton /> */}
         <Link
           href="/about"
           className={cn(buttonVariants({ variant: 'outline' }))}
