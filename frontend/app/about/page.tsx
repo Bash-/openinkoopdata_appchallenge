@@ -1,3 +1,4 @@
+import * as m from "@/paraglide/messages"
 // import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { LogoOpenStateFoundation } from '@/components/ui/icons'
 
@@ -11,66 +12,60 @@ export default async function AboutPage() {
 
     <div className="relative mx-auto max-w-2xl px-4">
 
-      <h1 className="text-lg font-semibold"> Over deze app </h1>
+      <h1 className="text-lg font-semibold">{m.aboutPage_title()}</h1>
       <p className="leading-normal text-muted-foreground">
-        Dit is een open source Tenderportaal dat met behulp van AI vragen kan beantwoorden over aanbestedingen van het Rijk.
+        {m.aboutPage_description1()}
       </p>
 
       <p>
-        Vragen of opmerkingen? Neem contact op via <a className="underline" href="mailto:info@tenderflow.eu">info@tenderflow.eu</a>
+        {m.aboutPage_contact()} <a className="underline" href="mailto:info@tenderflow.eu">{m.aboutPage_email()}</a>
       </p>
       <p className="leading-normal text-muted-foreground">
-        Ook als u geinteresseerd bent in het gebruik van deze technologie voor uw eigen organisatie, dan horen we graag van u.
+        {m.aboutPage_description2()}
       </p>
 
       <br></br>
       <p className="leading-normal text-muted-foreground">
-        Deze webapplicatie wordt ontwikkeld naar aanleiding van de <Link className="underline" href="https://www.rijksoverheid.nl/onderwerpen/zakendoen-met-het-rijk/kick-off-open-inkoopdata-app-challenge"> Open Inkoopdata App Challenge</Link>.
-        De code van de gehele webapplicatie is openbaar en te vinden op <Link className="underline" href="https://github.com/Bash-/openinkoopdata_appchallenge">GitHub</Link>.
+        {m.aboutPage_challengeDescription()} <Link className="underline" href="https://www.rijksoverheid.nl/onderwerpen/zakendoen-met-het-rijk/kick-off-open-inkoopdata-app-challenge">{m.aboutPage_challengeLinkText()}</Link>. 
+        {m.aboutPage_githubDescription()} <Link className="underline" href="https://github.com/Bash-/openinkoopdata_appchallenge">{m.aboutPage_githubLinkText()}</Link>.
       </p>
       <br></br>
       <p className="leading-normal text-muted-foreground">
-        Nederland verbetert het open delen van aanbestedingsdata. En bevordert de toegankelijkheid van deze data. Hierbij staat de volgende vraag centraal: hoe kunnen we de beschikbare open data gebruiken om de impact, integriteit en effectiviteit van overheidsopdrachten te versterken?
-        Deze webapplicatie probeert hier een antwoord op te geven door het makkelijker te maken voor leveranciers om aanbestedingen van het Rijk te vinden en te begrijpen.
+        {m.aboutPage_description3()}
       </p>
       <br></br>
 
-      <h2 className="text-md font-semibold">Over de techniek achter deze app</h2>
+      <h2 className="text-md font-semibold">{m.aboutPage_techTitle()}</h2>
 
       <p className="leading-normal text-muted-foreground">
-        Voor de frontend (de user interface) bouwen we voort op de open source code van <Link className='underline' href="https://github.com/vercel/ai-chatbot">Vercels Next.js AI Chatbot template</Link>, deze is vrij gegeven onder de Apache 2.0 licentie.
+        {m.aboutPage_techDescription()} <Link className='underline' href="https://github.com/vercel/ai-chatbot">{m.aboutPage_techLinkText()}</Link>, {m.aboutPage_techLicense()}
       </p>
       <br></br>
 
       <p className="leading-normal text-muted-foreground">
-        We hebben de volgende databronnen ingeladen, waar gebruikers vragen over kunnen stellen:
+        {m.aboutPage_dataSources()}
         <ul>
-          <li> - Aankondigingen van Tenderned en bijbehorende documenten </li>
-          <li> - Categorieplannen van de Rijksoverheid </li>
-          <li> - Rijksvoorwaarden </li>
-          <li> - De website van PIANOo Expertisecentrum Aanbesteden </li>
+          <li> - {m.aboutPage_dataSource1()} </li>
+          <li> - {m.aboutPage_dataSource2()} </li>
+          <li> - {m.aboutPage_dataSource3()} </li>
+          <li> - {m.aboutPage_dataSource4()} </li>
         </ul>
       </p>
       <br></br>
 
       <p className="leading-normal text-muted-foreground">
-        De vragen worden met behulp van Retrieval Augmented Generation (RAG) beantwoord.
-        Ons programma zoekt in de documenten naar relevante stukken tekst, dit wordt samen met de vraag naar de OpenAI API gestuurd (van dezelfde maker als ChatGPT).
-        De OpenAI API genereert een antwoord en stuurt dit terug naar de gebruiker.
+        {m.aboutPage_ragDescription()}
       </p>
 
       <br></br>
 
-      <h2 className="text-md font-semibold">De initiatiefnemers van dit project</h2>
+      <h2 className="text-md font-semibold">{m.aboutPage_initiatorsTitle()}</h2>
       <p className="leading-normal text-muted-foreground">
-        Open State Foundation is een non-profit organisatie die zich inzet voor een transparante overheid en zijn de organisatoren van de Open Inkoopdata App Challenge. Vind meer informatie op <Link className="underline" href="https://openstate.eu/">openstate.eu</Link>.
+        {m.aboutPage_initiatorsDescription()} <Link className="underline" href="https://openstate.eu/">{m.aboutPage_initiatorsLinkText()}</Link>.
       </p>
       <br></br>
       <br></br>
       <LogoOpenStateFoundation className="w-24 h-24" />
-
-
-
 
     </div>
   )

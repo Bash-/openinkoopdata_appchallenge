@@ -1,3 +1,4 @@
+import * as m from "@/paraglide/messages.js"
 import { type Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 
@@ -59,17 +60,17 @@ export default async function ChatPage({ params }: ChatPageProps) {
     if (tender) {
       emptyScreenBody = (
         <>
-          <div><strong>Aanbestedende dienst:</strong> {tender.aanbestedendedienstnaam}</div>
-          <div><strong>Publicatiedatum:</strong> {tender.publicatiedatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
-          <div><strong>Sluitingsdatum:</strong> {tender.sluitingsdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
-          <div><strong>Aanvang opdracht:</strong> {tender.aanvangopdrachtdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
-          <div><strong>Opdrachtbeschrijving:</strong> {tender.opdrachtbeschrijving}</div>
-          <div><strong>Publicatie ID:</strong> {tender.publicatieid}</div>
+          <div><strong>{m.tender_aanbestedende_dienst()}:</strong> {tender.aanbestedendedienstnaam}</div>
+          <div><strong>{m.tender_publicatiedatum()}:</strong> {tender.publicatiedatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
+          <div><strong>{m.tender_sluitingsdatum()}:</strong> {tender.sluitingsdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
+          <div><strong>{m.tender_aanvang_opdracht()}:</strong> {tender.aanvangopdrachtdatum?.toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
+          <div><strong>{m.tender_opdrachtbeschrijving()}:</strong> {tender.opdrachtbeschrijving}</div>
+          <div><strong>{m.tender_publicatie_id()}:</strong> {tender.publicatieid}</div>
 
           {/* Link to Tenderned */}
           <a className="text-blue-500 hover:underline">
             <Link href={`https://www.tenderned.nl/tenderned-tap/aankondigingen/${tender.publicatieid}`} passHref>
-              Bekijk op Tenderned
+              {m.tender_checkon_tenderned_button()}
             </Link>
           </a>
 
