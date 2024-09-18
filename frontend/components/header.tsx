@@ -16,6 +16,7 @@ import { MainMenu } from './main-menu'
 import { SidebarMobile } from './sidebar-mobile'
 import { SidebarToggle } from './sidebar-toggle'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
+import * as m from "@/paraglide/messages";
 
 async function UserOrLogin() {
   const session = (await auth()) as Session
@@ -41,7 +42,7 @@ async function UserOrLogin() {
           <UserMenu user={session.user} />
         ) : (
           <Button variant="link" asChild className="-ml-2">
-            <Link href="/login">Inloggen</Link>
+            <Link href="/login">{m.component_header_login()}</Link>
           </Button>
         )}
       </div>
@@ -81,7 +82,7 @@ export function Header() {
           className={cn(buttonVariants({ variant: 'outline' }))}
         >
           <InfoCircledIcon />
-          <span className="hidden ml-2 md:flex">Over deze app</span>
+          <span className="hidden ml-2 md:flex">{m.component_header_about()}</span>
         </Link>
       </div>
     </header>

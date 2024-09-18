@@ -1,3 +1,4 @@
+import * as m from "@/paraglide/messages";
 import { Document } from '@langchain/core/documents';
 import * as Checkbox from '@radix-ui/react-checkbox';
 import * as Dialog from '@radix-ui/react-dialog';
@@ -62,22 +63,24 @@ const TenderDocumentListModal = memo((
     <Dialog.Root>
       <Dialog.Trigger asChild>
         <button className={styles.selectButton}>
-          Selecteer subset van documenten
+          {m.tenderDocumentListModal_selectButton()}
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className={styles.dialogOverlay} />
         <Dialog.Content className={styles.dialogContent}>
-          <Dialog.Title className={styles.dialogTitle}>Selecteer relevante documenten</Dialog.Title>
+          <Dialog.Title className={styles.dialogTitle}>
+            {m.tenderDocumentListModal_dialogTitle()}
+          </Dialog.Title>
           <Dialog.Description className={styles.dialogDescription}>
-            De documenten in deze lijst worden gebruikt als context voor uw vragen. Als u een vraag heeft over specifieke documenten kunt u deze selecteren.
+            {m.tenderDocumentListModal_dialogDescription()}
           </Dialog.Description>
           <div className={styles.selectButtons}>
             <button onClick={handleSelectAll} className={styles.button}>
-              Selecteer alle
+              {m.tenderDocumentListModal_selectAllButton()}
             </button>
             <button onClick={handleDeselectAll} className={styles.button}>
-              Deselecteer alle
+              {m.tenderDocumentListModal_deselectAllButton()}
             </button>
           </div>
           <fieldset className={styles.fieldset}>
@@ -117,7 +120,7 @@ const TenderDocumentListModal = memo((
             </Dialog.Close>
           </div> */}
           <Dialog.Close asChild>
-            <button className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none" aria-label="Close">
+            <button className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none" aria-label={m.tenderDocumentListModal_closeButtonAriaLabel()}>
               <Cross2Icon />
             </button>
           </Dialog.Close>

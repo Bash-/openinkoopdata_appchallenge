@@ -18,6 +18,7 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { IconSpinner } from '@/components/ui/icons'
+import * as m from "@/paraglide/messages";
 
 interface ClearHistoryProps {
   isEnabled: boolean
@@ -37,19 +38,18 @@ export function ClearHistory({
       <AlertDialogTrigger asChild>
         <Button variant="ghost" disabled={!isEnabled || isPending}>
           {isPending && <IconSpinner className="mr-2" />}
-          Verwijder Geschiedenis
+          {m.component_clearhistory_buttontext()}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Weet je het zeker?</AlertDialogTitle>
+          <AlertDialogTitle>{m.component_clearhistory_dialogtitle()}</AlertDialogTitle>
           <AlertDialogDescription>
-            Dit zal je chatgeschiedenis permanent verwijderen en je gegevens
-            van onze servers verwijderen.
+            {m.component_clearhistory_dialogdescription()}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isPending}>{m.component_clearhistory_cancel()}</AlertDialogCancel>
           <AlertDialogAction
             disabled={isPending}
             onClick={event => {
@@ -66,7 +66,7 @@ export function ClearHistory({
             }}
           >
             {isPending && <IconSpinner className="mr-2 animate-spin" />}
-            Delete
+            {m.component_clearhistory_delete()}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -6,6 +6,7 @@ import { PromptForm } from '@/components/prompt-form'
 import type { AI } from '@/lib/chat/actions'
 import { useAIState, useActions, useUIState } from 'ai/rsc'
 import TenderDocumentListModal from './tender/TenderDocumentListModal'
+import * as m from "@/paraglide/messages";
 
 export interface ChatPanelProps {
   id?: string
@@ -162,10 +163,10 @@ export function ChatPanel({
             />
           )}
           <div className="text-xs text-zinc-500 dark:text-zinc-400 text-center">
-          Antwoorden op basis van brondata gegenereerd met OpenAI&apos;s gpt-4o-2024-08-06 taalmodel.
-          <br />
-          Controleer altijd de gegeven antwoorden en brondocumenten om de juistheid te verifiëren.
-        </div>
+            {m.component_chatpanel_generatedanswers()}
+            <br />
+            {m.component_chatpanel_verifyanswers()}
+          </div>
           <PromptForm input={input} setInput={setInput} documentIds={selectedDocuments} tenderId={tenderId} />
           <FooterText className="hidden sm:block" />
         </div>        

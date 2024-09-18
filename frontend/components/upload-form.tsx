@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { IconSpinner } from '@/components/ui/icons';
 import { uploadFiles } from '@/lib/serverfunctions/storage-actions';
 import { Input } from './ui/input';
+import * as m from "@/paraglide/messages";
 
 interface UploadFormProps extends DialogProps {
     uploadCount: number;
@@ -51,31 +52,28 @@ export function UploadForm({
                 />
 
                 <div {...getRootProps()} className={`p-4 space-y-1 text-sm border-4 border-dashed rounded-md mb-4 ${isDragActive ? 'bg-gray-200' : ''}`}>
-                    {/* <div className="font-medium">Upload uw documenten</div> */}
                     <input {...getInputProps()} />
                     {isDragActive ? (
-                        <p>Sleep de bestanden hier heen ...</p>
+                        <p>{m.component_uploadform_dragfiles()}</p>
                     ) : (
-                        <p>Sleep uw bestanden hier naartoe of klik hier</p>
+                        <p>{m.component_uploadform_dragorclick()}</p>
                     )}
                 </div>
             </form>
 
             <div className="p-4 space-y-1 text-sm border rounded-md mb-4 ">
-                <div className="font-medium">Geselecteerde bestanden</div>
+                <div className="font-medium">{m.component_uploadform_selectedfiles()}</div>
                 {/* Display the file names */}
                 {fileNames.map((name, index) => (
                     <div key={index}>{name}</div>
                 ))}
             </div>
 
-
-
             <Button
                 disabled={isSharePending}
                 onClick={() => {
                     if (files.length === 0) {
-                        toast.error('Geen bestanden geselecteerd')
+                        toast.error(m.component_uploadform_nofiles())
                         return
                     }
                     // @ts-ignore
@@ -89,9 +87,9 @@ export function UploadForm({
                             setUploadCount(uploadCount + 1);
                             setFileNames([]);
                             setFiles([]);
-                            toast.success('Uploaden van bestand(en) gelukt')
+                            toast.success(m.component_uploadform_uploadsuccess())
                         }).catch(err => {
-                            toast.error('Fout bij uploaden van bestand(en)')
+                            toast.error(m.component_uploadform_uploaderror())
                             console.error(err);
                         });
                     })
@@ -100,10 +98,9 @@ export function UploadForm({
                 {isSharePending ? (
                     <>
                         <IconSpinner className="mr-2 animate-spin" />
-                        {/* Uploading... */}
                     </>
                 ) : (
-                    <>Uploaden</>
+                    <>{m.component_uploadform_uploadbutton()}</>
                 )}
             </Button>
         </>

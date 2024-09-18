@@ -4,6 +4,7 @@ import { listCompanyDocuments, deleteCompanyDocument, downloadCompanyDocument } 
 import { type DialogProps } from '@radix-ui/react-dialog';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import * as m from "@/paraglide/messages";
 
 interface UploadedDocsListProps extends DialogProps {
     uploadCount: number;
@@ -27,13 +28,13 @@ export function UploadedDocsList({
     return (
         <>
             {fileList.length === 0 ? (
-                <p>Er zijn nog geen bestanden geüpload</p>
+                <p>{m.component_uploadeddocslist_nofiles()}</p>
             ) : (
                 <table className="w-full">
                     <thead>
                         <tr>
-                            <th className="text-left">Bestandsnaam</th>
-                            <th className="text-right">Acties</th>
+                            <th className="text-left">{m.component_uploadeddocslist_filename()}</th>
+                            <th className="text-right">{m.component_uploadeddocslist_actions()}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,8 +47,8 @@ export function UploadedDocsList({
                                         deleteCompanyDocument(fileName);
                                         // Update the file list
                                         setFileList(fileList.filter((file) => file !== fileName));
-                                        toast.success(`Bestand ${fileName} verwijderd`);
-                                    }}>Verwijderen</button>
+                                        toast.success(m.component_uploadeddocslist_deletesuccess({ fileName }));
+                                    }}>{m.component_uploadeddocslist_delete()}</button>
                                     <button className="ml-2 text-blue-600 hover:text-blue-800" onClick={() => {
                                         // Download the file
                                         downloadCompanyDocument(fileName).then((url) => {
@@ -58,7 +59,7 @@ export function UploadedDocsList({
                                             // Open the link in a new tab
                                             window.open(url, '_blank');
                                         });
-                                    }}>Downloaden</button>
+                                    }}>{m.component_uploadeddocslist_download()}</button>
                                 </td>
                             </tr>
                         ))}

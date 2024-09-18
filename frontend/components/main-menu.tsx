@@ -1,17 +1,17 @@
-
 import { Link } from "@/lib/i18n"
 
 import { buttonVariants } from '@/components/ui/button'
 import { IconMessage, IconShare } from '@/components/ui/icons'
 import { cn } from '@/lib/utils'
 import { HomeIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
+import * as m from "@/paraglide/messages";
 
 export async function MainMenu() {
   const buttonClassname = 'h-10 w-full justify-start bg-zinc-50 px-4 shadow-none transition-colors hover:bg-zinc-200/40 dark:bg-zinc-900 dark:hover:bg-zinc-300/10 my-1'
   return (
     <div className="flex flex-col">
       <div className="flex items-center justify-between p-4">
-        <h4 className="text-sm font-medium">Menu</h4>
+        <h4 className="text-sm font-medium">{m.component_mainmenu_menu()}</h4>
       </div>
       <div className="mb-2 px-2">
         <Link
@@ -22,7 +22,7 @@ export async function MainMenu() {
           )}
         >
           <HomeIcon className="-translate-x-2 stroke-2" />
-          Hoofdpagina
+          {m.component_mainmenu_homepage()}
         </Link>
         <Link
           href="/rijksvoorwaarden"
@@ -32,7 +32,7 @@ export async function MainMenu() {
           )}
         >
           <IconMessage className="-translate-x-2 stroke-2" />
-          Chat over Rijksvoorwaarden
+          {m.component_mainmenu_chatrijksvoorwaarden()}
         </Link>
         <Link
           href="/categorieplannen"
@@ -42,7 +42,7 @@ export async function MainMenu() {
           )}
         >
           <IconMessage className="-translate-x-2 stroke-2" />
-          Chat over Categorieplannen
+          {m.component_mainmenu_chatcategorieplannen()}
         </Link>
         <Link
           href="/pianoo"
@@ -52,7 +52,7 @@ export async function MainMenu() {
           )}
         >
           <IconMessage className="-translate-x-2 stroke-2" />
-          Chat over PIANOo documenten
+          {m.component_mainmenu_chatpianoo()}
         </Link>
         <Link
           href="/tenders"
@@ -62,7 +62,7 @@ export async function MainMenu() {
           )}
         >
           <MagnifyingGlassIcon className="-translate-x-2 stroke-2" />
-          Zoek en chat met tenders
+          {m.component_mainmenu_searchtenders()}
         </Link>
         <Link
           href="/profile"
@@ -72,7 +72,7 @@ export async function MainMenu() {
           )}
         >
           <IconShare className="-translate-x-2 stroke-2" />
-          Uw bedrijfsdocumenten
+          {m.component_mainmenu_companydocuments()}
         </Link>
       </div>
     </div>

@@ -17,6 +17,7 @@ import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
 import { UserMessage } from './stocks/message'
+import * as m from "@/paraglide/messages";
 
 export function PromptForm({
   input,
@@ -82,16 +83,16 @@ export function PromptForm({
               }}
             >
               <IconPlus />
-              <span className="sr-only">Nieuwe Chat</span>
+              <span className="sr-only">{m.component_promptform_newchat()}</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Nieuwe Chat</TooltipContent>
+          <TooltipContent>{m.component_promptform_newchat()}</TooltipContent>
         </Tooltip>
         <Textarea
           ref={inputRef}
           tabIndex={0}
           onKeyDown={onKeyDown}
-          placeholder="Verstuur een bericht."
+          placeholder={m.component_promptform_sendmessage()}
           className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm"
           autoFocus
           spellCheck={false}
@@ -107,10 +108,10 @@ export function PromptForm({
             <TooltipTrigger asChild>
               <Button type="submit" size="icon" disabled={input === ''}>
                 <IconArrowElbow />
-                <span className="sr-only">Verstuur bericht</span>
+                <span className="sr-only">{m.component_promptform_send()}</span>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Verstuur bericht</TooltipContent>
+            <TooltipContent>{m.component_promptform_send()}</TooltipContent>
           </Tooltip>
         </div>
       </div>

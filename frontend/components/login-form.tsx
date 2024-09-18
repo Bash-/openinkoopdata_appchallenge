@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 import { toast } from 'sonner'
 import { IconSpinner } from './ui/icons'
+import * as m from "@/paraglide/messages";
 
 export default function LoginForm() {
   const router = useRouter()
@@ -30,14 +31,14 @@ export default function LoginForm() {
       className="flex flex-col items-center gap-4 space-y-3"
     >
       <div className="w-full flex-1 rounded-lg border bg-white px-6 pb-4 pt-8 shadow-md  md:w-96 dark:bg-zinc-950">
-        <h1 className="mb-3 text-2xl font-bold">Log in om door te gaan.</h1>
+        <h1 className="mb-3 text-2xl font-bold">{m.component_loginform_title()}</h1>
         <div className="w-full">
           <div>
             <label
               className="mb-3 mt-5 block text-xs font-medium text-zinc-400"
               htmlFor="email"
             >
-              Email
+              {m.component_loginform_email()}
             </label>
             <div className="relative">
               <input
@@ -45,7 +46,7 @@ export default function LoginForm() {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="Voer uw emailadres in"
+                placeholder={m.component_loginform_emailplaceholder()}
                 required
               />
             </div>
@@ -55,7 +56,7 @@ export default function LoginForm() {
               className="mb-3 mt-5 block text-xs font-medium text-zinc-400"
               htmlFor="password"
             >
-              Wachtwoord
+              {m.component_loginform_password()}
             </label>
             <div className="relative">
               <input
@@ -63,7 +64,7 @@ export default function LoginForm() {
                 id="password"
                 type="password"
                 name="password"
-                placeholder="Voer wachtwoord in"
+                placeholder={m.component_loginform_passwordplaceholder()}
                 required
                 minLength={6}
               />
@@ -77,7 +78,7 @@ export default function LoginForm() {
         href="/signup"
         className="flex flex-row gap-1 text-sm text-zinc-400"
       >
-        Nog geen account? <div className="font-semibold underline">Maak account aan</div>
+        {m.component_loginform_signup()} <div className="font-semibold underline">{m.component_loginform_createaccount()}</div>
       </Link>
     </form>
   )
@@ -91,7 +92,7 @@ function LoginButton() {
       className="my-4 flex h-10 w-full flex-row items-center justify-center rounded-md bg-zinc-900 p-2 text-sm font-semibold text-zinc-100 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
       aria-disabled={pending}
     >
-      {pending ? <IconSpinner /> : 'Inloggen'}
+      {pending ? <IconSpinner /> : m.component_loginform_loginbutton()}
     </button>
   )
 }

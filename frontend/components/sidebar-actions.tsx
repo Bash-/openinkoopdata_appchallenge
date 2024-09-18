@@ -23,6 +23,7 @@ import {
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip'
+import * as m from "@/paraglide/messages";
 
 interface SidebarActionsProps {
   chat: Chat
@@ -51,10 +52,10 @@ export function SidebarActions({
               onClick={() => setShareDialogOpen(true)}
             >
               <IconShare />
-              <span className="sr-only">Share</span>
+              <span className="sr-only">{m.component_sidebaractions_share()}</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Share chat</TooltipContent>
+          <TooltipContent>{m.component_sidebaractions_sharechat()}</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -65,10 +66,10 @@ export function SidebarActions({
               onClick={() => setDeleteDialogOpen(true)}
             >
               <IconTrash />
-              <span className="sr-only">Delete</span>
+              <span className="sr-only">{m.component_sidebaractions_delete()}</span>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Delete chat</TooltipContent>
+          <TooltipContent>{m.component_sidebaractions_deletechat()}</TooltipContent>
         </Tooltip>
       </div>
       <ChatShareDialog
@@ -81,15 +82,14 @@ export function SidebarActions({
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Weet je het zeker?</AlertDialogTitle>
+            <AlertDialogTitle>{m.component_sidebaractions_confirmtitle()}</AlertDialogTitle>
             <AlertDialogDescription>
-              Dit zal je chatgeschiedenis permanent verwijderen en je gegevens
-              van onze servers verwijderen.
+              {m.component_sidebaractions_confirmdescription()}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={isRemovePending}>
-              Cancel
+              {m.component_sidebaractions_cancel()}
             </AlertDialogCancel>
             <AlertDialogAction
               disabled={isRemovePending}
@@ -110,12 +110,12 @@ export function SidebarActions({
                   setDeleteDialogOpen(false)
                   router.refresh()
                   router.push('/')
-                  toast.success('Chat verwijderd')
+                  toast.success(m.component_sidebaractions_chatsuccess())
                 })
               }}
             >
               {isRemovePending && <IconSpinner className="mr-2 animate-spin" />}
-              Delete
+              {m.component_sidebaractions_deletebutton()}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

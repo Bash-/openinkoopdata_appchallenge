@@ -3,6 +3,7 @@ import { ClearHistory } from '@/components/clear-history'
 import { SidebarItems } from '@/components/sidebar-items'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { cache } from 'react'
+import * as m from "@/paraglide/messages";
 
 interface SidebarListProps {
   userId?: string
@@ -25,7 +26,7 @@ export async function SidebarList({ userId }: SidebarListProps) {
           </div>
         ) : (
           <div className="p-8 text-center">
-            <p className="text-sm text-muted-foreground">Geen chatgeschiedenis</p>
+            <p className="text-sm text-muted-foreground">{m.component_sidebarlist_nohistory()}</p>
           </div>
         )}
       </div>
