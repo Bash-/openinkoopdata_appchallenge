@@ -1,3 +1,4 @@
 {
-    "$schema": "https://inlang.com/schema/inlang-message-format"
+    "$schema": "https://inlang.com/schema/inlang-message-format",
+    "chat_indexPage_heading1": "Ich denke darüber nach, mit der Regierung Geschäfte zu machen"
 }
