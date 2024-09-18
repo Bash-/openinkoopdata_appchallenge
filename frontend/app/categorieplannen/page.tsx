@@ -1,3 +1,4 @@
+import * as m from "@/paraglide/messages";
 import { getMissingKeys } from "@/app/actions";
 import { auth } from "@/auth";
 import { Chat } from "@/components/chat";
@@ -26,29 +27,27 @@ export default async function CategorieplannenPage() {
   const emptyScreenBody = (
     <>
       <div>
-        Inkopen met impact is dé standaard voor duurzaam, sociaal en innovatief inkopen bij het Rijk.
-        In de categorieplannen staat welke inkoopdoelen en -acties er zijn voor de verschillende categorieën.
-        Bedrijven kunnen zich met categorieplannen voorbereiden op aanbestedingen.
+        {m.categorieplannen_emptyScreenBody_intro()}
       </div>
-      <div >
-        U kunt hieronder chatten met de verschillende Categorieplannen. Stel bijvoorbeeld een vraag over een van de volgende categorieën:
+      <div>
+        {m.categorieplannen_emptyScreenBody_chat_intro()}
         <ul className="pl-5">
-          <li>- Bedrijfskleding</li>
-          <li>- Beveiliging & Bedrijfshulpverlening</li>
-          <li>- Connectiviteit</li>
-          <li>- Consumptieve Dienstverlening</li>
-          <li>- Duurzame Inzetbaarheid</li>
-          <li>- ICT Werkomgeving Rijk</li>
-          <li>- Laboratorium</li>
-          <li>- Logistiek</li>
-          <li>- Vervoer en Verblijf</li>
-          <li>- Werkplekomgeving</li>
+          <li>- {m.categorieplannen_emptyScreenBody_category_bedrijfskleding()}</li>
+          <li>- {m.categorieplannen_emptyScreenBody_category_beveiliging_bedrijfshulpverlening()}</li>
+          <li>- {m.categorieplannen_emptyScreenBody_category_connectiviteit()}</li>
+          <li>- {m.categorieplannen_emptyScreenBody_category_consumptieve_dienstverlening()}</li>
+          <li>- {m.categorieplannen_emptyScreenBody_category_duurzame_inzetbaarheid()}</li>
+          <li>- {m.categorieplannen_emptyScreenBody_category_ict_werkomgeving_rijk()}</li>
+          <li>- {m.categorieplannen_emptyScreenBody_category_laboratorium()}</li>
+          <li>- {m.categorieplannen_emptyScreenBody_category_logistiek()}</li>
+          <li>- {m.categorieplannen_emptyScreenBody_category_vervoer_en_verblijf()}</li>
+          <li>- {m.categorieplannen_emptyScreenBody_category_werkplekomgeving()}</li>
         </ul>
       </div>
       <br />
       <a className="text-blue-500 hover:underline">
         <Link href={`https://www.rijksoverheid.nl/onderwerpen/zakendoen-met-het-rijk/inkoopcategorieen`} passHref>
-          Klik hier om alle Inkoopcategorieën en Categorieplannen op Rijksoverheid.nl te bekijken
+          {m.categorieplannen_emptyScreenBody_link_text()}
         </Link>
       </a>
     </>

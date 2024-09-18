@@ -37,5 +37,19 @@
     "aboutPage_ragDescription": "De vragen worden met behulp van Retrieval Augmented Generation (RAG) beantwoord. Ons programma zoekt in de documenten naar relevante stukken tekst, dit wordt samen met de vraag naar de OpenAI API gestuurd (van dezelfde maker als ChatGPT). De OpenAI API genereert een antwoord en stuurt dit terug naar de gebruiker.",
     "aboutPage_initiatorsTitle": "De initiatiefnemers van dit project",
     "aboutPage_initiatorsDescription": "Open State Foundation is een non-profit organisatie die zich inzet voor een transparante overheid en zijn de organisatoren van de Open Inkoopdata App Challenge. Vind meer informatie op",
-    "aboutPage_initiatorsLinkText": "openstate.eu"
+    "aboutPage_initiatorsLinkText": "openstate.eu",
+    "categorieplannen_emptyScreenBody_intro": "Inkopen met impact is dé standaard voor duurzaam, sociaal en innovatief inkopen bij het Rijk. In de categorieplannen staat welke inkoopdoelen en -acties er zijn voor de verschillende categorieën. Bedrijven kunnen zich met categorieplannen voorbereiden op aanbestedingen.",
+    "categorieplannen_emptyScreenBody_chat_intro": "U kunt hieronder chatten met de verschillende Categorieplannen. Stel bijvoorbeeld een vraag over een van de volgende categorieën:",
+    "categorieplannen_emptyScreenBody_category_bedrijfskleding": "Bedrijfskleding",
+    "categorieplannen_emptyScreenBody_category_beveiliging_bedrijfshulpverlening": "Beveiliging & Bedrijfshulpverlening",
+    "categorieplannen_emptyScreenBody_category_connectiviteit": "Connectiviteit",
+    "categorieplannen_emptyScreenBody_category_consumptieve_dienstverlening": "Consumptieve Dienstverlening",
+    "categorieplannen_emptyScreenBody_category_duurzame_inzetbaarheid": "Duurzame Inzetbaarheid",
+    "categorieplannen_emptyScreenBody_category_ict_werkomgeving_rijk": "ICT Werkomgeving Rijk",
+    "categorieplannen_emptyScreenBody_category_laboratorium": "Laboratorium",
+    "categorieplannen_emptyScreenBody_category_logistiek": "Logistiek",
+    "categorieplannen_emptyScreenBody_category_vervoer_en_verblijf": "Vervoer en Verblijf",
+    "categorieplannen_emptyScreenBody_category_werkplekomgeving": "Werkplekomgeving",
+    "categorieplannen_emptyScreenBody_link_text": "Klik hier om alle Inkoopcategorieën en Categorieplannen op Rijksoverheid.nl te bekijken",
+    "categorieplannen_emptyScreenHeader": "Chat met Categorieplannen"
 }
