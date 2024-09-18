@@ -1,5 +1,6 @@
 'use client'
 
+import * as m from '@/paraglide/messages'
 import { IconExternalLink, IconTenderFlow, IconTenderFlowFancy, IconUser } from '@/components/ui/icons'
 import { useStreamableText } from '@/lib/hooks/use-streamable-text'
 import { cn } from '@/lib/utils'
@@ -37,7 +38,7 @@ export function SourcesMessage({
     <div className="mt-2 flex items-center justify-center gap-2 text-xs text-gray-500">
       <div className="max-w-[600px] flex-initial p-2">
         <div className="flex items-center gap-2">
-          <p className="text-muted-foreground">Brondocumenten:</p>
+          <p className="text-muted-foreground">{m.component_usermessage_body1()}</p>
           <ul className="flex flex-wrap gap-2">
             {sources.map((source, index) => (
               <li key={index}>
@@ -101,8 +102,7 @@ const SourcesCollapsible = ({ sources, tenderDocumentMetadata }: any) => {
     (Object.keys(groupedBySource).length) === 0 ?
       <Card className="bg-yellow-100 text-yellow-800 px-5 py-4 mt-4">
         <div className="flex items-center justify-between">
-          <p className="text-sm">Let op, bovenstaand antwoord heeft geen bronnen gebruikt en is daarom puur gegenereerd door het taalmodel. Mogelijk omdat er geen documenten beschikbaar zijn, of omdat het algoritme geen relevante documenten kon vinden bij uw vraag.
-            Controleer hieronder op &#39;Selecteer subset van documenten&#39; om te controleren of er documenten beschikbaar zijn, of probeer opnieuw.
+          <p className="text-sm">{m.component_sourcesmessage_body1()}
           </p>
         </div>
       </Card> :
@@ -110,7 +110,7 @@ const SourcesCollapsible = ({ sources, tenderDocumentMetadata }: any) => {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Collapsible.Trigger asChild>
             <button className="w-full flex items-center justify-between text-left text-blue-500 hover:text-blue-700 focus:outline-none">
-              Bekijk bronnen ({Object.keys(groupedBySource).length}) {open ? <Cross1Icon /> : <ArrowDownIcon />}
+              {m.component_sourcescollapsible_button1()} ({Object.keys(groupedBySource).length}) {open ? <Cross1Icon /> : <ArrowDownIcon />}
             </button>
           </Collapsible.Trigger>
         </div>
@@ -118,8 +118,8 @@ const SourcesCollapsible = ({ sources, tenderDocumentMetadata }: any) => {
           <table className="table-auto w-full mt-4 bg-white shadow-md rounded-lg overflow-hidden">
             <thead className="bg-gray-300 text-white">
               <tr>
-                <th className="px-4 text-gray-900 text-left py-2">Bron</th>
-                <th className="px-4 text-gray-900 text-left py-2">Pagina</th>
+                <th className="px-4 text-gray-900 text-left py-2">{m.component_sourcescollapsible_table_header1()}</th>
+                <th className="px-4 text-gray-900 text-left py-2">{m.component_sourcescollapsible_table_header2()}</th>
               </tr>
             </thead>
             <tbody>
@@ -137,7 +137,6 @@ const SourcesCollapsible = ({ sources, tenderDocumentMetadata }: any) => {
           </table>
         </Collapsible.Content>
       </Collapsible.Root>
-
   );
 };
 

@@ -64,5 +64,10 @@
     "rijksvoorwaarden_emptyScreenBody_description_1": "Bij opdrachten van het Rijk gelden regels voor bijvoorbeeld aansprakelijkheid, facturering en levering. Deze regels staan in verschillende voorwaarden. De voorwaarden gelden voor het Rijk en de leverancier. Er zijn algemene voorwaarden en specifieke voorwaarden voor dienstverlening, IT en de bouw.",
     "rijksvoorwaarden_emptyScreenBody_description_2": "Stel hieronder een vraag, bijvoorbeeld over de Voorwaarden inkoop diensten, of Voorwaarden inkoop Informatietechnologie.",
     "rijksvoorwaarden_emptyScreenBody_link_text": "Klik hier om de voorwaarden voor inkoop bij Rijksopdrachten te bekijken",
-    "rijksvoorwaarden_emptyScreenHeader": "Chat met Rijksvoorwaarden"
+    "rijksvoorwaarden_emptyScreenHeader": "Chat met Rijksvoorwaarden",
+    "component_usermessage_body1": "Brondocumenten:",
+    "component_sourcesmessage_body1": "Let op, bovenstaand antwoord heeft geen bronnen gebruikt en is daarom puur gegenereerd door het taalmodel. Mogelijk omdat er geen documenten beschikbaar zijn, of omdat het algoritme geen relevante documenten kon vinden bij uw vraag. Controleer hieronder op 'Selecteer subset van documenten' om te controleren of er documenten beschikbaar zijn, of probeer opnieuw.",
+    "component_sourcescollapsible_button1": "Bekijk bronnen",
+    "component_sourcescollapsible_table_header1": "Bron",
+    "component_sourcescollapsible_table_header2": "Pagina"
 }
