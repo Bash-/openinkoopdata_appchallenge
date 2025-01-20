@@ -38,16 +38,7 @@ def insert_to_vectordb(folder_path, tenderId: str) -> None:
     """
     print(f"Inserting documents to Weaviate for tenderId: {tenderId}")
 
-    # Check if the tenderId already exists in Weaviate, if so delete the existing documents first
-    collection = client.collections.get("Tender_documents")
-    deleted = collection.data.delete_many(
-        where=(
-            Filter.by_property("tenderId").equal(tenderId)
-            & Filter.by_property("source").not_equal("metadata")
-        )
-    )
-    print("Deleted existing documents")
-    print(deleted)
+    collection = client.collections.get("Tender_documents_german")
 
     documents = []
     for dirName, subdirList, fileList in os.walk(folder_path):
@@ -68,7 +59,7 @@ def insert_to_vectordb(folder_path, tenderId: str) -> None:
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=10)
     documents = text_splitter.split_documents(documents)
 
-    collection = client.collections.get("Tender_documents")
+    collection = client.collections.get("Tender_documents_german")
 
     # Batch upload all documents to Weaviate
     with collection.batch.dynamic() as batch:
@@ -236,3 +227,8 @@ def insert_tender_metadata_to_vectordb(tenderId: str, metadata: dict) -> None:
         print(collection.batch.failed_objects[0].message)
     else:
         print("Tender metadata uploaded to Weaviate for tenderId:", tenderId)
+
+
+
+path = "/Users/martijnbeeks/Downloads/Tender_documents_CXS7YYXYTDVZJ6UT"
+insert_to_vectordb(path, "CXS7YYXYTDVZJ6UT")

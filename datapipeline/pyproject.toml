@@ -24,6 +24,9 @@ psycopg2-binary = "^2.9.9"
 connectorx = "^0.3.3"
 docx2txt = "^0.8"
 bs4 = "^0.0.2"
+docling = "^2.15.1"
+markitdown = "^0.0.1a3"
+pdfplumber = "^0.11.5"
 
 
 [build-system]
