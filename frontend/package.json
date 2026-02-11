@@ -14,7 +14,7 @@
     },
     "dependencies": {
         "@google-cloud/storage": "^7.10.1",
-        "@langchain/community": "^0.2.1",
+        "@langchain/community": "^1.1.14",
         "@langchain/core": "^0.2.0",
         "@langchain/openai": "^0.0.33",
         "@langchain/weaviate": "^0.0.3",
